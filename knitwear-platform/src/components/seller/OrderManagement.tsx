@@ -156,6 +156,28 @@ export function OrderManagement({ locale }: { locale: string }) {
     const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    // Product details expand states
+    const [expandedOrderIds, setExpandedOrderIds] = useState<string[]>([]);
+    const [allExpanded, setAllExpanded] = useState(false);
+
+    const toggleExpandOrder = (id: string) => {
+        if (expandedOrderIds.includes(id)) {
+            setExpandedOrderIds(expandedOrderIds.filter(item => item !== id));
+        } else {
+            setExpandedOrderIds([...expandedOrderIds, id]);
+        }
+    };
+
+    const toggleAllExpand = () => {
+        if (allExpanded) {
+            setExpandedOrderIds([]);
+            setAllExpanded(false);
+        } else {
+            setExpandedOrderIds(filteredOrders.map(o => o.id));
+            setAllExpanded(true);
+        }
+    };
+
     // List of allowed carriers
     const allowedCarriers = ['CJ대한통운', '우체국택배', '한진택배', '롯데택배', '로젠택배'];
 
@@ -444,6 +466,15 @@ export function OrderManagement({ locale }: { locale: string }) {
                         <Check size={14} />
                         <span>{locale === 'ko' ? '선택 건 발송 처리' : 'Ship Selected'}</span>
                     </button>
+
+                    <button
+                        onClick={toggleAllExpand}
+                        className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-xs font-bold transition-all"
+                    >
+                        {allExpanded 
+                            ? (locale === 'ko' ? '상품 전체 접기 ∧' : 'Collapse All ∧') 
+                            : (locale === 'ko' ? '상품 전체 펼치기 ∨' : 'Expand All ∨')}
+                    </button>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto justify-end">
@@ -614,15 +645,36 @@ export function OrderManagement({ locale }: { locale: string }) {
                                             </td>
 
                                             {/* Product details */}
-                                            <td className="p-3 border-r border-stone-200 space-y-1">
-                                                <div className="text-stone-400 font-semibold leading-tight">
-                                                    등록상품명: {o.productName}
-                                                </div>
-                                                <div className="text-blue-600 font-bold leading-tight hover:underline cursor-pointer">
-                                                    노출상품명: {o.productName}
-                                                </div>
-                                                <div className="text-[10px] text-stone-500 font-medium">
-                                                    ({o.optionSelected}) {o.quantity}개
+                                            <td className="p-3 border-r border-stone-200">
+                                                <div className="space-y-1">
+                                                    <div className="flex items-center justify-between gap-1.5">
+                                                        <span className="text-stone-700 font-bold block truncate max-w-[120px]">
+                                                            {o.productName}
+                                                        </span>
+                                                        <button 
+                                                            onClick={() => toggleExpandOrder(o.id)}
+                                                            className="text-[10px] text-blue-500 font-bold hover:underline shrink-0"
+                                                        >
+                                                            {expandedOrderIds.includes(o.id) ? (locale === 'ko' ? '접기 ∧' : 'Fold ∧') : (locale === 'ko' ? '펼치기 ∨' : 'Expand ∨')}
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    {expandedOrderIds.includes(o.id) && (
+                                                        <div className="mt-2 pt-2 border-t border-stone-100 space-y-1 text-[10px] animate-fadeIn font-semibold">
+                                                            <div className="text-stone-400">
+                                                                등록상품명: {o.productName}
+                                                            </div>
+                                                            <div className="text-blue-600 hover:underline cursor-pointer">
+                                                                노출상품명: {o.productName}
+                                                            </div>
+                                                            <div className="text-stone-500 bg-stone-50 p-1.5 rounded-lg border border-stone-100 mt-1 leading-tight">
+                                                                옵션: {o.optionSelected} / {o.quantity}개
+                                                            </div>
+                                                            <div className="text-stone-600 font-bold pt-0.5">
+                                                                금액: ₩{o.price.toLocaleString()}
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </td>
 

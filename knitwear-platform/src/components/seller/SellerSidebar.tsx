@@ -11,7 +11,8 @@ import {
     Menu, 
     X, 
     Store,
-    ArrowLeft
+    ArrowLeft,
+    BarChart3
 } from 'lucide-react';
 import Link from 'next/link';
 import { SellerTab } from '@/app/[locale]/seller/page';
@@ -31,8 +32,9 @@ export function SellerSidebar({ activeTab, setActiveTab, locale, userEmail }: Se
         { id: 'products', label: locale === 'ko' ? '상품 관리' : 'Products', icon: ShoppingBag },
         { id: 'orders', label: locale === 'ko' ? '주문 및 배송' : 'Orders & Shipping', icon: Truck },
         { id: 'claims', label: locale === 'ko' ? '클레임 & CS' : 'Claims & CS', icon: AlertCircle },
+        { id: 'sales', label: locale === 'ko' ? '매출 관리' : 'Sales Analysis', icon: BarChart3 },
         { id: 'settlement', label: locale === 'ko' ? '정산 관리' : 'Settlements', icon: Receipt },
-        { id: 'settings', label: locale === 'ko' ? '상점 & 배송 설정' : 'Shop Settings', icon: Settings },
+        { id: 'settings', label: locale === 'ko' ? '판매자 정보' : 'Seller Info', icon: Settings },
     ] as const;
 
     const handleTabChange = (tabId: SellerTab) => {

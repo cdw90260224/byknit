@@ -1,0 +1,29 @@
+const { createClient } = require('@supabase/supabase-js');
+const fs = require('fs');
+
+const env = fs.readFileSync('.env', 'utf8');
+const envVars = {};
+env.split('\n').forEach(line => {
+  const parts = line.split('=');
+  if (parts.length >= 2) {
+    envVars[parts[0].trim()] = parts.slice(1).join('=').trim().replace(/^['"]|['"]$/g, '');
+  }
+});
+
+const supabaseUrl = envVars['NEXT_PUBLIC_SUPABASE_URL'];
+const supabaseKey = envVars['SUPABASE_SERVICE_ROLE_KEY'] || envVars['NEXT_PUBLIC_SUPABASE_ANON_KEY'];
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function main() {
+  const { data, error } = await supabase.from('patterns').select('*').limit(1);
+  if (error) {
+    console.error(error);
+  } else if (data && data.length > 0) {
+    console.log("Columns:", Object.keys(data[0]));
+    console.log("Sample Row:", data[0]);
+  } else {
+    console.log("No patterns found.");
+  }
+}
+
+main();

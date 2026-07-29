@@ -22,9 +22,10 @@ import { ProductManagement } from '@/components/seller/ProductManagement';
 import { OrderManagement } from '@/components/seller/OrderManagement';
 import { ClaimManagement } from '@/components/seller/ClaimManagement';
 import { SettlementManagement } from '@/components/seller/SettlementManagement';
-import { ShopSettings } from '@/components/seller/ShopSettings';
+import { SellerInfo } from '@/components/seller/SellerInfo';
+import { SalesManagement } from '@/components/seller/SalesManagement';
 
-export type SellerTab = 'dashboard' | 'products' | 'orders' | 'claims' | 'settlement' | 'settings';
+export type SellerTab = 'dashboard' | 'products' | 'orders' | 'claims' | 'settlement' | 'settings' | 'sales';
 
 export default function SellerPage() {
     const locale = useLocale();
@@ -124,8 +125,10 @@ export default function SellerPage() {
                 return <ClaimManagement locale={locale} />;
             case 'settlement':
                 return <SettlementManagement locale={locale} />;
+            case 'sales':
+                return <SalesManagement locale={locale} />;
             case 'settings':
-                return <ShopSettings locale={locale} />;
+                return <SellerInfo locale={locale} />;
             default:
                 return <SellerDashboard setActiveTab={setActiveTab} locale={locale} />;
         }
