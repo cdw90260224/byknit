@@ -12,7 +12,9 @@ import {
     Building2, 
     ArrowLeft,
     AlertTriangle,
-    Eye
+    Eye,
+    Lock,
+    EyeOff
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -27,6 +29,13 @@ export default function AdminKycPage() {
     const [bankName, setBankName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [accountHolder, setAccountHolder] = useState('');
+    
+    // Admin authorization states
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [adminPasswordInput, setAdminPasswordInput] = useState('');
+    const [adminError, setAdminError] = useState('');
+    const [showAdminPassword, setShowAdminPassword] = useState(false);
+    
     const [isLoading, setIsLoading] = useState(true);
 
     // Load data from localStorage
@@ -49,6 +58,17 @@ export default function AdminKycPage() {
             setIsLoading(false);
         }
     }, []);
+
+    const handleVerifyAdmin = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Mandatory password: 행복하자12!
+        if (adminPasswordInput === '행복하자12!') {
+            setIsAuthorized(true);
+            setAdminError('');
+        } else {
+            setAdminError('관리자 보안 비밀번호가 일치하지 않습니다.');
+        }
+    };
 
     const handleApprove = () => {
         localStorage.setItem('byknit_kyc_status', 'verified');
@@ -73,6 +93,59 @@ export default function AdminKycPage() {
         return (
             <div className="min-h-screen bg-stone-50 flex items-center justify-center font-sans">
                 <span className="text-stone-400 text-xs font-bold">심사 데이터를 불러오는 중...</span>
+            </div>
+        );
+    }
+
+    // Render Admin authentication lock screen if not authorized
+    if (!isAuthorized) {
+        return (
+            <div className="min-h-screen bg-[#F9F9F8] flex items-center justify-center p-6 font-sans">
+                <div className="max-w-md w-full p-8 bg-white rounded-3xl border border-stone-200 shadow-soft text-stone-700 space-y-6">
+                    <div className="text-center space-y-3">
+                        <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-100 animate-pulse">
+                            <Lock size={20} />
+                        </div>
+                        <h2 className="text-lg font-black text-stone-850">byKnit 본사 관리자 인증</h2>
+                        <p className="text-xs text-stone-400 font-medium leading-relaxed">
+                            본 페이지는 승인되지 않은 일반 사용자의 접근이 법적으로 엄격히 금지됩니다.<br />
+                            보안 구역 입장을 위해 본사 전용 비밀번호를 입력하십시오.
+                        </p>
+                    </div>
+
+                    <form onSubmit={handleVerifyAdmin} className="space-y-4">
+                        <div className="space-y-1.5 relative">
+                            <label className="text-[10px] font-bold text-stone-400 block">관리자 인증 비밀번호 *</label>
+                            <div className="relative">
+                                <input 
+                                    type={showAdminPassword ? "text" : "password"}
+                                    required
+                                    placeholder="••••••••"
+                                    value={adminPasswordInput}
+                                    onChange={(e) => setAdminPasswordInput(e.target.value)}
+                                    className="w-full pl-4 pr-10 py-3 bg-stone-50 border border-stone-200 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white focus:ring-1 focus:ring-rose-500"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowAdminPassword(!showAdminPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+                                >
+                                    {showAdminPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                                </button>
+                            </div>
+                            {adminError && (
+                                <span className="text-[10px] text-rose-500 font-bold block mt-1">{adminError}</span>
+                            )}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full py-3.5 bg-stone-850 hover:bg-stone-900 text-white rounded-2xl text-xs font-black transition-all shadow-soft"
+                        >
+                            본사 어드민 서버 입장
+                        </button>
+                    </form>
+                </div>
             </div>
         );
     }
@@ -272,7 +345,7 @@ export default function AdminKycPage() {
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-stone-400 font-semibold">예금주명</span>
-                                            <span className="text-stone-805">{accountHolder}</span>
+                                            <span className="text-stone-800">{accountHolder}</span>
                                         </div>
                                     </div>
 
