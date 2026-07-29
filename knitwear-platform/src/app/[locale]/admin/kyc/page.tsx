@@ -61,8 +61,8 @@ export default function AdminKycPage() {
 
     const handleVerifyAdmin = (e: React.FormEvent) => {
         e.preventDefault();
-        // Mandatory password: 행복하자12!
-        if (adminPasswordInput === '행복하자12!') {
+        // Mandatory password: 행복하자12! (English layout: godqhrgkwk12!)
+        if (adminPasswordInput === '행복하자12!' || adminPasswordInput === 'godqhrgkwk12!') {
             setIsAuthorized(true);
             setAdminError('');
         } else {
