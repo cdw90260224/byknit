@@ -304,7 +304,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto border border-blue-100">
                         <Lock size={20} />
                     </div>
-                    <h2 className="text-lg font-black text-stone-850">{locale === 'ko' ? '판매자 정보 보안 확인' : 'Security Verification'}</h2>
+                    <h2 className="text-lg font-black text-stone-900">{locale === 'ko' ? '판매자 정보 보안 확인' : 'Security Verification'}</h2>
                     <p className="text-xs text-stone-400 font-medium leading-relaxed">
                         {locale === 'ko' 
                             ? '중요 정산계좌 및 판매자 개인정보를 안전하게 보호하기 위해 비밀번호를 다시 한 번 확인합니다.' 
@@ -339,7 +339,7 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                     <button
                         type="submit"
-                        className="w-full py-3.5 bg-stone-850 hover:bg-stone-900 text-white rounded-2xl text-xs font-black transition-all shadow-soft"
+                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft"
                     >
                         {locale === 'ko' ? '인증 및 입장하기' : 'Verify & Enter'}
                     </button>
@@ -354,7 +354,7 @@ export function SellerInfo({ locale }: { locale: string }) {
             {/* Page Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-stone-850">
+                    <h1 className="text-3xl font-black text-stone-900">
                         {locale === 'ko' ? '판매자 정보 설정' : 'Seller Profile & Settings'}
                     </h1>
                     <p className="text-stone-500 text-sm mt-1">
@@ -369,7 +369,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                         px-6 py-3.5 rounded-2xl font-bold text-xs shadow-soft flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5
                         ${isSaved 
                             ? 'bg-[#556B2F] text-white' 
-                            : 'bg-stone-850 hover:bg-stone-900 text-white'}
+                            : 'bg-stone-900 hover:bg-stone-950 text-white'}
                     `}
                 >
                     {isSaved ? (
@@ -395,7 +395,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-100 shadow-soft space-y-6">
                         <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
                             <Store size={18} className="text-[#8FBC8F]" />
-                            <h2 className="text-base font-bold text-stone-850">{locale === 'ko' ? '브랜드 프로필 설정' : 'Brand Profile'}</h2>
+                            <h2 className="text-base font-bold text-stone-900">{locale === 'ko' ? '브랜드 프로필 설정' : 'Brand Profile'}</h2>
                         </div>
 
                         <div className="space-y-5">
@@ -461,7 +461,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-150 shadow-soft space-y-6 animate-fadeIn">
                         <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
                             <MapPin size={18} className="text-[#8FBC8F]" />
-                            <h2 className="text-base font-bold text-stone-850">{locale === 'ko' ? '출고지 / 반품지 주소 설정' : 'Shipping & Return Addresses'}</h2>
+                            <h2 className="text-base font-bold text-stone-900">{locale === 'ko' ? '출고지 / 반품지 주소 설정' : 'Shipping & Return Addresses'}</h2>
                         </div>
 
                         <div className="space-y-6">
@@ -640,7 +640,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-100 shadow-soft space-y-6">
                         <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
                             <CreditCard size={18} className="text-[#8FBC8F]" />
-                            <h2 className="text-base font-bold text-stone-850">{locale === 'ko' ? '정산 계좌 정보 관리' : 'Payout Account Details'}</h2>
+                            <h2 className="text-base font-bold text-stone-900">{locale === 'ko' ? '정산 계좌 정보 관리' : 'Payout Account Details'}</h2>
                         </div>
 
                         <div className="space-y-4">
@@ -704,7 +704,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-stone-50 pb-3 gap-3">
                     <div className="flex items-center gap-2">
                         <Shield size={18} className="text-blue-500" />
-                        <h2 className="text-base font-bold text-stone-850">{locale === 'ko' ? '고객확인제도(KYC) 이행 및 제출' : 'Customer Due Diligence (KYC)'}</h2>
+                        <h2 className="text-base font-bold text-stone-900">{locale === 'ko' ? '고객확인제도(KYC) 이행 및 제출' : 'Customer Due Diligence (KYC)'}</h2>
                     </div>
 
                     {/* Status Badge */}
