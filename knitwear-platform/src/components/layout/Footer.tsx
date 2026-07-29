@@ -35,6 +35,7 @@ export function Footer() {
                             <li><Link href={`/${locale}/editor`} className="text-brown-600 hover:text-rose-400 transition-colors">{tFooter('patternEditor')}</Link></li>
                             <li><Link href={`/${locale}/ai`} className="text-brown-600 hover:text-rose-400 transition-colors">{tFooter('aiGenerator')}</Link></li>
                             <li><Link href={`/${locale}/calculator`} className="text-brown-600 hover:text-rose-400 transition-colors">{tFooter('smartCalculator')}</Link></li>
+                            <li className="pt-1"><Link href={`/${locale}/seller/proposal`} className="text-emerald-700 font-bold hover:text-emerald-900 transition-colors inline-flex items-center gap-1">✨ {locale === 'ko' ? '판매자 입점 제안 / 신청' : 'Seller Proposal'}</Link></li>
                         </ul>
                     </div>
 

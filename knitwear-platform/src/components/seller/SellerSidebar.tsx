@@ -12,20 +12,33 @@ import {
     X, 
     Store,
     ArrowLeft,
-    BarChart3
+    BarChart3,
+    ChevronDown,
+    ChevronUp
 } from 'lucide-react';
 import Link from 'next/link';
 import { SellerTab } from '@/app/[locale]/seller/page';
+import { ProductSubTab } from './ProductManagement';
 
 interface SellerSidebarProps {
     activeTab: SellerTab;
     setActiveTab: (tab: SellerTab) => void;
+    activeSubTab: ProductSubTab;
+    setActiveSubTab: (subTab: ProductSubTab) => void;
     locale: string;
     userEmail: string;
 }
 
-export function SellerSidebar({ activeTab, setActiveTab, locale, userEmail }: SellerSidebarProps) {
+export function SellerSidebar({ 
+    activeTab, 
+    setActiveTab, 
+    activeSubTab,
+    setActiveSubTab,
+    locale, 
+    userEmail 
+}: SellerSidebarProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const [isProductsExpanded, setIsProductsExpanded] = useState(true);
 
     const menuItems = [
         { id: 'dashboard', label: locale === 'ko' ? '대시보드' : 'Dashboard', icon: LayoutDashboard },
@@ -37,8 +50,27 @@ export function SellerSidebar({ activeTab, setActiveTab, locale, userEmail }: Se
         { id: 'settings', label: locale === 'ko' ? '판매자 정보' : 'Seller Info', icon: Settings },
     ] as const;
 
+    const productSubMenus = [
+        { id: 'list', label: locale === 'ko' ? '상품 조회/수정' : 'Inquiry & Modify' },
+        { id: 'register', label: locale === 'ko' ? '상품 등록' : 'Product Register' },
+        { id: 'bulk', label: locale === 'ko' ? '상품 일괄등록' : 'Bulk Upload' },
+        { id: 'announcements', label: locale === 'ko' ? '상품 공지사항 관리' : 'Announcements' },
+        { id: 'shipping', label: locale === 'ko' ? '배송정보 관리' : 'Shipping Info' }
+    ] as const;
+
     const handleTabChange = (tabId: SellerTab) => {
+        if (tabId === 'products') {
+            setIsProductsExpanded(!isProductsExpanded);
+            setActiveTab('products');
+        } else {
+            setActiveTab(tabId);
+            setIsOpen(false);
+        }
+    };
+
+    const handleSubTabChange = (tabId: SellerTab, subTabId: ProductSubTab) => {
         setActiveTab(tabId);
+        setActiveSubTab(subTabId);
         setIsOpen(false);
     };
 
@@ -88,20 +120,52 @@ export function SellerSidebar({ activeTab, setActiveTab, locale, userEmail }: Se
                         {menuItems.map((item) => {
                             const Icon = item.icon;
                             const isActive = activeTab === item.id;
+                            
                             return (
-                                <button
-                                    key={item.id}
-                                    onClick={() => handleTabChange(item.id)}
-                                    className={`
-                                        w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all
-                                        ${isActive 
-                                            ? 'bg-[#E8F0E8] text-[#556B2F] shadow-inner-soft' 
-                                            : 'text-stone-500 hover:text-stone-800 hover:bg-stone-50'}
-                                    `}
-                                >
-                                    <Icon size={18} className={isActive ? 'text-[#556B2F]' : 'text-stone-400'} />
-                                    <span>{item.label}</span>
-                                </button>
+                                <div key={item.id} className="space-y-1">
+                                    <button
+                                        onClick={() => handleTabChange(item.id)}
+                                        className={`
+                                            w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold transition-all
+                                            ${isActive && item.id !== 'products'
+                                                ? 'bg-[#E8F0E8] text-[#556B2F] shadow-inner-soft' 
+                                                : isActive && item.id === 'products'
+                                                ? 'text-[#556B2F] bg-stone-50'
+                                                : 'text-stone-500 hover:text-stone-800 hover:bg-stone-50'}
+                                        `}
+                                    >
+                                        <div className="flex items-center gap-3.5">
+                                            <Icon size={18} className={isActive ? 'text-[#556B2F]' : 'text-stone-400'} />
+                                            <span>{item.label}</span>
+                                        </div>
+                                        {item.id === 'products' && (
+                                            isProductsExpanded ? <ChevronUp size={14} className="text-stone-400" /> : <ChevronDown size={14} className="text-stone-400" />
+                                        )}
+                                    </button>
+
+                                    {/* Products Submenus */}
+                                    {item.id === 'products' && isProductsExpanded && (
+                                        <div className="ml-5 pl-4 border-l border-stone-200 space-y-1 py-1">
+                                            {productSubMenus.map((sub) => {
+                                                const isSubActive = activeTab === 'products' && activeSubTab === sub.id;
+                                                return (
+                                                    <button
+                                                        key={sub.id}
+                                                        onClick={() => handleSubTabChange('products', sub.id)}
+                                                        className={`
+                                                            w-full text-left py-2 px-3.5 rounded-xl text-xs font-bold transition-all block
+                                                            ${isSubActive 
+                                                                ? 'text-[#556B2F] bg-[#E8F0E8] font-black' 
+                                                                : 'text-stone-500 hover:text-stone-850 hover:bg-stone-50/70'}
+                                                        `}
+                                                    >
+                                                        {sub.label}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
                             );
                         })}
                     </nav>

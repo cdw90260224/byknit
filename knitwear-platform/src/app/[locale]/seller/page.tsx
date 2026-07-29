@@ -18,7 +18,7 @@ import Link from 'next/link';
 // Import subcomponents
 import { SellerSidebar } from '@/components/seller/SellerSidebar';
 import { SellerDashboard } from '@/components/seller/SellerDashboard';
-import { ProductManagement } from '@/components/seller/ProductManagement';
+import { ProductManagement, ProductSubTab } from '@/components/seller/ProductManagement';
 import { OrderManagement } from '@/components/seller/OrderManagement';
 import { ClaimManagement } from '@/components/seller/ClaimManagement';
 import { SettlementManagement } from '@/components/seller/SettlementManagement';
@@ -33,6 +33,7 @@ export default function SellerPage() {
     const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<SellerTab>('dashboard');
+    const [activeSubTab, setActiveSubTab] = useState<ProductSubTab>('list');
 
     useEffect(() => {
         const checkUser = async () => {
@@ -118,7 +119,13 @@ export default function SellerPage() {
             case 'dashboard':
                 return <SellerDashboard setActiveTab={setActiveTab} locale={locale} />;
             case 'products':
-                return <ProductManagement locale={locale} />;
+                return (
+                    <ProductManagement 
+                        locale={locale} 
+                        activeSubTab={activeSubTab} 
+                        setActiveSubTab={setActiveSubTab} 
+                    />
+                );
             case 'orders':
                 return <OrderManagement locale={locale} />;
             case 'claims':
@@ -140,6 +147,8 @@ export default function SellerPage() {
             <SellerSidebar 
                 activeTab={activeTab} 
                 setActiveTab={setActiveTab} 
+                activeSubTab={activeSubTab}
+                setActiveSubTab={setActiveSubTab}
                 locale={locale} 
                 userEmail={user.email}
             />

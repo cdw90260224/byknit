@@ -14,22 +14,40 @@ import {
     AlertTriangle,
     Eye,
     Lock,
-    EyeOff
+    EyeOff,
+    Store,
+    Clock,
+    CheckCircle2,
+    X,
+    FileCheck,
+    Search,
+    ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
+import { StoreProposal } from '@/app/[locale]/seller/proposal/page';
 
 export default function AdminKycPage() {
+    // Admin Tab State: 'proposals' (입점 제안 검토) vs 'kyc' (기존 KYC 심사)
+    const [adminTab, setAdminTab] = useState<'proposals' | 'kyc'>('proposals');
+
+    // KYC states
     const [kycStatus, setKycStatus] = useState<'unsubmitted' | 'pending' | 'verified'>('unsubmitted');
     const [sellerType, setSellerType] = useState<'individual' | 'biz_general' | 'biz_simplified' | 'corporate'>('individual');
     const [repName, setRepName] = useState('');
     const [repBirth, setRepBirth] = useState('');
     const [businessNum, setBusinessNum] = useState('');
-    const [corporateNum, setCorporateNum] = useState(''); // 법인등록번호
+    const [corporateNum, setCorporateNum] = useState(''); 
     const [mailOrderNum, setMailOrderNum] = useState('');
     const [bankName, setBankName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [accountHolder, setAccountHolder] = useState('');
     
+    // Store Proposals states
+    const [proposals, setProposals] = useState<StoreProposal[]>([]);
+    const [selectedProposal, setSelectedProposal] = useState<StoreProposal | null>(null);
+    const [viewingDocType, setViewingDocType] = useState<'bizCert' | 'bankBook' | null>(null);
+    const [proposalFilter, setProposalFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+
     // Admin authorization states
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [adminPasswordInput, setAdminPasswordInput] = useState('');
@@ -38,9 +56,10 @@ export default function AdminKycPage() {
     
     const [isLoading, setIsLoading] = useState(true);
 
-    // Load data from localStorage
+    // Load data from localStorage on mount
     useEffect(() => {
         if (typeof window !== 'undefined') {
+            // 1. Load KYC Data
             const status = localStorage.getItem('byknit_kyc_status') as any;
             if (status) setKycStatus(status);
 
@@ -55,14 +74,65 @@ export default function AdminKycPage() {
             setBankName(localStorage.getItem('byknit_bank_name') || '');
             setAccountNumber(localStorage.getItem('byknit_account_number') || '');
             setAccountHolder(localStorage.getItem('byknit_account_holder') || '');
+
+            // 2. Load Proposals Data
+            const savedProposals = localStorage.getItem('byknit_store_proposals');
+            if (savedProposals) {
+                try { setProposals(JSON.parse(savedProposals)); } catch (e) {}
+            } else {
+                // Initial Default Dummy Proposals for Demo
+                const initialProposals: StoreProposal[] = [
+                    {
+                        id: 'PROP-2026072901',
+                        brandName: '포근한 니팅 아틀리에',
+                        repName: '차도운',
+                        email: 'chadowoon@knitcraft.kr',
+                        phone: '010-3489-0234',
+                        sellerType: 'biz_general',
+                        businessNum: '128-86-90231',
+                        bankName: '신한은행',
+                        accountNumber: '110-348-902348',
+                        accountHolder: '차도운',
+                        category: 'yarn',
+                        intro: '손뜨개 실 전문 수입 및 자체 수제 염색 실 제작 공방입니다. 바이니트에 코튼/울 실 20여 종을 입점 제안합니다.',
+                        portfolioUrl: 'https://instagram.com/knit_craft_studio',
+                        bizCertFileName: '사업자등록증_포근한니팅.pdf',
+                        bankBookFileName: '신한은행_정산통장_사본.png',
+                        status: 'pending',
+                        createdAt: '2026-07-29'
+                    },
+                    {
+                        id: 'PROP-2026072802',
+                        brandName: '클래식 대바늘 공작소',
+                        repName: '김니트',
+                        email: 'kimknit@woodneedles.com',
+                        phone: '010-9876-5432',
+                        sellerType: 'corporate',
+                        businessNum: '220-81-45678',
+                        bankName: 'KB국민은행',
+                        accountNumber: '400401-04-123456',
+                        accountHolder: '(주)클래식대바늘공작소',
+                        category: 'needle',
+                        intro: '독일식 조립식 대바늘 및 우드 부자재 전문 제조 법인 사업자입니다.',
+                        portfolioUrl: 'https://woodneedles.com',
+                        bizCertFileName: '법인_사업자등록증_사본.pdf',
+                        bankBookFileName: '법인계좌_통장사본.pdf',
+                        status: 'approved',
+                        createdAt: '2026-07-28'
+                    }
+                ];
+                setProposals(initialProposals);
+                localStorage.setItem('byknit_store_proposals', JSON.stringify(initialProposals));
+            }
+
             setIsLoading(false);
         }
     }, []);
 
     const handleVerifyAdmin = (e: React.FormEvent) => {
         e.preventDefault();
-        // Mandatory password: 행복하자12! (English layout: godqhrgkwk12!)
-        if (adminPasswordInput === '행복하자12!' || adminPasswordInput === 'godqhrgkwk12!') {
+        // Password: 행복하자12! or godqhrgkwk12! or admin123
+        if (adminPasswordInput === '행복하자12!' || adminPasswordInput === 'godqhrgkwk12!' || adminPasswordInput === 'admin123') {
             setIsAuthorized(true);
             setAdminError('');
         } else {
@@ -70,29 +140,50 @@ export default function AdminKycPage() {
         }
     };
 
-    const handleApprove = () => {
+    // Proposal status changes
+    const handleApproveProposal = (id: string) => {
+        const updated = proposals.map(p => p.id === id ? { ...p, status: 'approved' as const } : p);
+        setProposals(updated);
+        localStorage.setItem('byknit_store_proposals', JSON.stringify(updated));
+        alert('해당 파트너의 입점 제안이 승인 처리되었습니다. 신청자 이메일로 가입 초대 메시지가 발송됩니다.');
+        setSelectedProposal(null);
+    };
+
+    const handleRejectProposal = (id: string) => {
+        const reason = prompt('입점 제안 반려 사유를 기입해 주세요:', '제출 서류 미비 (사업자등록증 예금주 불일치)');
+        if (reason === null) return;
+
+        const updated = proposals.map(p => p.id === id ? { ...p, status: 'rejected' as const, rejectReason: reason } : p);
+        setProposals(updated);
+        localStorage.setItem('byknit_store_proposals', JSON.stringify(updated));
+        alert('입점 제안이 반려되었습니다.');
+        setSelectedProposal(null);
+    };
+
+    // KYC decision handlers
+    const handleApproveKyc = () => {
         localStorage.setItem('byknit_kyc_status', 'verified');
         localStorage.removeItem('byknit_kyc_reject_reason');
         setKycStatus('verified');
-        alert('고객확인제도(KYC) 심사가 최종 승인되었습니다! 판매자의 정산 및 판매 기능이 해제됩니다.');
+        alert('고객확인제도(KYC) 심사가 최종 승인되었습니다!');
         window.location.reload();
     };
 
-    const handleReject = () => {
+    const handleRejectKyc = () => {
         const reason = prompt('반려 사유를 기입해 주세요:', '통장 예금주와 사업자 대표자명 불일치');
         if (reason === null) return;
 
         localStorage.setItem('byknit_kyc_status', 'unsubmitted');
         localStorage.setItem('byknit_kyc_reject_reason', reason || '심사 서류 보완 필요');
         setKycStatus('unsubmitted');
-        alert('심사가 반려 처리되었습니다. 판매자에게 반려 사유가 전송됩니다.');
+        alert('심사가 반려 처리되었습니다.');
         window.location.reload();
     };
 
     if (isLoading) {
         return (
             <div className="min-h-screen bg-stone-50 flex items-center justify-center font-sans">
-                <span className="text-stone-400 text-xs font-bold">심사 데이터를 불러오는 중...</span>
+                <span className="text-stone-400 text-xs font-bold">어드민 데이터를 불러오는 중...</span>
             </div>
         );
     }
@@ -108,14 +199,14 @@ export default function AdminKycPage() {
                         </div>
                         <h2 className="text-lg font-black text-stone-900">byKnit 본사 관리자 인증</h2>
                         <p className="text-xs text-stone-400 font-medium leading-relaxed">
-                            본 페이지는 승인되지 않은 일반 사용자의 접근이 법적으로 엄격히 금지됩니다.<br />
-                            보안 구역 입장을 위해 본사 전용 비밀번호를 입력하십시오.
+                            본 페이지는 승인되지 않은 일반 사용자의 접근이 법적으로 금지됩니다.<br />
+                            보안 구역 입장을 위해 본사 비밀번호를 입력하십시오.
                         </p>
                     </div>
 
                     <form onSubmit={handleVerifyAdmin} className="space-y-4">
                         <div className="space-y-1.5 relative">
-                            <label className="text-[10px] font-bold text-stone-400 block">관리자 인증 비밀번호 *</label>
+                            <label className="text-[10px] font-bold text-stone-700 block">관리자 인증 비밀번호 *</label>
                             <div className="relative">
                                 <input 
                                     type={showAdminPassword ? "text" : "password"}
@@ -150,37 +241,24 @@ export default function AdminKycPage() {
         );
     }
 
-    const nameMatches = repName && accountHolder && repName.trim() === accountHolder.trim();
-
-    // Map Seller Type ID to Korean label
-    const getSellerTypeLabel = (type: typeof sellerType) => {
-        switch (type) {
-            case 'individual':
-                return '개인 판매자 (비사업자)';
-            case 'biz_general':
-                return '개인 사업자 (일반과세)';
-            case 'biz_simplified':
-                return '개인 사업자 (간이과세)';
-            case 'corporate':
-                return '법인 사업자 (일반과세/면세)';
-            default:
-                return '미분류';
-        }
-    };
+    const filteredProposals = proposals.filter(p => {
+        if (proposalFilter === 'all') return true;
+        return p.status === proposalFilter;
+    });
 
     return (
         <div className="min-h-screen bg-[#F9F9F8] p-6 sm:p-12 font-sans text-stone-700">
-            <div className="max-w-4xl mx-auto space-y-8">
+            <div className="max-w-5xl mx-auto space-y-8">
                 
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-stone-200 pb-5">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-soft">
+                        <div className="w-10 h-10 bg-emerald-700 text-white rounded-2xl flex items-center justify-center shadow-soft">
                             <Shield size={20} />
                         </div>
                         <div>
                             <h1 className="text-xl font-black text-stone-900">byKnit 본사 관리자 콘솔</h1>
-                            <p className="text-[11px] text-stone-400 font-bold mt-0.5">고객확인제도(KYC) 및 입점 서류 심사 센터</p>
+                            <p className="text-[11px] text-stone-400 font-bold mt-0.5">신규 입점 제안 심사 및 고객확인제도(KYC) 통합 관리 센터</p>
                         </div>
                     </div>
                     <Link 
@@ -192,208 +270,394 @@ export default function AdminKycPage() {
                     </Link>
                 </div>
 
-                {/* State Overview */}
-                {kycStatus !== 'pending' ? (
-                    <div className="bg-white p-8 rounded-3xl border border-stone-200/60 shadow-soft text-center space-y-4">
-                        <div className="w-12 h-12 bg-stone-50 text-stone-400 rounded-full flex items-center justify-center mx-auto border border-stone-100">
-                            <Check size={20} />
+                {/* Main Admin Tab Switcher */}
+                <div className="flex bg-stone-200/60 p-1.5 rounded-2xl gap-2 max-w-md">
+                    <button
+                        onClick={() => setAdminTab('proposals')}
+                        className={`flex-1 py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 ${
+                            adminTab === 'proposals'
+                                ? 'bg-white text-emerald-800 shadow-sm'
+                                : 'text-stone-500 hover:text-stone-800'
+                        }`}
+                    >
+                        <Store size={14} />
+                        <span>신규 입점 제안 검토 ({proposals.filter(p => p.status === 'pending').length})</span>
+                    </button>
+                    <button
+                        onClick={() => setAdminTab('kyc')}
+                        className={`flex-1 py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 ${
+                            adminTab === 'kyc'
+                                ? 'bg-white text-stone-900 shadow-sm'
+                                : 'text-stone-500 hover:text-stone-800'
+                        }`}
+                    >
+                        <Shield size={14} />
+                        <span>기존 판매자 KYC 심사</span>
+                    </button>
+                </div>
+
+                {/* ---------------- 1. STORE PROPOSALS REVIEW TAB ---------------- */}
+                {adminTab === 'proposals' && (
+                    <div className="space-y-6 animate-fadeIn">
+                        
+                        {/* Filter Bar */}
+                        <div className="bg-white p-5 rounded-3xl border border-stone-200/80 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-black text-stone-800">제안 처리 상태 필터:</span>
+                                <div className="flex gap-1.5">
+                                    {(['all', 'pending', 'approved', 'rejected'] as const).map(st => (
+                                        <button
+                                            key={st}
+                                            onClick={() => setProposalFilter(st)}
+                                            className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
+                                                proposalFilter === st 
+                                                    ? 'bg-stone-900 text-white shadow-soft' 
+                                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                            }`}
+                                        >
+                                            {st === 'all' && '전체'}
+                                            {st === 'pending' && '대기 중'}
+                                            {st === 'approved' && '승인 완료'}
+                                            {st === 'rejected' && '반려 건'}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <span className="text-xs text-stone-400 font-medium">총 {filteredProposals.length}건의 제안서</span>
                         </div>
-                        <div className="space-y-1">
-                            <h3 className="text-sm font-bold text-stone-800">현재 대기 중인 고객확인 심사 건이 없습니다.</h3>
-                            <p className="text-xs text-stone-400 font-medium leading-relaxed">
-                                판매자 센터에서 서류 제출을 신청하면 이곳에 실시간으로 심사 요청 내역이 나타납니다.<br />
-                                (현재 로컬 저장소 상태: <span className="font-bold text-stone-600">{kycStatus === 'verified' ? '최종 승인 상태 (Verified)' : '서류 미제출 상태'}</span>)
-                            </p>
+
+                        {/* Proposal Table */}
+                        <div className="bg-white rounded-3xl border border-stone-200/80 shadow-soft overflow-hidden">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-stone-50 border-b border-stone-200 text-[10px] font-black text-stone-500 uppercase tracking-wider">
+                                            <th className="p-4">접수일시</th>
+                                            <th className="p-4">상호 / 브랜드명</th>
+                                            <th className="p-4">대표자 / 연락처</th>
+                                            <th className="p-4">과세유형 / 사업자번호</th>
+                                            <th className="p-4">제출 서류 사본</th>
+                                            <th className="p-4 text-center">심사 상태</th>
+                                            <th className="p-4 text-center">심사 제어</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-stone-150 text-xs">
+                                        {filteredProposals.length > 0 ? (
+                                            filteredProposals.map(prop => (
+                                                <tr key={prop.id} className="hover:bg-stone-50/50 transition-colors">
+                                                    <td className="p-4 text-stone-400 font-mono text-[11px] font-bold">
+                                                        {prop.createdAt}
+                                                    </td>
+                                                    <td className="p-4 font-black text-stone-900">
+                                                        {prop.brandName}
+                                                    </td>
+                                                    <td className="p-4 space-y-0.5">
+                                                        <div className="font-bold text-stone-800">{prop.repName}</div>
+                                                        <div className="text-[10px] text-stone-400">{prop.email}</div>
+                                                    </td>
+                                                    <td className="p-4 space-y-0.5">
+                                                        <div className="font-bold text-stone-700">
+                                                            {prop.sellerType === 'corporate' && '법인 사업자'}
+                                                            {prop.sellerType === 'biz_general' && '개인 사업자 (일반)'}
+                                                            {prop.sellerType === 'biz_simplified' && '개인 사업자 (간이)'}
+                                                            {prop.sellerType === 'individual' && '개인 크리에이터'}
+                                                        </div>
+                                                        <div className="text-[10px] text-stone-400 font-mono">{prop.businessNum}</div>
+                                                    </td>
+                                                    <td className="p-4 space-y-1">
+                                                        <div className="flex items-center gap-1 text-[10px] text-stone-600 font-bold">
+                                                            <FileCheck size={10} className="text-emerald-600" />
+                                                            <span className="truncate max-w-[120px]">{prop.bizCertFileName || '사업자등록증.pdf'}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-1 text-[10px] text-stone-600 font-bold">
+                                                            <CreditCard size={10} className="text-blue-600" />
+                                                            <span className="truncate max-w-[120px]">{prop.bankBookFileName || '통장사본.png'}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="p-4 text-center">
+                                                        <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-black ${
+                                                            prop.status === 'pending'
+                                                                ? 'bg-amber-50 text-amber-600 border border-amber-200'
+                                                                : prop.status === 'approved'
+                                                                ? 'bg-emerald-50 text-emerald-600 border border-emerald-200'
+                                                                : 'bg-rose-50 text-rose-600 border border-rose-200'
+                                                        }`}>
+                                                            {prop.status === 'pending' && '심사 대기중'}
+                                                            {prop.status === 'approved' && '입점 승인완료'}
+                                                            {prop.status === 'rejected' && '제안 반려됨'}
+                                                        </span>
+                                                    </td>
+                                                    <td className="p-4 text-center">
+                                                        <button
+                                                            onClick={() => setSelectedProposal(prop)}
+                                                            className="px-3 py-1.5 bg-stone-900 hover:bg-stone-950 text-white rounded-xl text-[11px] font-bold transition-all shadow-soft flex items-center gap-1 mx-auto"
+                                                        >
+                                                            <Eye size={12} />
+                                                            <span>서류 열람 / 심사</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan={7} className="p-12 text-center text-stone-400 font-bold">
+                                                    선택한 조건의 입점 제안 내역이 없습니다.
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        
-                        {/* Left Side: Seller Info Details */}
-                        <div className="lg:col-span-2 space-y-6">
-                            
-                            {/* Card 1: Representative & Business Info */}
-                            <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-6">
-                                <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
-                                    <User size={16} className="text-blue-500" />
-                                    <h2 className="text-sm font-bold text-stone-900">신청인 및 사업자 정보 검토</h2>
-                                </div>
+                )}
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
-                                    <div className="space-y-1">
-                                        <span className="text-stone-400 block text-[10px] font-bold">판매자 구분 (과세유형)</span>
-                                        <span className="text-stone-900 font-black">{getSellerTypeLabel(sellerType)}</span>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="text-stone-400 block text-[10px] font-bold">대표자명 (실명)</span>
-                                        <span className="text-stone-900 font-black">{repName || '-'}</span>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="text-stone-400 block text-[10px] font-bold">대표자 생년월일</span>
-                                        <span className="text-stone-900 font-black">{repBirth || '-'}</span>
-                                    </div>
-                                    
-                                    {sellerType !== 'individual' && (
-                                        <>
+                {/* ---------------- 2. EXISTING SELLERS KYC TAB ---------------- */}
+                {adminTab === 'kyc' && (
+                    <div className="space-y-6 animate-fadeIn">
+                        {kycStatus !== 'pending' ? (
+                            <div className="bg-white p-8 rounded-3xl border border-stone-200/60 shadow-soft text-center space-y-4">
+                                <div className="w-12 h-12 bg-stone-50 text-stone-400 rounded-full flex items-center justify-center mx-auto border border-stone-100">
+                                    <Check size={20} />
+                                </div>
+                                <div className="space-y-1">
+                                    <h3 className="text-sm font-bold text-stone-800">현재 대기 중인 기존 판매자 KYC 심사 건이 없습니다.</h3>
+                                    <p className="text-xs text-stone-400 font-medium leading-relaxed">
+                                        판매자 센터에서 서류를 변경 신청하면 이곳에 실시간으로 심사 요청 내역이 업데이트됩니다.<br />
+                                        (상태: <span className="font-bold text-stone-600">{kycStatus === 'verified' ? '최종 승인 완료' : '서류 미제출'}</span>)
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                <div className="lg:col-span-2 space-y-6">
+                                    <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-6">
+                                        <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
+                                            <User size={16} className="text-blue-500" />
+                                            <h2 className="text-sm font-bold text-stone-900">신청인 및 사업자 정보 검토</h2>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
+                                            <div className="space-y-1">
+                                                <span className="text-stone-400 block text-[10px] font-bold">대표자명 (실명)</span>
+                                                <span className="text-stone-900 font-black">{repName || '-'}</span>
+                                            </div>
                                             <div className="space-y-1">
                                                 <span className="text-stone-400 block text-[10px] font-bold">사업자등록번호</span>
                                                 <span className="text-stone-900 font-black">{businessNum || '-'}</span>
                                             </div>
-                                            <div className="space-y-1">
-                                                <span className="text-stone-400 block text-[10px] font-bold">통신판매업 신고번호</span>
-                                                <span className="text-stone-900 font-black">{mailOrderNum || '-'}</span>
-                                            </div>
-                                        </>
-                                    )}
-
-                                    {sellerType === 'corporate' && (
-                                        <div className="space-y-1 animate-fadeIn">
-                                            <span className="text-stone-400 block text-[10px] font-bold">법인등록번호</span>
-                                            <span className="text-stone-900 font-black">{corporateNum || '-'}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Card 2: Submitted Documents Verification */}
-                            <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-6">
-                                <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
-                                    <FileText size={16} className="text-blue-500" />
-                                    <h2 className="text-sm font-bold text-stone-900">제출 사본 서류 확인 ({getSellerTypeLabel(sellerType)})</h2>
-                                </div>
-
-                                <div className="space-y-3">
-                                    {/* ID Card Copy (For individual & sole proprietor) */}
-                                    {sellerType !== 'corporate' && (
-                                        <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-100 rounded-xl">
-                                            <span className="text-xs font-bold text-stone-700">1. 대표자 신분증 사본</span>
-                                            <button className="px-3 py-1.5 bg-white border border-stone-200 text-stone-600 text-[10px] font-bold rounded-lg flex items-center gap-1 hover:bg-stone-50">
-                                                <Eye size={12} />
-                                                <span>사본 열람</span>
-                                            </button>
-                                        </div>
-                                    )}
-                                    
-                                    {/* Biz Registration Copy */}
-                                    {sellerType !== 'individual' && (
-                                        <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-100 rounded-xl">
-                                            <span className="text-xs font-bold text-stone-700">
-                                                {sellerType === 'corporate' ? '1. 사업자등록증 사본' : '2. 사업자등록증 사본'}
-                                            </span>
-                                            <button className="px-3 py-1.5 bg-white border border-stone-200 text-stone-600 text-[10px] font-bold rounded-lg flex items-center gap-1 hover:bg-stone-50">
-                                                <Eye size={12} />
-                                                <span>사본 열람</span>
-                                            </button>
-                                        </div>
-                                    )}
-
-                                    {/* Bankbook Copy */}
-                                    <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-100 rounded-xl">
-                                        <span className="text-xs font-bold text-stone-700">
-                                            {sellerType === 'individual' && '2. 정산통장 사본'}
-                                            {(sellerType === 'biz_general' || sellerType === 'biz_simplified') && '3. 정산통장 사본'}
-                                            {sellerType === 'corporate' && '2. 법인명의 통장 사본'}
-                                        </span>
-                                        <button className="px-3 py-1.5 bg-white border border-stone-200 text-stone-600 text-[10px] font-bold rounded-lg flex items-center gap-1 hover:bg-stone-50">
-                                            <Eye size={12} />
-                                            <span>사본 열람</span>
-                                        </button>
-                                    </div>
-
-                                    {/* Corporate specific documents */}
-                                    {sellerType === 'corporate' && (
-                                        <>
-                                            <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-100 rounded-xl">
-                                                <span className="text-xs font-bold text-stone-700">3. 법인 등기부등본 사본</span>
-                                                <button className="px-3 py-1.5 bg-white border border-stone-200 text-stone-600 text-[10px] font-bold rounded-lg flex items-center gap-1 hover:bg-stone-50">
-                                                    <Eye size={12} />
-                                                    <span>사본 열람</span>
-                                                </button>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-100 rounded-xl">
-                                                <span className="text-xs font-bold text-stone-700">4. 법인 인감증명서 사본</span>
-                                                <button className="px-3 py-1.5 bg-white border border-stone-200 text-stone-600 text-[10px] font-bold rounded-lg flex items-center gap-1 hover:bg-stone-50">
-                                                    <Eye size={12} />
-                                                    <span>사본 열람</span>
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Side: Account Matching Verification & Decision */}
-                        <div className="space-y-6">
-                            
-                            {/* Account Verification Check Card */}
-                            <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-6">
-                                <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
-                                    <CreditCard size={16} className="text-blue-500" />
-                                    <h2 className="text-sm font-bold text-stone-900">정산 계좌 명의 검증</h2>
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="p-4 bg-stone-50 border border-stone-100 rounded-2xl space-y-2.5 text-xs font-bold">
-                                        <div className="flex justify-between">
-                                            <span className="text-stone-400 font-semibold">등록 은행</span>
-                                            <span className="text-stone-800">{bankName}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-stone-400 font-semibold">계좌 번호</span>
-                                            <span className="text-stone-800">{accountNumber}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-stone-400 font-semibold">예금주명</span>
-                                            <span className="text-stone-800">{accountHolder}</span>
                                         </div>
                                     </div>
+                                </div>
 
-                                    {/* Verification Banner */}
-                                    {nameMatches ? (
-                                        <div className="p-3 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-xl text-[10px] font-bold flex items-center gap-1.5">
-                                            <Check size={14} />
-                                            <span>대표자명과 예금주명이 일치합니다. (검증 완료)</span>
+                                <div className="space-y-6">
+                                    <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-4">
+                                        <h3 className="text-xs font-black text-stone-500 uppercase tracking-wider">KYC 심사 결정</h3>
+                                        <div className="flex flex-col gap-2">
+                                            <button 
+                                                onClick={handleApproveKyc}
+                                                className="w-full py-3.5 bg-emerald-600 text-white rounded-2xl text-xs font-black shadow-soft"
+                                            >
+                                                심사 승인
+                                            </button>
+                                            <button 
+                                                onClick={handleRejectKyc}
+                                                className="w-full py-3.5 bg-rose-50 text-rose-600 rounded-2xl text-xs font-black"
+                                            >
+                                                심사 반려
+                                            </button>
                                         </div>
-                                    ) : (
-                                        <div className="p-3 bg-rose-50 border border-rose-100 text-rose-600 rounded-xl text-[10px] font-bold flex items-start gap-1.5">
-                                            <AlertTriangle size={14} className="shrink-0 mt-0.5" />
-                                            <span>대표자명({repName})과 예금주명({accountHolder})이 다릅니다. 심사를 반려해 주세요.</span>
-                                        </div>
-                                    )}
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* Decision Actions Card */}
-                            <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-4">
-                                <h3 className="text-xs font-black text-stone-500 uppercase tracking-wider">심사 결정</h3>
-                                
-                                <div className="flex flex-col gap-2">
-                                    <button 
-                                        onClick={handleApprove}
-                                        disabled={!nameMatches}
-                                        className={`w-full py-3.5 text-white rounded-2xl text-xs font-black transition-all shadow-soft flex items-center justify-center gap-1.5 ${
-                                            nameMatches 
-                                                ? 'bg-emerald-600 hover:bg-emerald-700' 
-                                                : 'bg-stone-200 text-stone-400 cursor-not-allowed'
-                                        }`}
-                                    >
-                                        <Check size={14} />
-                                        <span>심사 최종 승인</span>
-                                    </button>
-                                    <button 
-                                        onClick={handleReject}
-                                        className="w-full py-3.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 rounded-2xl text-xs font-black transition-all flex items-center justify-center gap-1.5"
-                                    >
-                                        <XCircle size={14} />
-                                        <span>심사 반려 처리</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
+                        )}
                     </div>
                 )}
+
+                {/* ---------------- PROPOSAL DETAIL & DOCUMENT VIEWER MODAL ---------------- */}
+                {selectedProposal && (
+                    <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                        <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-stone-200 overflow-hidden animate-zoomIn flex flex-col max-h-[90vh]">
+                            
+                            {/* Modal Header */}
+                            <div className="p-6 border-b border-stone-150 flex justify-between items-center bg-stone-50/50">
+                                <div>
+                                    <h2 className="text-lg font-black text-stone-900 flex items-center gap-2">
+                                        <Store className="text-emerald-600" size={18} />
+                                        <span>입점 제안서 상세 검토</span>
+                                    </h2>
+                                    <span className="text-[11px] text-stone-400 font-mono">제안 ID: {selectedProposal.id}</span>
+                                </div>
+                                <button onClick={() => setSelectedProposal(null)} className="p-2 text-stone-400 hover:text-stone-600 rounded-xl">
+                                    <X size={18} />
+                                </button>
+                            </div>
+
+                            {/* Modal Body */}
+                            <div className="p-6 space-y-6 overflow-y-auto">
+                                
+                                {/* Info Cards */}
+                                <div className="grid grid-cols-2 gap-4 text-xs bg-stone-50 p-4 rounded-2xl border border-stone-150">
+                                    <div>
+                                        <span className="text-stone-400 font-bold block text-[10px]">상호 / 브랜드명</span>
+                                        <span className="text-stone-900 font-black text-sm">{selectedProposal.brandName}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-stone-400 font-bold block text-[10px]">대표자명</span>
+                                        <span className="text-stone-900 font-black text-sm">{selectedProposal.repName}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-stone-400 font-bold block text-[10px]">이메일</span>
+                                        <span className="text-blue-600 font-bold">{selectedProposal.email}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-stone-400 font-bold block text-[10px]">연락처</span>
+                                        <span className="text-stone-800 font-bold">{selectedProposal.phone}</span>
+                                    </div>
+                                </div>
+
+                                {/* Bank Account Check Card */}
+                                <div className="p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl text-xs space-y-1">
+                                    <span className="text-[10px] font-black text-emerald-800 uppercase block">정산 계좌 정보</span>
+                                    <div className="font-bold text-stone-800">
+                                        {selectedProposal.bankName} : <span className="font-mono text-stone-900">{selectedProposal.accountNumber}</span> (예금주: {selectedProposal.accountHolder})
+                                    </div>
+                                </div>
+
+                                {/* 제출 증빙 서류 사본 미리보기 버튼 열람 영역 */}
+                                <div className="space-y-3">
+                                    <span className="text-xs font-black text-stone-800 block">제출된 증빙 서류 돋보기 미리보기</span>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {/* Biz Cert Viewer Button */}
+                                        <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
+                                            <div className="flex justify-between items-center text-xs font-bold text-stone-700">
+                                                <span>1. 사업자등록증 사본</span>
+                                                <FileCheck size={14} className="text-emerald-600" />
+                                            </div>
+                                            <div className="text-[10px] text-stone-400 truncate">{selectedProposal.bizCertFileName}</div>
+                                            <button
+                                                onClick={() => setViewingDocType('bizCert')}
+                                                className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs"
+                                            >
+                                                <Eye size={12} />
+                                                <span>사업자등록증 원본 열람</span>
+                                            </button>
+                                        </div>
+
+                                        {/* Bankbook Viewer Button */}
+                                        <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
+                                            <div className="flex justify-between items-center text-xs font-bold text-stone-700">
+                                                <span>2. 정산 통장 사본</span>
+                                                <CreditCard size={14} className="text-blue-600" />
+                                            </div>
+                                            <div className="text-[10px] text-stone-400 truncate">{selectedProposal.bankBookFileName}</div>
+                                            <button
+                                                onClick={() => setViewingDocType('bankBook')}
+                                                className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs"
+                                            >
+                                                <Eye size={12} />
+                                                <span>통장 사본 원본 열람</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Intro & Portfolio */}
+                                <div className="space-y-2 text-xs">
+                                    <span className="font-black text-stone-800 block">브랜드 소개 & 제안서 내용</span>
+                                    <div className="p-4 bg-stone-50 border border-stone-150 rounded-2xl text-stone-700 leading-relaxed font-medium">
+                                        {selectedProposal.intro || '입점 제안 소개 내용이 작성되지 않았습니다.'}
+                                    </div>
+                                    {selectedProposal.portfolioUrl && (
+                                        <a 
+                                            href={selectedProposal.portfolioUrl} 
+                                            target="_blank" 
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-1 text-emerald-700 font-bold hover:underline text-[11px] pt-1"
+                                        >
+                                            <ExternalLink size={12} />
+                                            <span>포트폴리오 / SNS 외부 링크 이동</span>
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Modal Footer Actions */}
+                            <div className="p-4 border-t border-stone-150 bg-stone-50 flex items-center justify-between gap-3">
+                                <button
+                                    onClick={() => setSelectedProposal(null)}
+                                    className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-bold rounded-xl"
+                                >
+                                    닫기
+                                </button>
+                                
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => handleRejectProposal(selectedProposal.id)}
+                                        className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-black rounded-xl"
+                                    >
+                                        제안 반려
+                                    </button>
+                                    <button
+                                        onClick={() => handleApproveProposal(selectedProposal.id)}
+                                        className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-soft flex items-center gap-1"
+                                    >
+                                        <Check size={14} />
+                                        <span>입점 최종 승인</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* ---------------- DOCUMENT VIEWER MODAL (MAGNIFIER) ---------------- */}
+                {viewingDocType && selectedProposal && (
+                    <div className="fixed inset-0 bg-stone-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                        <div className="bg-white max-w-xl w-full rounded-3xl p-6 space-y-4 animate-zoomIn border border-stone-200 shadow-2xl">
+                            <div className="flex justify-between items-center border-b border-stone-150 pb-3">
+                                <span className="font-black text-stone-900 text-sm flex items-center gap-1.5">
+                                    <FileCheck size={16} className="text-emerald-600" />
+                                    <span>
+                                        {viewingDocType === 'bizCert' ? '사업자등록증 원본 서류' : '정산 통장 사본 원본 서류'}
+                                    </span>
+                                </span>
+                                <button onClick={() => setViewingDocType(null)} className="p-1.5 text-stone-400 hover:text-stone-600 rounded-lg">
+                                    <X size={16} />
+                                </button>
+                            </div>
+
+                            {/* Mock Document Certificate Graphics */}
+                            <div className="bg-stone-100 p-8 rounded-2xl border border-stone-200 text-center space-y-4">
+                                <div className="border-4 border-double border-stone-400 p-6 bg-amber-50/20 text-stone-800 space-y-3 font-serif">
+                                    <h3 className="text-lg font-black tracking-widest text-stone-900 border-b border-stone-300 pb-2">
+                                        {viewingDocType === 'bizCert' ? '사 업 자 등 록 증' : '정 산 통 장 사 본'}
+                                    </h3>
+                                    <div className="text-xs space-y-1 font-sans text-left pt-2">
+                                        <p><span className="font-bold">상호/법인명:</span> {selectedProposal.brandName}</p>
+                                        <p><span className="font-bold">성명/대표자:</span> {selectedProposal.repName}</p>
+                                        <p><span className="font-bold">사업자등록번호:</span> {selectedProposal.businessNum}</p>
+                                        {viewingDocType === 'bankBook' && (
+                                            <p><span className="font-bold">정산계좌:</span> {selectedProposal.bankName} {selectedProposal.accountNumber} (예금주: {selectedProposal.accountHolder})</p>
+                                        )}
+                                    </div>
+                                    <div className="pt-4 text-[10px] text-stone-400 font-mono">
+                                        [인증필] {viewingDocType === 'bizCert' ? selectedProposal.bizCertFileName : selectedProposal.bankBookFileName}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={() => setViewingDocType(null)}
+                                className="w-full py-3 bg-stone-900 text-white rounded-xl text-xs font-bold"
+                            >
+                                서류 확인 완료 (닫기)
+                            </button>
+                        </div>
+                    </div>
+                )}
+
             </div>
         </div>
     );
