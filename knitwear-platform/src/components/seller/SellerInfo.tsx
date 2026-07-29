@@ -180,7 +180,7 @@ export function SellerInfo({ locale }: { locale: string }) {
     // Verify Password to unlock Seller Info
     const handleVerifyPassword = (e: React.FormEvent) => {
         e.preventDefault();
-        if (passwordInput === 'admin123') {
+        if (passwordInput === 'admin123' || passwordInput === '행복하자12!' || passwordInput === 'godqhrgkwk12!') {
             setIsUnlocked(true);
             setPwError('');
         } else {
