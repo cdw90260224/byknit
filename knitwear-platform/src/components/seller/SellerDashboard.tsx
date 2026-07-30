@@ -44,6 +44,16 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
         { id: 3, author: 'Sarah K.', title: 'Is the Sage Green yarn lot consistent?', date: '4시간 전', status: 'pending' },
     ];
 
+    const [currentDateStr, setCurrentDateStr] = React.useState<string>('');
+
+    React.useEffect(() => {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        setCurrentDateStr(`${yyyy}.${mm}.${dd} (GMT+9)`);
+    }, []);
+
     return (
         <div className="space-y-10 animate-fadeIn">
             {/* Header Section */}
@@ -58,7 +68,7 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-stone-100 shadow-soft text-stone-600 text-xs font-bold w-fit">
                     <Calendar size={14} className="text-[#8FBC8F]" />
-                    <span>2026.07.24 (GMT+9)</span>
+                    <span>{currentDateStr || '2026.07.24 (GMT+9)'}</span>
                 </div>
             </div>
 
