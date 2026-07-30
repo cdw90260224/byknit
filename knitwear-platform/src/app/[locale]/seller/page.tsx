@@ -21,7 +21,7 @@ import { SellerDashboard } from '@/components/seller/SellerDashboard';
 import { ProductManagement, ProductSubTab } from '@/components/seller/ProductManagement';
 import { OrderManagement } from '@/components/seller/OrderManagement';
 import { ClaimManagement } from '@/components/seller/ClaimManagement';
-import { SettlementManagement } from '@/components/seller/SettlementManagement';
+import { SettlementManagement, SettlementSubTab } from '@/components/seller/SettlementManagement';
 import { SellerInfo } from '@/components/seller/SellerInfo';
 import { SalesManagement } from '@/components/seller/SalesManagement';
 
@@ -34,6 +34,7 @@ export default function SellerPage() {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<SellerTab>('dashboard');
     const [activeSubTab, setActiveSubTab] = useState<ProductSubTab>('list');
+    const [activeSettlementSubTab, setActiveSettlementSubTab] = useState<SettlementSubTab>('daily');
 
     useEffect(() => {
         const checkUser = async () => {
@@ -131,7 +132,7 @@ export default function SellerPage() {
             case 'claims':
                 return <ClaimManagement locale={locale} />;
             case 'settlement':
-                return <SettlementManagement locale={locale} />;
+                return <SettlementManagement locale={locale} activeSubTab={activeSettlementSubTab} />;
             case 'sales':
                 return <SalesManagement locale={locale} />;
             case 'settings':
@@ -149,6 +150,8 @@ export default function SellerPage() {
                 setActiveTab={setActiveTab} 
                 activeSubTab={activeSubTab}
                 setActiveSubTab={setActiveSubTab}
+                activeSettlementSubTab={activeSettlementSubTab}
+                setActiveSettlementSubTab={setActiveSettlementSubTab}
                 locale={locale} 
                 userEmail={user.email}
             />

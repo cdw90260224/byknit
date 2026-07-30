@@ -19,12 +19,15 @@ import {
 import Link from 'next/link';
 import { SellerTab } from '@/app/[locale]/seller/page';
 import { ProductSubTab } from './ProductManagement';
+import { SettlementSubTab } from './SettlementManagement';
 
 interface SellerSidebarProps {
     activeTab: SellerTab;
     setActiveTab: (tab: SellerTab) => void;
     activeSubTab: ProductSubTab;
     setActiveSubTab: (subTab: ProductSubTab) => void;
+    activeSettlementSubTab: SettlementSubTab;
+    setActiveSettlementSubTab: (subTab: SettlementSubTab) => void;
     locale: string;
     userEmail: string;
 }
@@ -34,11 +37,14 @@ export function SellerSidebar({
     setActiveTab, 
     activeSubTab,
     setActiveSubTab,
+    activeSettlementSubTab,
+    setActiveSettlementSubTab,
     locale, 
     userEmail 
 }: SellerSidebarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isProductsExpanded, setIsProductsExpanded] = useState(true);
+    const [isSettlementsExpanded, setIsSettlementsExpanded] = useState(true);
 
     const menuItems = [
         { id: 'dashboard', label: locale === 'ko' ? '대시보드' : 'Dashboard', icon: LayoutDashboard },
@@ -58,19 +64,31 @@ export function SellerSidebar({
         { id: 'shipping', label: locale === 'ko' ? '배송정보 관리' : 'Shipping Info' }
     ] as const;
 
+    const settlementSubMenus = [
+        { id: 'daily', label: locale === 'ko' ? '정산 내역(일별/건별)' : 'Daily / Per Item' },
+        { id: 'category', label: locale === 'ko' ? '항목별 정산 내역' : 'By Category' }
+    ] as const;
+
     const handleTabChange = (tabId: SellerTab) => {
         if (tabId === 'products') {
             setIsProductsExpanded(!isProductsExpanded);
             setActiveTab('products');
+        } else if (tabId === 'settlement') {
+            setIsSettlementsExpanded(!isSettlementsExpanded);
+            setActiveTab('settlement');
         } else {
             setActiveTab(tabId);
             setIsOpen(false);
         }
     };
 
-    const handleSubTabChange = (tabId: SellerTab, subTabId: ProductSubTab) => {
+    const handleSubTabChange = (tabId: SellerTab, subTabId: ProductSubTab | SettlementSubTab) => {
         setActiveTab(tabId);
-        setActiveSubTab(subTabId);
+        if (tabId === 'products') {
+            setActiveSubTab(subTabId as ProductSubTab);
+        } else if (tabId === 'settlement') {
+            setActiveSettlementSubTab(subTabId as SettlementSubTab);
+        }
         setIsOpen(false);
     };
 
@@ -127,9 +145,9 @@ export function SellerSidebar({
                                         onClick={() => handleTabChange(item.id)}
                                         className={`
                                             w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold transition-all
-                                            ${isActive && item.id !== 'products'
+                                            ${isActive && item.id !== 'products' && item.id !== 'settlement'
                                                 ? 'bg-[#E8F0E8] text-[#556B2F] shadow-inner-soft' 
-                                                : isActive && item.id === 'products'
+                                                : isActive && (item.id === 'products' || item.id === 'settlement')
                                                 ? 'text-[#556B2F] bg-stone-50'
                                                 : 'text-stone-500 hover:text-stone-800 hover:bg-stone-50'}
                                         `}
@@ -140,6 +158,9 @@ export function SellerSidebar({
                                         </div>
                                         {item.id === 'products' && (
                                             isProductsExpanded ? <ChevronUp size={14} className="text-stone-400" /> : <ChevronDown size={14} className="text-stone-400" />
+                                        )}
+                                        {item.id === 'settlement' && (
+                                            isSettlementsExpanded ? <ChevronUp size={14} className="text-stone-400" /> : <ChevronDown size={14} className="text-stone-400" />
                                         )}
                                     </button>
 
@@ -152,6 +173,29 @@ export function SellerSidebar({
                                                     <button
                                                         key={sub.id}
                                                         onClick={() => handleSubTabChange('products', sub.id)}
+                                                        className={`
+                                                            w-full text-left py-2 px-3.5 rounded-xl text-xs font-bold transition-all block
+                                                            ${isSubActive 
+                                                                ? 'text-[#556B2F] bg-[#E8F0E8] font-black' 
+                                                                : 'text-stone-500 hover:text-stone-850 hover:bg-stone-50/70'}
+                                                        `}
+                                                    >
+                                                        {sub.label}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+
+                                    {/* Settlement Submenus */}
+                                    {item.id === 'settlement' && isSettlementsExpanded && (
+                                        <div className="ml-5 pl-4 border-l border-stone-200 space-y-1 py-1">
+                                            {settlementSubMenus.map((sub) => {
+                                                const isSubActive = activeTab === 'settlement' && activeSettlementSubTab === sub.id;
+                                                return (
+                                                    <button
+                                                        key={sub.id}
+                                                        onClick={() => handleSubTabChange('settlement', sub.id)}
                                                         className={`
                                                             w-full text-left py-2 px-3.5 rounded-xl text-xs font-bold transition-all block
                                                             ${isSubActive 

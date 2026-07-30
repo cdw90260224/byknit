@@ -26,7 +26,14 @@ interface SettlementOrder {
     paidDate?: string;
 }
 
-export function SettlementManagement({ locale }: { locale: string }) {
+export type SettlementSubTab = 'daily' | 'category';
+
+interface SettlementManagementProps {
+    locale: string;
+    activeSubTab: SettlementSubTab;
+}
+
+export function SettlementManagement({ locale, activeSubTab }: SettlementManagementProps) {
     // Current simulated date is 2026.07.29
     const todayStr = '2026.07.29';
 
@@ -170,7 +177,8 @@ export function SettlementManagement({ locale }: { locale: string }) {
             </div>
 
             {/* Payout History Table Card (Full Width) */}
-            <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden">
+            {activeSubTab === 'daily' ? (
+            <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden animate-fadeIn">
                 {/* Card Title & Excel Export */}
                 <div className="p-5 border-b border-stone-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-stone-50/50">
                     <div className="flex items-center gap-2">
@@ -253,6 +261,19 @@ export function SettlementManagement({ locale }: { locale: string }) {
                     </table>
                 </div>
             </div>
+            ) : (
+                <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden animate-fadeIn p-12 text-center text-stone-500">
+                    <Building className="mx-auto mb-4 text-[#8FBC8F]" size={48} />
+                    <h2 className="text-lg font-bold text-stone-800 mb-2">
+                        {locale === 'ko' ? '항목별 정산 내역 준비 중' : 'Category Settlement History Coming Soon'}
+                    </h2>
+                    <p className="text-sm">
+                        {locale === 'ko' 
+                            ? '상품 카테고리별(예: 털실, 바늘, 도안 등) 정산 내역 및 통계 기능이 곧 추가될 예정입니다.' 
+                            : 'Settlement statistics by category will be available soon.'}
+                    </p>
+                </div>
+            )}
         </div>
     );
 }
