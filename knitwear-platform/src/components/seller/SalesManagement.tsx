@@ -29,19 +29,19 @@ export function SalesManagement({ locale }: { locale: string }) {
 
     // Mock sales database
     const [salesDb] = useState<SaleRecord[]>([
-        { id: 'S-001', orderId: '6101588833390', date: '2026-07-24 13:05:22', productName: '흠집 매트, 그레이 20개 2cm', amount: 49000, shippingFee: 3000, paymentMethod: '네이버페이', status: 'paid' },
-        { id: 'S-002', orderId: '15101609070459', date: '2026-07-24 11:20:05', productName: '흠집 매트, 블랙 20개 2cm', amount: 49000, shippingFee: 0, paymentMethod: '카카오페이', status: 'paid' },
-        { id: 'S-003', orderId: '11101611587928', date: '2026-07-24 09:30:11', productName: '무늬오징어 에기, 3.5호 10종 세트', amount: 28500, shippingFee: 3000, paymentMethod: '신용카드', status: 'paid' },
-        { id: 'S-004', orderId: '21101613251154', date: '2026-07-23 16:42:00', productName: '흠집 매트, 아이보리 20개 1.2cm', amount: 39000, shippingFee: 0, paymentMethod: '토스페이', status: 'completed' },
-        { id: 'S-005', orderId: '9101638152551', date: '2026-07-23 10:11:54', productName: '무늬오징어 에기, 3.5호 10종 세트', amount: 28500, shippingFee: 3000, paymentMethod: '카카오페이', status: 'completed' },
-        { id: 'S-006', orderId: '8101638202029', date: '2026-07-21 14:15:00', productName: '파스텔 소프트 코튼 털실 (50g)', amount: 15200, shippingFee: 3000, paymentMethod: '네이버페이', status: 'completed' },
-        { id: 'S-007', orderId: '7101648119022', date: '2026-07-18 10:05:00', productName: '클래식 소프트 메리노 울 털실', amount: 56000, shippingFee: 0, paymentMethod: '신용카드', status: 'completed' },
-        { id: 'S-008', orderId: '5101655291039', date: '2026-07-15 16:30:00', productName: '비건 레더 가죽 라벨 (10개입)', amount: 14000, shippingFee: 3000, paymentMethod: '카카오페이', status: 'completed' },
-        { id: 'S-009', orderId: '4101662910392', date: '2026-07-10 11:22:00', productName: '유기농 내추럴 메리노 울 털실', amount: 89000, shippingFee: 0, paymentMethod: '네이버페이', status: 'completed' },
-        { id: 'S-010', orderId: '3101671190209', date: '2026-07-02 09:15:00', productName: '흠집 매트, 그레이 20개 2cm', amount: 49000, shippingFee: 3000, paymentMethod: '신용카드', status: 'completed' },
-        { id: 'S-011', orderId: '2101689201990', date: '2026-06-25 15:40:00', productName: '파스텔 소프트 코튼 털실 (50g)', amount: 38000, shippingFee: 3000, paymentMethod: '네이버페이', status: 'completed' },
-        { id: 'S-012', orderId: '1101699102991', date: '2026-06-12 14:10:00', productName: '무늬오징어 에기, 3.5호 10종 세트', amount: 28500, shippingFee: 3000, paymentMethod: '카카오페이', status: 'cancelled' },
-        { id: 'S-013', orderId: '0101701928392', date: '2026-05-18 10:20:00', productName: '비건 레더 가죽 라벨 (10개입)', amount: 7000, shippingFee: 3000, paymentMethod: '신용카드', status: 'completed' }
+        { id: 'S-001', orderId: '20260724130500111', date: '2026-07-24 13:05:22', productName: '흠집 매트, 그레이 20개 2cm', amount: 49000, shippingFee: 3000, paymentMethod: '네이버페이', status: 'paid' },
+        { id: 'S-002', orderId: '20260724112000222', date: '2026-07-24 11:20:05', productName: '흠집 매트, 블랙 20개 2cm', amount: 49000, shippingFee: 0, paymentMethod: '카카오페이', status: 'paid' },
+        { id: 'S-003', orderId: '20260724093000333', date: '2026-07-24 09:30:11', productName: '무늬오징어 에기, 3.5호 10종 세트', amount: 28500, shippingFee: 3000, paymentMethod: '신용카드', status: 'paid' },
+        { id: 'S-004', orderId: '20260723164200444', date: '2026-07-23 16:42:00', productName: '흠집 매트, 아이보리 20개 1.2cm', amount: 39000, shippingFee: 0, paymentMethod: '토스페이', status: 'completed' },
+        { id: 'S-005', orderId: '20260723101100555', date: '2026-07-23 10:11:54', productName: '무늬오징어 에기, 3.5호 10종 세트', amount: 28500, shippingFee: 3000, paymentMethod: '카카오페이', status: 'completed' },
+        { id: 'S-006', orderId: '20260721141500666', date: '2026-07-21 14:15:00', productName: '파스텔 소프트 코튼 털실 (50g)', amount: 15200, shippingFee: 3000, paymentMethod: '네이버페이', status: 'completed' },
+        { id: 'S-007', orderId: '20260718100500777', date: '2026-07-18 10:05:00', productName: '클래식 소프트 메리노 울 털실', amount: 56000, shippingFee: 0, paymentMethod: '신용카드', status: 'completed' },
+        { id: 'S-008', orderId: '20260715163000888', date: '2026-07-15 16:30:00', productName: '비건 레더 가죽 라벨 (10개입)', amount: 14000, shippingFee: 3000, paymentMethod: '카카오페이', status: 'completed' },
+        { id: 'S-009', orderId: '20260710112200999', date: '2026-07-10 11:22:00', productName: '유기농 내추럴 메리노 울 털실', amount: 89000, shippingFee: 0, paymentMethod: '네이버페이', status: 'completed' },
+        { id: 'S-010', orderId: '20260702091501000', date: '2026-07-02 09:15:00', productName: '흠집 매트, 그레이 20개 2cm', amount: 49000, shippingFee: 3000, paymentMethod: '신용카드', status: 'completed' },
+        { id: 'S-011', orderId: '20260724130500111', date: '2026-06-25 15:40:00', productName: '파스텔 소프트 코튼 털실 (50g)', amount: 38000, shippingFee: 3000, paymentMethod: '네이버페이', status: 'completed' },
+        { id: 'S-012', orderId: '20260724112000222', date: '2026-06-12 14:10:00', productName: '무늬오징어 에기, 3.5호 10종 세트', amount: 28500, shippingFee: 3000, paymentMethod: '카카오페이', status: 'cancelled' },
+        { id: 'S-013', orderId: '20260724093000333', date: '2026-05-18 10:20:00', productName: '비건 레더 가죽 라벨 (10개입)', amount: 7000, shippingFee: 3000, paymentMethod: '신용카드', status: 'completed' }
     ]);
 
     // Filter states
@@ -110,71 +110,6 @@ export function SalesManagement({ locale }: { locale: string }) {
                 </p>
             </div>
 
-            {/* Today's Sales Summary (지표 & 전일대비 & 전환율) */}
-            <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft space-y-6">
-                <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-                    <h3 className="font-bold text-stone-800 text-base">
-                        {locale === 'ko' ? '오늘 하루 판매 지표 (2026.07.24)' : 'Today\'s Sales Performance'}
-                    </h3>
-                    <span className="text-xs text-stone-400 font-semibold">{locale === 'ko' ? '실시간 집계 기준' : 'Real-time'}</span>
-                </div>
-
-                {/* Metrics Cards Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    {/* Today Revenue */}
-                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 매출액' : 'Today\'s Revenue'}</span>
-                        <div className="text-xl font-bold text-stone-800 mt-1">₩ 132,500</div>
-                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
-                            {locale === 'ko' ? '전일 대비 ▲ ₩62,000 (+87.9%)' : 'vs yesterday ▲ ₩62,000'}
-                        </span>
-                    </div>
-
-                    {/* Today Orders */}
-                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 결제 건수' : 'Today\'s Orders'}</span>
-                        <div className="text-xl font-bold text-stone-800 mt-1">3 건</div>
-                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
-                            {locale === 'ko' ? '전일 대비 ▲ 1건 (+50%)' : 'vs yesterday ▲ 1 order'}
-                        </span>
-                    </div>
-
-                    {/* Today Sales Volume */}
-                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 판매량' : 'Today\'s Sales Volume'}</span>
-                        <div className="text-xl font-bold text-stone-800 mt-1">3 개</div>
-                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
-                            {locale === 'ko' ? '전일 대비 ▲ 1개 (+50%)' : 'vs yesterday ▲ 1 pcs'}
-                        </span>
-                    </div>
-
-                    {/* Today Conversion Rate */}
-                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-sm text-stone-400 font-bold block">★ {locale === 'ko' ? '오늘의 구매전환율' : 'Conversion Rate'}</span>
-                        <div className="text-xl font-bold text-[#556B2F] mt-1">2.5 %</div>
-                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
-                            {locale === 'ko' ? '전일 대비 ▲ 0.7%p (방문자 120명)' : 'vs yesterday ▲ 0.7%p'}
-                        </span>
-                    </div>
-                </div>
-
-                {/* Today's Product Sales Breakdown List */}
-                <div className="bg-stone-50/40 p-4 rounded-2xl border border-stone-100 space-y-3">
-                    <h4 className="text-sm font-bold text-stone-600">{locale === 'ko' ? '오늘 팔린 상품 및 금액' : 'Today\'s Sold Products & Revenues'}</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        {todayProducts.map((p, idx) => (
-                            <div key={idx} className="flex flex-col justify-between text-sm bg-white p-4 rounded-xl border border-stone-100 font-bold space-y-2">
-                                <span className="text-stone-700 truncate block w-full" title={p.name}>{p.name}</span>
-                                <div className="flex items-center justify-between border-t border-stone-50 pt-2 text-sm">
-                                    <span className="text-stone-400">{locale === 'ko' ? '판매량' : 'Qty'}: <b className="text-stone-700">{p.qty}개</b></span>
-                                    <span className="text-[#556B2F]">₩ {p.revenue.toLocaleString()}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
             {/* Date Range Selection Box */}
             <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft space-y-4">
                 <div className="flex flex-wrap items-center gap-4">
@@ -236,6 +171,72 @@ export function SalesManagement({ locale }: { locale: string }) {
                             <Search size={12} />
                             <span>{locale === 'ko' ? '조회' : 'Search'}</span>
                         </button>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* Today's Sales Summary (지표 & 전일대비 & 전환율) */}
+            <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft space-y-6">
+                <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+                    <h3 className="font-bold text-stone-800 text-base">
+                        {locale === 'ko' ? '오늘 하루 판매 지표 (2026.07.24)' : 'Today\'s Sales Performance'}
+                    </h3>
+                    <span className="text-xs text-stone-400 font-semibold">{locale === 'ko' ? '실시간 집계 기준' : 'Real-time'}</span>
+                </div>
+
+                {/* Metrics Cards Grid */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* Today Revenue */}
+                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
+                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 매출액' : 'Today\'s Revenue'}</span>
+                        <div className="text-xl font-bold text-stone-800 mt-1">₩ 132,500</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
+                            {locale === 'ko' ? '전일 대비 ▲ ₩62,000 (+87.9%)' : 'vs yesterday ▲ ₩62,000'}
+                        </span>
+                    </div>
+
+                    {/* Today Orders */}
+                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
+                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 결제 건수' : 'Today\'s Orders'}</span>
+                        <div className="text-xl font-bold text-stone-800 mt-1">3 건</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
+                            {locale === 'ko' ? '전일 대비 ▲ 1건 (+50%)' : 'vs yesterday ▲ 1 order'}
+                        </span>
+                    </div>
+
+                    {/* Today Sales Volume */}
+                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
+                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 판매량' : 'Today\'s Sales Volume'}</span>
+                        <div className="text-xl font-bold text-stone-800 mt-1">3 개</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
+                            {locale === 'ko' ? '전일 대비 ▲ 1개 (+50%)' : 'vs yesterday ▲ 1 pcs'}
+                        </span>
+                    </div>
+
+                    {/* Today Conversion Rate */}
+                    <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
+                        <span className="text-sm text-stone-400 font-bold block">★ {locale === 'ko' ? '오늘의 구매전환율' : 'Conversion Rate'}</span>
+                        <div className="text-xl font-bold text-[#556B2F] mt-1">2.5 %</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
+                            {locale === 'ko' ? '전일 대비 ▲ 0.7%p (방문자 120명)' : 'vs yesterday ▲ 0.7%p'}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Today's Product Sales Breakdown List */}
+                <div className="bg-stone-50/40 p-4 rounded-2xl border border-stone-100 space-y-3">
+                    <h4 className="text-sm font-bold text-stone-600">{locale === 'ko' ? '오늘 팔린 상품 및 금액' : 'Today\'s Sold Products & Revenues'}</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        {todayProducts.map((p, idx) => (
+                            <div key={idx} className="flex flex-col justify-between text-sm bg-white p-4 rounded-xl border border-stone-100 font-bold space-y-2">
+                                <span className="text-stone-700 truncate block w-full" title={p.name}>{p.name}</span>
+                                <div className="flex items-center justify-between border-t border-stone-50 pt-2 text-sm">
+                                    <span className="text-stone-400">{locale === 'ko' ? '판매량' : 'Qty'}: <b className="text-stone-700">{p.qty}개</b></span>
+                                    <span className="text-[#556B2F]">₩ {p.revenue.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

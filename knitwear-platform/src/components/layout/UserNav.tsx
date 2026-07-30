@@ -180,11 +180,11 @@ export function UserNav({ user }: { user: User | null }) {
                         </button>
                         {role === 'admin' && (
                             <button
-                                onClick={() => { setIsOpen(false); router.push(`/${locale}/admin/kyc`); }}
+                                onClick={() => { setIsOpen(false); router.push(`/${locale}/admin/products`); }}
                                 className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-stone-600 hover:bg-rose-50 hover:text-rose-600 rounded-2xl transition-all"
                             >
                                 <Shield size={18} className="text-rose-500" />
-                                <span>{locale === 'ko' ? '관리자 심사 센터' : 'Admin Console'}</span>
+                                <span>{locale === 'ko' ? '관리자 대시보드' : 'Admin Dashboard'}</span>
                             </button>
                         )}
                         <button

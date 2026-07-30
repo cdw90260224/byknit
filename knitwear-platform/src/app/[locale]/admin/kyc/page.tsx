@@ -26,21 +26,9 @@ import Link from 'next/link';
 import { StoreProposal } from '@/app/[locale]/seller/proposal/page';
 
 export default function AdminKycPage() {
-    // Admin Tab State: 'proposals' (입점 제안 검토) vs 'kyc' (기존 KYC 심사)
-    const [adminTab, setAdminTab] = useState<'proposals' | 'kyc'>('proposals');
-
-    // KYC states
-    const [kycStatus, setKycStatus] = useState<'unsubmitted' | 'pending' | 'verified'>('unsubmitted');
-    const [sellerType, setSellerType] = useState<'individual' | 'biz_general' | 'biz_simplified' | 'corporate'>('individual');
-    const [repName, setRepName] = useState('');
-    const [repBirth, setRepBirth] = useState('');
-    const [businessNum, setBusinessNum] = useState('');
-    const [corporateNum, setCorporateNum] = useState(''); 
-    const [mailOrderNum, setMailOrderNum] = useState('');
-    const [bankName, setBankName] = useState('');
-    const [accountNumber, setAccountNumber] = useState('');
-    const [accountHolder, setAccountHolder] = useState('');
+    // Admin Tab State (Removed legacy KYC tab)
     
+
     // Store Proposals states
     const [proposals, setProposals] = useState<StoreProposal[]>([]);
     const [selectedProposal, setSelectedProposal] = useState<StoreProposal | null>(null);
@@ -95,23 +83,7 @@ export default function AdminKycPage() {
     useEffect(() => {
         if (!isAuthorized) return;
         if (typeof window !== 'undefined') {
-            // 1. Load KYC Data
-            const status = localStorage.getItem('byknit_kyc_status') as any;
-            if (status) setKycStatus(status);
-
-            const sType = localStorage.getItem('byknit_seller_type') as any;
-            if (sType) setSellerType(sType);
-
-            setRepName(localStorage.getItem('byknit_rep_name') || '');
-            setRepBirth(localStorage.getItem('byknit_rep_birth') || '');
-            setBusinessNum(localStorage.getItem('byknit_business_num') || '');
-            setCorporateNum(localStorage.getItem('byknit_corporate_num') || '');
-            setMailOrderNum(localStorage.getItem('byknit_mail_order_num') || '');
-            setBankName(localStorage.getItem('byknit_bank_name') || '');
-            setAccountNumber(localStorage.getItem('byknit_account_number') || '');
-            setAccountHolder(localStorage.getItem('byknit_account_holder') || '');
-
-            // 2. Load Proposals Data
+            // 1. Load Proposals Data
             const savedProposals = localStorage.getItem('byknit_store_proposals');
             if (savedProposals) {
                 try { setProposals(JSON.parse(savedProposals)); } catch (e) {}
@@ -189,31 +161,12 @@ export default function AdminKycPage() {
         setSelectedProposal(null);
     };
 
-    // KYC decision handlers
-    const handleApproveKyc = () => {
-        localStorage.setItem('byknit_kyc_status', 'verified');
-        localStorage.removeItem('byknit_kyc_reject_reason');
-        setKycStatus('verified');
-        alert('고객확인제도(KYC) 심사가 최종 승인되었습니다!');
-        window.location.reload();
-    };
-
-    const handleRejectKyc = () => {
-        const reason = prompt('반려 사유를 기입해 주세요:', '통장 예금주와 사업자 대표자명 불일치');
-        if (reason === null) return;
-
-        localStorage.setItem('byknit_kyc_status', 'unsubmitted');
-        localStorage.setItem('byknit_kyc_reject_reason', reason || '심사 서류 보완 필요');
-        setKycStatus('unsubmitted');
-        alert('심사가 반려 처리되었습니다.');
-        window.location.reload();
-    };
 
     // Loading state for auth check
     if (authChecking) {
         return (
             <div className="min-h-screen bg-stone-50 flex items-center justify-center font-sans">
-                <span className="text-stone-400 text-xs font-bold">관리자 인증 확인 중...</span>
+                <span className="text-stone-400 text-sm font-bold">관리자 인증 확인 중...</span>
             </div>
         );
     }
@@ -227,14 +180,14 @@ export default function AdminKycPage() {
                         <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-100">
                             <Lock size={20} />
                         </div>
-                        <h2 className="text-lg font-black text-stone-900">로그인이 필요합니다</h2>
-                        <p className="text-xs text-stone-400 font-medium leading-relaxed">
+                        <h2 className="text-lg font-bold text-stone-900">로그인이 필요합니다</h2>
+                        <p className="text-sm text-stone-400 font-medium leading-relaxed">
                             이 페이지에 접근하려면 먼저 바이니트 계정으로 로그인해야 합니다.
                         </p>
                     </div>
                     <Link
                         href={`/${(typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'ko')}/login`}
-                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft block text-center"
+                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-sm font-bold transition-all shadow-soft block text-center"
                     >
                         로그인 하러 가기
                     </Link>
@@ -252,18 +205,18 @@ export default function AdminKycPage() {
                         <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-100">
                             <AlertTriangle size={20} />
                         </div>
-                        <h2 className="text-lg font-black text-stone-900">접근 권한이 없습니다</h2>
-                        <p className="text-xs text-stone-400 font-medium leading-relaxed">
+                        <h2 className="text-lg font-bold text-stone-900">접근 권한이 없습니다</h2>
+                        <p className="text-sm text-stone-400 font-medium leading-relaxed">
                             본 페이지는 바이니트 본사 관리자 전용 보안 구역입니다.<br />
                             일반 계정으로는 열람이 불가합니다.
                         </p>
-                        <p className="text-[10px] text-stone-300 font-mono">
+                        <p className="text-xs text-stone-300 font-mono">
                             현재 계정: {authUser.email} (Role: {authProfile?.role || 'user'})
                         </p>
                     </div>
                     <Link
                         href={`/${(typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'ko')}`}
-                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft block text-center"
+                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-sm font-bold transition-all shadow-soft block text-center"
                     >
                         메인 홈으로 돌아가기
                     </Link>
@@ -275,7 +228,7 @@ export default function AdminKycPage() {
     if (isLoading) {
         return (
             <div className="min-h-screen bg-stone-50 flex items-center justify-center font-sans">
-                <span className="text-stone-400 text-xs font-bold">어드민 데이터를 불러오는 중...</span>
+                <span className="text-stone-400 text-sm font-bold">어드민 데이터를 불러오는 중...</span>
             </div>
         );
     }
@@ -286,7 +239,7 @@ export default function AdminKycPage() {
     });
 
     return (
-        <div className="min-h-screen bg-[#F9F9F8] p-6 sm:p-12 font-sans text-stone-700">
+        <div className="min-h-full p-6 sm:p-12 font-sans text-stone-700">
             <div className="max-w-5xl mx-auto space-y-8">
                 
                 {/* Header */}
@@ -296,59 +249,32 @@ export default function AdminKycPage() {
                             <Shield size={20} />
                         </div>
                         <div>
-                            <h1 className="text-xl font-black text-stone-900">byKnit 본사 관리자 콘솔</h1>
-                            <p className="text-[11px] text-stone-400 font-bold mt-0.5">신규 입점 제안 심사 및 고객확인제도(KYC) 통합 관리 센터</p>
+                            <h1 className="text-xl font-bold text-stone-900">byKnit 본사 관리자 콘솔</h1>
+                            <p className="text-sm text-stone-400 font-bold mt-0.5">신규 입점 제안 심사 및 입점 제안 통합 관리 센터</p>
                         </div>
                     </div>
                     <Link 
                         href="/ko/seller" 
-                        className="px-4 py-2 border border-stone-200 bg-white hover:bg-stone-50 text-stone-600 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                        className="px-4 py-2 border border-stone-200 bg-white hover:bg-stone-50 text-stone-600 rounded-xl text-sm font-bold transition-all flex items-center gap-1.5"
                     >
                         <ArrowLeft size={12} />
                         <span>판매자 센터로 돌아가기</span>
                     </Link>
                 </div>
 
-                {/* Main Admin Tab Switcher */}
-                <div className="flex bg-stone-200/60 p-1.5 rounded-2xl gap-2 max-w-md">
-                    <button
-                        onClick={() => setAdminTab('proposals')}
-                        className={`flex-1 py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 ${
-                            adminTab === 'proposals'
-                                ? 'bg-white text-emerald-800 shadow-sm'
-                                : 'text-stone-500 hover:text-stone-800'
-                        }`}
-                    >
-                        <Store size={14} />
-                        <span>신규 입점 제안 검토 ({proposals.filter(p => p.status === 'pending').length})</span>
-                    </button>
-                    <button
-                        onClick={() => setAdminTab('kyc')}
-                        className={`flex-1 py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 ${
-                            adminTab === 'kyc'
-                                ? 'bg-white text-stone-900 shadow-sm'
-                                : 'text-stone-500 hover:text-stone-800'
-                        }`}
-                    >
-                        <Shield size={14} />
-                        <span>기존 판매자 KYC 심사</span>
-                    </button>
-                </div>
-
-                {/* ---------------- 1. STORE PROPOSALS REVIEW TAB ---------------- */}
-                {adminTab === 'proposals' && (
-                    <div className="space-y-6 animate-fadeIn">
+                {/* ---------------- STORE PROPOSALS REVIEW TAB ---------------- */}
+                <div className="space-y-6 animate-fadeIn">
                         
                         {/* Filter Bar */}
                         <div className="bg-white p-5 rounded-3xl border border-stone-200/80 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-black text-stone-800">제안 처리 상태 필터:</span>
+                                <span className="text-sm font-bold text-stone-800">제안 처리 상태 필터:</span>
                                 <div className="flex gap-1.5">
                                     {(['all', 'pending', 'approved', 'rejected'] as const).map(st => (
                                         <button
                                             key={st}
                                             onClick={() => setProposalFilter(st)}
-                                            className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
+                                            className={`px-3 py-1.5 rounded-xl text-sm font-bold transition-all ${
                                                 proposalFilter === st 
                                                     ? 'bg-stone-900 text-white shadow-soft' 
                                                     : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
@@ -362,7 +288,7 @@ export default function AdminKycPage() {
                                     ))}
                                 </div>
                             </div>
-                            <span className="text-xs text-stone-400 font-medium">총 {filteredProposals.length}건의 제안서</span>
+                            <span className="text-sm text-stone-400 font-medium">총 {filteredProposals.length}건의 제안서</span>
                         </div>
 
                         {/* Proposal Table */}
@@ -370,7 +296,7 @@ export default function AdminKycPage() {
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
-                                        <tr className="bg-stone-50 border-b border-stone-200 text-[10px] font-black text-stone-500 uppercase tracking-wider">
+                                        <tr className="bg-stone-50 border-b border-stone-200 text-xs font-bold text-stone-500 uppercase tracking-wider">
                                             <th className="p-4">접수일시</th>
                                             <th className="p-4">상호 / 브랜드명</th>
                                             <th className="p-4">대표자 / 연락처</th>
@@ -380,19 +306,19 @@ export default function AdminKycPage() {
                                             <th className="p-4 text-center">심사 제어</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-stone-150 text-xs">
+                                    <tbody className="divide-y divide-stone-150 text-sm">
                                         {filteredProposals.length > 0 ? (
                                             filteredProposals.map(prop => (
                                                 <tr key={prop.id} className="hover:bg-stone-50/50 transition-colors">
-                                                    <td className="p-4 text-stone-400 font-mono text-[11px] font-bold">
+                                                    <td className="p-4 text-stone-400 font-mono text-sm font-bold">
                                                         {prop.createdAt}
                                                     </td>
-                                                    <td className="p-4 font-black text-stone-900">
+                                                    <td className="p-4 font-bold text-stone-900">
                                                         {prop.brandName}
                                                     </td>
                                                     <td className="p-4 space-y-0.5">
                                                         <div className="font-bold text-stone-800">{prop.repName}</div>
-                                                        <div className="text-[10px] text-stone-400">{prop.email}</div>
+                                                        <div className="text-xs text-stone-400">{prop.email}</div>
                                                     </td>
                                                     <td className="p-4 space-y-0.5">
                                                         <div className="font-bold text-stone-700">
@@ -401,20 +327,20 @@ export default function AdminKycPage() {
                                                             {prop.sellerType === 'biz_simplified' && '개인 사업자 (간이)'}
                                                             {prop.sellerType === 'individual' && '개인 크리에이터'}
                                                         </div>
-                                                        <div className="text-[10px] text-stone-400 font-mono">{prop.businessNum}</div>
+                                                        <div className="text-xs text-stone-400 font-mono">{prop.businessNum}</div>
                                                     </td>
                                                     <td className="p-4 space-y-1">
-                                                        <div className="flex items-center gap-1 text-[10px] text-stone-600 font-bold">
+                                                        <div className="flex items-center gap-1 text-xs text-stone-600 font-bold">
                                                             <FileCheck size={10} className="text-emerald-600" />
                                                             <span className="truncate max-w-[120px]">{prop.bizCertFileName || '사업자등록증.pdf'}</span>
                                                         </div>
-                                                        <div className="flex items-center gap-1 text-[10px] text-stone-600 font-bold">
+                                                        <div className="flex items-center gap-1 text-xs text-stone-600 font-bold">
                                                             <CreditCard size={10} className="text-blue-600" />
                                                             <span className="truncate max-w-[120px]">{prop.bankBookFileName || '통장사본.png'}</span>
                                                         </div>
                                                     </td>
                                                     <td className="p-4 text-center">
-                                                        <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-black ${
+                                                        <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold ${
                                                             prop.status === 'pending'
                                                                 ? 'bg-amber-50 text-amber-600 border border-amber-200'
                                                                 : prop.status === 'approved'
@@ -429,7 +355,7 @@ export default function AdminKycPage() {
                                                     <td className="p-4 text-center">
                                                         <button
                                                             onClick={() => setSelectedProposal(prop)}
-                                                            className="px-3 py-1.5 bg-stone-900 hover:bg-stone-950 text-white rounded-xl text-[11px] font-bold transition-all shadow-soft flex items-center gap-1 mx-auto"
+                                                            className="px-3 py-1.5 bg-stone-900 hover:bg-stone-950 text-white rounded-xl text-sm font-bold transition-all shadow-soft flex items-center gap-1 mx-auto"
                                                         >
                                                             <Eye size={12} />
                                                             <span>서류 열람 / 심사</span>
@@ -448,70 +374,7 @@ export default function AdminKycPage() {
                                 </table>
                             </div>
                         </div>
-                    </div>
-                )}
-
-                {/* ---------------- 2. EXISTING SELLERS KYC TAB ---------------- */}
-                {adminTab === 'kyc' && (
-                    <div className="space-y-6 animate-fadeIn">
-                        {kycStatus !== 'pending' ? (
-                            <div className="bg-white p-8 rounded-3xl border border-stone-200/60 shadow-soft text-center space-y-4">
-                                <div className="w-12 h-12 bg-stone-50 text-stone-400 rounded-full flex items-center justify-center mx-auto border border-stone-100">
-                                    <Check size={20} />
-                                </div>
-                                <div className="space-y-1">
-                                    <h3 className="text-sm font-bold text-stone-800">현재 대기 중인 기존 판매자 KYC 심사 건이 없습니다.</h3>
-                                    <p className="text-xs text-stone-400 font-medium leading-relaxed">
-                                        판매자 센터에서 서류를 변경 신청하면 이곳에 실시간으로 심사 요청 내역이 업데이트됩니다.<br />
-                                        (상태: <span className="font-bold text-stone-600">{kycStatus === 'verified' ? '최종 승인 완료' : '서류 미제출'}</span>)
-                                    </p>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                                <div className="lg:col-span-2 space-y-6">
-                                    <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-6">
-                                        <div className="flex items-center gap-2 border-b border-stone-50 pb-3">
-                                            <User size={16} className="text-blue-500" />
-                                            <h2 className="text-sm font-bold text-stone-900">신청인 및 사업자 정보 검토</h2>
-                                        </div>
-
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
-                                            <div className="space-y-1">
-                                                <span className="text-stone-400 block text-[10px] font-bold">대표자명 (실명)</span>
-                                                <span className="text-stone-900 font-black">{repName || '-'}</span>
-                                            </div>
-                                            <div className="space-y-1">
-                                                <span className="text-stone-400 block text-[10px] font-bold">사업자등록번호</span>
-                                                <span className="text-stone-900 font-black">{businessNum || '-'}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-6">
-                                    <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-200/60 shadow-soft space-y-4">
-                                        <h3 className="text-xs font-black text-stone-500 uppercase tracking-wider">KYC 심사 결정</h3>
-                                        <div className="flex flex-col gap-2">
-                                            <button 
-                                                onClick={handleApproveKyc}
-                                                className="w-full py-3.5 bg-emerald-600 text-white rounded-2xl text-xs font-black shadow-soft"
-                                            >
-                                                심사 승인
-                                            </button>
-                                            <button 
-                                                onClick={handleRejectKyc}
-                                                className="w-full py-3.5 bg-rose-50 text-rose-600 rounded-2xl text-xs font-black"
-                                            >
-                                                심사 반려
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
+                </div>
 
                 {/* ---------------- PROPOSAL DETAIL & DOCUMENT VIEWER MODAL ---------------- */}
                 {selectedProposal && (
@@ -521,11 +384,11 @@ export default function AdminKycPage() {
                             {/* Modal Header */}
                             <div className="p-6 border-b border-stone-150 flex justify-between items-center bg-stone-50/50">
                                 <div>
-                                    <h2 className="text-lg font-black text-stone-900 flex items-center gap-2">
+                                    <h2 className="text-lg font-bold text-stone-900 flex items-center gap-2">
                                         <Store className="text-emerald-600" size={18} />
                                         <span>입점 제안서 상세 검토</span>
                                     </h2>
-                                    <span className="text-[11px] text-stone-400 font-mono">제안 ID: {selectedProposal.id}</span>
+                                    <span className="text-sm text-stone-400 font-mono">제안 ID: {selectedProposal.id}</span>
                                 </div>
                                 <button onClick={() => setSelectedProposal(null)} className="p-2 text-stone-400 hover:text-stone-600 rounded-xl">
                                     <X size={18} />
@@ -536,28 +399,28 @@ export default function AdminKycPage() {
                             <div className="p-6 space-y-6 overflow-y-auto">
                                 
                                 {/* Info Cards */}
-                                <div className="grid grid-cols-2 gap-4 text-xs bg-stone-50 p-4 rounded-2xl border border-stone-150">
+                                <div className="grid grid-cols-2 gap-4 text-sm bg-stone-50 p-4 rounded-2xl border border-stone-150">
                                     <div>
-                                        <span className="text-stone-400 font-bold block text-[10px]">상호 / 브랜드명</span>
-                                        <span className="text-stone-900 font-black text-sm">{selectedProposal.brandName}</span>
+                                        <span className="text-stone-400 font-bold block text-xs">상호 / 브랜드명</span>
+                                        <span className="text-stone-900 font-bold text-base">{selectedProposal.brandName}</span>
                                     </div>
                                     <div>
-                                        <span className="text-stone-400 font-bold block text-[10px]">대표자명</span>
-                                        <span className="text-stone-900 font-black text-sm">{selectedProposal.repName}</span>
+                                        <span className="text-stone-400 font-bold block text-xs">대표자명</span>
+                                        <span className="text-stone-900 font-bold text-base">{selectedProposal.repName}</span>
                                     </div>
                                     <div>
-                                        <span className="text-stone-400 font-bold block text-[10px]">이메일</span>
+                                        <span className="text-stone-400 font-bold block text-xs">이메일</span>
                                         <span className="text-blue-600 font-bold">{selectedProposal.email}</span>
                                     </div>
                                     <div>
-                                        <span className="text-stone-400 font-bold block text-[10px]">연락처</span>
+                                        <span className="text-stone-400 font-bold block text-xs">연락처</span>
                                         <span className="text-stone-800 font-bold">{selectedProposal.phone}</span>
                                     </div>
                                 </div>
 
                                 {/* Bank Account Check Card */}
-                                <div className="p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl text-xs space-y-1">
-                                    <span className="text-[10px] font-black text-emerald-800 uppercase block">정산 계좌 정보</span>
+                                <div className="p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl text-sm space-y-1">
+                                    <span className="text-xs font-bold text-emerald-800 uppercase block">정산 계좌 정보</span>
                                     <div className="font-bold text-stone-800">
                                         {selectedProposal.bankName} : <span className="font-mono text-stone-900">{selectedProposal.accountNumber}</span> (예금주: {selectedProposal.accountHolder})
                                     </div>
@@ -565,19 +428,19 @@ export default function AdminKycPage() {
 
                                 {/* 제출 증빙 서류 사본 미리보기 버튼 열람 영역 */}
                                 <div className="space-y-3">
-                                    <span className="text-xs font-black text-stone-800 block">제출된 증빙 서류 돋보기 미리보기</span>
+                                    <span className="text-sm font-bold text-stone-800 block">제출된 증빙 서류 돋보기 미리보기</span>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         {/* Biz Cert Viewer Button */}
                                         <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
-                                            <div className="flex justify-between items-center text-xs font-bold text-stone-700">
+                                            <div className="flex justify-between items-center text-sm font-bold text-stone-700">
                                                 <span>1. 사업자등록증 사본</span>
                                                 <FileCheck size={14} className="text-emerald-600" />
                                             </div>
-                                            <div className="text-[10px] text-stone-400 truncate">{selectedProposal.bizCertFileName}</div>
+                                            <div className="text-xs text-stone-400 truncate">{selectedProposal.bizCertFileName}</div>
                                             <button
                                                 onClick={() => setViewingDocType('bizCert')}
-                                                className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs"
+                                                className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-xs font-bold rounded-lg flex items-center justify-center gap-1 shadow-xs"
                                             >
                                                 <Eye size={12} />
                                                 <span>사업자 원본 열람</span>
@@ -586,14 +449,14 @@ export default function AdminKycPage() {
 
                                         {/* Bankbook Viewer Button */}
                                         <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
-                                            <div className="flex justify-between items-center text-xs font-bold text-stone-700">
+                                            <div className="flex justify-between items-center text-sm font-bold text-stone-700">
                                                 <span>2. 정산 통장 사본</span>
                                                 <CreditCard size={14} className="text-blue-600" />
                                             </div>
-                                            <div className="text-[10px] text-stone-400 truncate">{selectedProposal.bankBookFileName}</div>
+                                            <div className="text-xs text-stone-400 truncate">{selectedProposal.bankBookFileName}</div>
                                             <button
                                                 onClick={() => setViewingDocType('bankBook')}
-                                                className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs"
+                                                className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-xs font-bold rounded-lg flex items-center justify-center gap-1 shadow-xs"
                                             >
                                                 <Eye size={12} />
                                                 <span>통장 사본 열람</span>
@@ -602,15 +465,15 @@ export default function AdminKycPage() {
 
                                         {/* Mail Order Viewer Button */}
                                         <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
-                                            <div className="flex justify-between items-center text-xs font-bold text-stone-700">
+                                            <div className="flex justify-between items-center text-sm font-bold text-stone-700">
                                                 <span>3. 통신판매업신고증</span>
                                                 <FileText size={14} className="text-indigo-600" />
                                             </div>
-                                            <div className="text-[10px] text-stone-400 truncate">{selectedProposal.mailOrderFileName || '미제출'}</div>
+                                            <div className="text-xs text-stone-400 truncate">{selectedProposal.mailOrderFileName || '미제출'}</div>
                                             <button
                                                 onClick={() => setViewingDocType('mailOrder')}
                                                 disabled={!selectedProposal.mailOrderFileName}
-                                                className={`w-full py-1.5 border border-stone-200 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs ${!selectedProposal.mailOrderFileName ? 'bg-stone-100 text-stone-400 cursor-not-allowed' : 'bg-white hover:bg-stone-100 text-stone-700'}`}
+                                                className={`w-full py-1.5 border border-stone-200 text-xs font-bold rounded-lg flex items-center justify-center gap-1 shadow-xs ${!selectedProposal.mailOrderFileName ? 'bg-stone-100 text-stone-400 cursor-not-allowed' : 'bg-white hover:bg-stone-100 text-stone-700'}`}
                                             >
                                                 <Eye size={12} />
                                                 <span>통신판매업 열람</span>
@@ -620,8 +483,8 @@ export default function AdminKycPage() {
                                 </div>
 
                                 {/* Intro & Portfolio */}
-                                <div className="space-y-2 text-xs">
-                                    <span className="font-black text-stone-800 block">브랜드 소개 & 제안서 내용</span>
+                                <div className="space-y-2 text-sm">
+                                    <span className="font-bold text-stone-800 block">브랜드 소개 & 제안서 내용</span>
                                     <div className="p-4 bg-stone-50 border border-stone-150 rounded-2xl text-stone-700 leading-relaxed font-medium">
                                         {selectedProposal.intro || '입점 제안 소개 내용이 작성되지 않았습니다.'}
                                     </div>
@@ -630,7 +493,7 @@ export default function AdminKycPage() {
                                             href={selectedProposal.portfolioUrl} 
                                             target="_blank" 
                                             rel="noreferrer"
-                                            className="inline-flex items-center gap-1 text-emerald-700 font-bold hover:underline text-[11px] pt-1"
+                                            className="inline-flex items-center gap-1 text-emerald-700 font-bold hover:underline text-sm pt-1"
                                         >
                                             <ExternalLink size={12} />
                                             <span>포트폴리오 / SNS 외부 링크 이동</span>
@@ -644,25 +507,25 @@ export default function AdminKycPage() {
                                 {rejectMode ? (
                                     <div className="space-y-3 animate-fadeIn">
                                         <div className="space-y-1.5">
-                                            <label className="text-[11px] font-black text-rose-600 block">반려 사유를 상세히 기입해 주세요 *</label>
+                                            <label className="text-sm font-bold text-rose-600 block">반려 사유를 상세히 기입해 주세요 *</label>
                                             <textarea
                                                 value={rejectReasonInput}
                                                 onChange={(e) => setRejectReasonInput(e.target.value)}
                                                 placeholder="예: 제출 서류 미비 (사업자등록증 예금주와 정산 통장 예금주가 불일치합니다. 동일 명의의 통장 사본을 재제출해 주세요.)"
                                                 rows={3}
-                                                className="w-full bg-white border border-rose-200 rounded-xl p-3 text-xs font-bold text-stone-700 outline-none focus:ring-1 focus:ring-rose-400 resize-none placeholder:text-stone-400"
+                                                className="w-full bg-white border border-rose-200 rounded-xl p-3 text-sm font-bold text-stone-700 outline-none focus:ring-1 focus:ring-rose-400 resize-none placeholder:text-stone-400"
                                             />
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <button
                                                 onClick={() => { setRejectMode(false); setRejectReasonInput(''); }}
-                                                className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-bold rounded-xl"
+                                                className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-sm font-bold rounded-xl"
                                             >
                                                 취소 (돌아가기)
                                             </button>
                                             <button
                                                 onClick={() => handleRejectProposal(selectedProposal.id)}
-                                                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-black rounded-xl shadow-soft flex items-center gap-1"
+                                                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold rounded-xl shadow-soft flex items-center gap-1"
                                             >
                                                 <XCircle size={14} />
                                                 <span>반려 사유 확정 및 반려 처리</span>
@@ -673,20 +536,20 @@ export default function AdminKycPage() {
                                     <div className="flex items-center justify-between">
                                         <button
                                             onClick={() => { setSelectedProposal(null); setRejectMode(false); setRejectReasonInput(''); }}
-                                            className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-bold rounded-xl"
+                                            className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-sm font-bold rounded-xl"
                                         >
                                             닫기
                                         </button>
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => setRejectMode(true)}
-                                                className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-black rounded-xl"
+                                                className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-sm font-bold rounded-xl"
                                             >
                                                 제안 반려
                                             </button>
                                             <button
                                                 onClick={() => handleApproveProposal(selectedProposal.id)}
-                                                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-soft flex items-center gap-1"
+                                                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-soft flex items-center gap-1"
                                             >
                                                 <Check size={14} />
                                                 <span>입점 최종 승인</span>
@@ -704,7 +567,7 @@ export default function AdminKycPage() {
                     <div className="fixed inset-0 bg-stone-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
                         <div className="bg-white max-w-xl w-full rounded-3xl p-6 space-y-4 animate-zoomIn border border-stone-200 shadow-2xl">
                             <div className="flex justify-between items-center border-b border-stone-150 pb-3">
-                                <span className="font-black text-stone-900 text-sm flex items-center gap-1.5">
+                                <span className="font-bold text-stone-900 text-base flex items-center gap-1.5">
                                     <FileCheck size={16} className="text-emerald-600" />
                                     <span>
                                         {viewingDocType === 'bizCert' ? '사업자등록증 원본 서류' : 
@@ -719,11 +582,11 @@ export default function AdminKycPage() {
                             {/* Mock Document Certificate Graphics */}
                             <div className="bg-stone-100 p-8 rounded-2xl border border-stone-200 text-center space-y-4">
                                 <div className="border-4 border-double border-stone-400 p-6 bg-amber-50/20 text-stone-800 space-y-3 font-serif">
-                                    <h3 className="text-lg font-black tracking-widest text-stone-900 border-b border-stone-300 pb-2">
+                                    <h3 className="text-lg font-bold tracking-widest text-stone-900 border-b border-stone-300 pb-2">
                                         {viewingDocType === 'bizCert' ? '사 업 자 등 록 증' : 
                                          viewingDocType === 'mailOrder' ? '통 신 판 매 업 신 고 증' : '정 산 통 장 사 본'}
                                     </h3>
-                                    <div className="text-xs space-y-1 font-sans text-left pt-2">
+                                    <div className="text-sm space-y-1 font-sans text-left pt-2">
                                         <p><span className="font-bold">상호/법인명:</span> {selectedProposal.brandName}</p>
                                         <p><span className="font-bold">성명/대표자:</span> {selectedProposal.repName}</p>
                                         <p><span className="font-bold">사업자등록번호:</span> {selectedProposal.businessNum}</p>
@@ -731,7 +594,7 @@ export default function AdminKycPage() {
                                             <p><span className="font-bold">정산계좌:</span> {selectedProposal.bankName} {selectedProposal.accountNumber} (예금주: {selectedProposal.accountHolder})</p>
                                         )}
                                     </div>
-                                    <div className="pt-4 text-[10px] text-stone-400 font-mono">
+                                    <div className="pt-4 text-xs text-stone-400 font-mono">
                                         [인증필] {viewingDocType === 'bizCert' ? selectedProposal.bizCertFileName : 
                                                 viewingDocType === 'mailOrder' ? selectedProposal.mailOrderFileName : selectedProposal.bankBookFileName}
                                     </div>
@@ -740,7 +603,7 @@ export default function AdminKycPage() {
 
                             <button
                                 onClick={() => setViewingDocType(null)}
-                                className="w-full py-3 bg-stone-900 text-white rounded-xl text-xs font-bold"
+                                className="w-full py-3 bg-stone-900 text-white rounded-xl text-sm font-bold"
                             >
                                 서류 확인 완료 (닫기)
                             </button>

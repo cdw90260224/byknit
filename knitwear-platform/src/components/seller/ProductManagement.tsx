@@ -208,6 +208,19 @@ export function ProductManagement({
         { name: '기본 옵션', stock: 50 }
     ]);
 
+    
+    const generateProductId = () => {
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        const rand = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+        return Number(`10${yy}${mm}${dd}${hh}${min}${ss}${rand}`);
+    };
+
     // Bulk upload file ref
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -245,12 +258,20 @@ export function ProductManagement({
             // 1. Load Products
             const savedProds = localStorage.getItem('byknit_seller_products');
             if (savedProds) {
-                try { setProducts(JSON.parse(savedProds)); } catch (e) {}
+                try { let parsed = JSON.parse(savedProds);
+                    parsed = parsed.map((p: any) => {
+                        if (p.id < 100000) {
+                            return { ...p, id: Number(`10260724103000${p.id.toString().slice(-2)}`) };
+                        }
+                        return p;
+                    });
+                    setProducts(parsed); 
+                    localStorage.setItem('byknit_seller_products', JSON.stringify(parsed)); } catch (e) {}
             } else {
                 const initialProds: PhysicalProduct[] = [
-                    { id: 10001, name: '파스텔 소프트 코튼 튜브사 (50g)', mainCategory: 'yarn', subCategory: 'cotton', price: 4500, discountPrice: 3800, status: 'selling', options: [{ name: '밀크화이트 / 얇음', stock: 120 }, { name: '소프트베이지 / 보통', stock: 80 }], imageUrl: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=200', shippingMethod: 'courier', shippingFeeType: 'conditional', bundleGroupId: 53798328, basicShippingFee: 3000, freeShippingThreshold: 50000, returnShippingFee: 3000, exchangeShippingFee: 6000, deliveryType: 'immediate', customDeliveryDays: 0, discountType: 'won', discountValue: 700, subImages: ['https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=150'], detailBlocks: [{ type: 'text', content: '부드러운 촉감의 프리미엄 코튼 튜브사입니다. 초보자용 가방 및 티코스터 제작에 최적화되어 있습니다.' }, { type: 'guide', content: '미온수 손세탁 권장, 그늘 건조' }], optionType: 'simple', optionMatrix: [] },
-                    { id: 10002, name: '유기농 파인 메리노 울 털실', mainCategory: 'yarn', subCategory: 'wool', price: 8900, status: 'selling', options: [{ name: '오트밀 베이지', stock: 15 }, { name: '차콜 그레이', stock: 0 }], imageUrl: 'https://images.unsplash.com/photo-1584992236310-6edddc085ff8?q=80&w=200', shippingMethod: 'courier', shippingFeeType: 'conditional', bundleGroupId: 53798328, basicShippingFee: 3000, freeShippingThreshold: 50000, returnShippingFee: 3000, exchangeShippingFee: 6000, deliveryType: 'custom', customDeliveryDays: 3, discountType: 'none', discountValue: 0, subImages: [], detailBlocks: [{ type: 'text', content: '호주산 최고급 파인 메리노 울 100% 실입니다.' }], optionType: 'simple', optionMatrix: [] },
-                    { id: 10003, name: '클래식 조립식 대바늘 세트 (11종)', mainCategory: 'needle', subCategory: 'interchangeable', price: 120000, discountPrice: 105000, status: 'selling', options: [{ name: '밤부 목재 팁 세트', stock: 12 }], imageUrl: 'https://images.unsplash.com/photo-1595079676339-1534801ad6cf?q=80&w=200', shippingMethod: 'courier', shippingFeeType: 'free', bundleGroupId: 53798328, basicShippingFee: 0, freeShippingThreshold: undefined, returnShippingFee: 3000, exchangeShippingFee: 6000, deliveryType: 'immediate', customDeliveryDays: 0, discountType: 'won', discountValue: 15000, subImages: [], detailBlocks: [{ type: 'text', content: '대바늘 입문자부터 숙련자까지 사용할 수 있는 11종 세트입니다.' }], optionType: 'simple', optionMatrix: [] }
+                    { id: 1026072410300011, name: '파스텔 소프트 코튼 튜브사 (50g)', mainCategory: 'yarn', subCategory: 'cotton', price: 4500, discountPrice: 3800, status: 'selling', options: [{ name: '밀크화이트 / 얇음', stock: 120 }, { name: '소프트베이지 / 보통', stock: 80 }], imageUrl: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=200', shippingMethod: 'courier', shippingFeeType: 'conditional', bundleGroupId: 53798328, basicShippingFee: 3000, freeShippingThreshold: 50000, returnShippingFee: 3000, exchangeShippingFee: 6000, deliveryType: 'immediate', customDeliveryDays: 0, discountType: 'won', discountValue: 700, subImages: ['https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=150'], detailBlocks: [{ type: 'text', content: '부드러운 촉감의 프리미엄 코튼 튜브사입니다. 초보자용 가방 및 티코스터 제작에 최적화되어 있습니다.' }, { type: 'guide', content: '미온수 손세탁 권장, 그늘 건조' }], optionType: 'simple', optionMatrix: [] },
+                    { id: 1026072410300012, name: '유기농 파인 메리노 울 털실', mainCategory: 'yarn', subCategory: 'wool', price: 8900, status: 'selling', options: [{ name: '오트밀 베이지', stock: 15 }, { name: '차콜 그레이', stock: 0 }], imageUrl: 'https://images.unsplash.com/photo-1584992236310-6edddc085ff8?q=80&w=200', shippingMethod: 'courier', shippingFeeType: 'conditional', bundleGroupId: 53798328, basicShippingFee: 3000, freeShippingThreshold: 50000, returnShippingFee: 3000, exchangeShippingFee: 6000, deliveryType: 'custom', customDeliveryDays: 3, discountType: 'none', discountValue: 0, subImages: [], detailBlocks: [{ type: 'text', content: '호주산 최고급 파인 메리노 울 100% 실입니다.' }], optionType: 'simple', optionMatrix: [] },
+                    { id: 1026072410300013, name: '클래식 조립식 대바늘 세트 (11종)', mainCategory: 'needle', subCategory: 'interchangeable', price: 120000, discountPrice: 105000, status: 'selling', options: [{ name: '밤부 목재 팁 세트', stock: 12 }], imageUrl: 'https://images.unsplash.com/photo-1595079676339-1534801ad6cf?q=80&w=200', shippingMethod: 'courier', shippingFeeType: 'free', bundleGroupId: 53798328, basicShippingFee: 0, freeShippingThreshold: undefined, returnShippingFee: 3000, exchangeShippingFee: 6000, deliveryType: 'immediate', customDeliveryDays: 0, discountType: 'won', discountValue: 15000, subImages: [], detailBlocks: [{ type: 'text', content: '대바늘 입문자부터 숙련자까지 사용할 수 있는 11종 세트입니다.' }], optionType: 'simple', optionMatrix: [] }
                 ];
                 setProducts(initialProds);
                 localStorage.setItem('byknit_seller_products', JSON.stringify(initialProds));
@@ -399,7 +420,7 @@ export function ProductManagement({
         }
 
         const newProd: PhysicalProduct = {
-            id: Date.now(),
+            id: generateProductId(),
             name: regName,
             mainCategory: regMainCategory,
             subCategory: regSubCategory,
@@ -462,7 +483,7 @@ export function ProductManagement({
     const handleCloneProduct = (product: PhysicalProduct) => {
         const cloned: PhysicalProduct = {
             ...product,
-            id: Date.now(),
+            id: generateProductId(),
             name: `${product.name} - 복사본`,
             status: 'hidden' // Copy starts as hidden (판매준지/숨김)
         };
@@ -1021,12 +1042,12 @@ export function ProductManagement({
                                                             {p.shippingFeeType === 'conditional' && (
                                                                 <>
                                                                     <span>기본 ₩${(p.basicShippingFee || 0).toLocaleString()}</span>
-                                                                    <span className="block text-[8px] text-[#A0522D] font-bold">
+                                                                    <span className="block text-xs text-[#A0522D] font-bold">
                                                                         (₩${(p.freeShippingThreshold || 0).toLocaleString()} 이상 무료)
                                                                     </span>
                                                                 </>
                                                             )}
-                                                            <span className="block text-[8px] text-stone-400 mt-0.5">
+                                                            <span className="block text-xs text-stone-400 mt-0.5">
                                                                 반품 ₩${(p.returnShippingFee || 0).toLocaleString()} / 교환 ₩${(p.exchangeShippingFee || 0).toLocaleString()}
                                                             </span>
                                                             {linkedBundle && (
@@ -1383,7 +1404,7 @@ export function ProductManagement({
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 bg-stone-50 p-4 rounded-2xl border border-stone-150">
                             {/* Delivery Options */}
                             <div className="space-y-4">
-                                <span className="text-sm font-bold text-stone-800 block">발송 희망일 / 제작 유형</span>
+                                <span className="text-base font-bold text-stone-800 block">발송 희망일 / 제작 유형</span>
                                 <div className="grid grid-cols-3 gap-2">
                                     {(['immediate', 'custom', 'reserve'] as const).map(dt => (
                                         <button
@@ -1405,7 +1426,7 @@ export function ProductManagement({
 
                                 {regDeliveryType === 'custom' && (
                                     <div className="p-3 bg-white border border-stone-200 rounded-xl space-y-1.5 animate-fadeIn">
-                                        <label className="block text-xs font-bold text-stone-700">핸드메이드 주문 제작 기간 설정 (영업일 기준)</label>
+                                        <label className="block text-sm font-bold text-stone-700">핸드메이드 주문 제작 기간 설정 (영업일 기준)</label>
                                         <div className="flex items-center gap-2">
                                             <input 
                                                 type="number"
@@ -1421,10 +1442,10 @@ export function ProductManagement({
 
                             {/* Shipping Details */}
                             <div className="space-y-4">
-                                <span className="text-sm font-bold text-stone-800 block">택배 배송비 상세 조건</span>
+                                <span className="text-base font-bold text-stone-800 block">택배 배송비 상세 조건</span>
                                 <div className="grid grid-cols-2 gap-3 text-sm">
                                     <div>
-                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">배송 수단</label>
+                                        <label className="block text-sm font-bold text-stone-700 mb-0.5">배송 수단</label>
                                         <select
                                             value={regShippingMethod}
                                             onChange={(e) => setRegShippingMethod(e.target.value as any)}
@@ -1436,7 +1457,7 @@ export function ProductManagement({
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">배송비 구분</label>
+                                        <label className="block text-sm font-bold text-stone-700 mb-0.5">배송비 구분</label>
                                         <select
                                             value={regShippingFeeType}
                                             onChange={(e) => setRegShippingFeeType(e.target.value as any)}
@@ -1456,7 +1477,7 @@ export function ProductManagement({
                             {regShippingFeeType !== 'free' && (
                                 <>
                                     <div>
-                                        <label className="block text-xs font-bold text-stone-700 mb-1">기본 배송비 (원)</label>
+                                        <label className="block text-sm font-bold text-stone-700 mb-1">기본 배송비 (원)</label>
                                         <input 
                                             type="number"
                                             value={regBasicShippingFee}
@@ -1466,7 +1487,7 @@ export function ProductManagement({
                                     </div>
                                     {regShippingFeeType === 'conditional' && (
                                         <div>
-                                            <label className="block text-xs font-bold text-stone-700 mb-1">무료 조건 금액 (원)</label>
+                                            <label className="block text-sm font-bold text-stone-700 mb-1">무료 조건 금액 (원)</label>
                                             <input 
                                                 type="number"
                                                 value={regFreeShippingThreshold}
@@ -1478,7 +1499,7 @@ export function ProductManagement({
                                 </>
                             )}
                             <div>
-                                <label className="block text-xs font-bold text-stone-700 mb-1">반품 배송비 (편도, 원)</label>
+                                <label className="block text-sm font-bold text-stone-700 mb-1">반품 배송비 (편도, 원)</label>
                                 <input 
                                     type="number"
                                     value={regReturnShippingFee}
@@ -1487,7 +1508,7 @@ export function ProductManagement({
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-stone-700 mb-1">교환 배송비 (왕복, 원)</label>
+                                <label className="block text-sm font-bold text-stone-700 mb-1">교환 배송비 (왕복, 원)</label>
                                 <input 
                                     type="number"
                                     value={regExchangeShippingFee}
@@ -1498,7 +1519,7 @@ export function ProductManagement({
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold text-stone-700 mb-1">연동할 배송비 묶음그룹</label>
+                            <label className="block text-sm font-bold text-stone-700 mb-1">연동할 배송비 묶음그룹</label>
                             <select
                                 value={regBundleGroupId}
                                 onChange={(e) => setRegBundleGroupId(Number(e.target.value))}
