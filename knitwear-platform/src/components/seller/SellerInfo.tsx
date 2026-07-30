@@ -304,8 +304,8 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto border border-blue-100">
                         <Lock size={20} />
                     </div>
-                    <h2 className="text-lg font-black text-stone-900">{locale === 'ko' ? '판매자 정보 보안 확인' : 'Security Verification'}</h2>
-                    <p className="text-xs text-stone-400 font-medium leading-relaxed">
+                    <h2 className="text-lg font-bold text-stone-900">{locale === 'ko' ? '판매자 정보 보안 확인' : 'Security Verification'}</h2>
+                    <p className="text-sm text-stone-400 font-medium leading-relaxed">
                         {locale === 'ko' 
                             ? '중요 정산계좌 및 판매자 개인정보를 안전하게 보호하기 위해 비밀번호를 다시 한 번 확인합니다.' 
                             : 'Enter your password to verify ownership and access sensitive seller details.'}
@@ -314,7 +314,7 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                 <form onSubmit={handleVerifyPassword} className="space-y-4">
                     <div className="space-y-1.5 relative">
-                        <label className="text-[10px] font-bold text-stone-400 block">{locale === 'ko' ? '판매자 계정 비밀번호 *' : 'Seller Password *'}</label>
+                        <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '판매자 계정 비밀번호 *' : 'Seller Password *'}</label>
                         <div className="relative">
                             <input 
                                 type={showPassword ? "text" : "password"}
@@ -322,7 +322,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                 placeholder="••••••••"
                                 value={passwordInput}
                                 onChange={(e) => setPasswordInput(e.target.value)}
-                                className="w-full pl-4 pr-10 py-3 bg-stone-50 border border-stone-200 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white focus:ring-1 focus:ring-blue-500"
+                                className="w-full pl-4 pr-10 py-3 bg-stone-50 border border-stone-200 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white focus:ring-1 focus:ring-blue-500"
                             />
                             <button
                                 type="button"
@@ -333,13 +333,13 @@ export function SellerInfo({ locale }: { locale: string }) {
                             </button>
                         </div>
                         {pwError && (
-                            <span className="text-[10px] text-rose-500 font-bold block mt-1">{pwError}</span>
+                            <span className="text-xs text-rose-500 font-bold block mt-1">{pwError}</span>
                         )}
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft"
+                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-sm font-bold transition-all shadow-soft"
                     >
                         {locale === 'ko' ? '인증 및 입장하기' : 'Verify & Enter'}
                     </button>
@@ -354,10 +354,10 @@ export function SellerInfo({ locale }: { locale: string }) {
             {/* Page Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-stone-900">
+                    <h1 className="text-3xl font-bold text-stone-900">
                         {locale === 'ko' ? '판매자 정보 설정' : 'Seller Profile & Settings'}
                     </h1>
-                    <p className="text-stone-500 text-sm mt-1">
+                    <p className="text-stone-500 text-base mt-1">
                         {locale === 'ko' 
                             ? '브랜드 프로필, 배송 정책, 정산 계좌 및 고객확인제도(KYC) 인증 상태를 관리합니다.' 
                             : 'Configure brand profile, shipping fees, payout account, and KYC verification.'}
@@ -366,7 +366,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                 <button
                     type="submit"
                     className={`
-                        px-6 py-3.5 rounded-2xl font-bold text-xs shadow-soft flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5
+                        px-6 py-3.5 rounded-2xl font-bold text-sm shadow-soft flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5
                         ${isSaved 
                             ? 'bg-[#556B2F] text-white' 
                             : 'bg-stone-900 hover:bg-stone-950 text-white'}
@@ -407,42 +407,42 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     className="w-16 h-16 rounded-2xl object-cover border border-stone-100 shadow-soft shrink-0"
                                 />
                                 <div className="flex-1 min-w-0">
-                                    <span className="text-xs font-bold text-stone-400 block mb-1.5">{locale === 'ko' ? '상점 로고 이미지' : 'Store Logo'}</span>
+                                    <span className="text-sm font-bold text-stone-400 block mb-1.5">{locale === 'ko' ? '상점 로고 이미지' : 'Store Logo'}</span>
                                     <input 
                                         type="url"
                                         value={shopLogo}
                                         onChange={(e) => setShopLogo(e.target.value)}
-                                        className="px-3 py-1.5 bg-white border border-stone-100 rounded-xl text-[10px] text-stone-500 font-bold outline-none focus:bg-stone-50 w-full truncate"
+                                        className="px-3 py-1.5 bg-white border border-stone-100 rounded-xl text-xs text-stone-500 font-bold outline-none focus:bg-stone-50 w-full truncate"
                                     />
                                 </div>
                             </div>
 
                             {/* Store Name */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '상점 이름 *' : 'Store Name *'}</label>
+                                <label className="text-sm font-bold text-stone-400 block">{locale === 'ko' ? '상점 이름 *' : 'Store Name *'}</label>
                                 <input 
                                     type="text"
                                     required
                                     value={shopName}
                                     onChange={(e) => setShopName(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 />
                             </div>
 
                             {/* Store Bio */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '상점 한 줄 소개' : 'Store Description'}</label>
+                                <label className="text-sm font-bold text-stone-400 block">{locale === 'ko' ? '상점 한 줄 소개' : 'Store Description'}</label>
                                 <textarea 
                                     value={shopBio}
                                     onChange={(e) => setShopBio(e.target.value)}
                                     rows={3}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors leading-relaxed"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors leading-relaxed"
                                 />
                             </div>
 
                             {/* CS contact */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 flex items-center gap-1">
+                                <label className="text-sm font-bold text-stone-400 flex items-center gap-1">
                                     <Phone size={12} />
                                     <span>{locale === 'ko' ? '고객센터 연락처 *' : 'CS Contact *'}</span>
                                 </label>
@@ -451,7 +451,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     required
                                     value={csContact}
                                     onChange={(e) => setCsContact(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 />
                             </div>
                         </div>
@@ -467,21 +467,21 @@ export function SellerInfo({ locale }: { locale: string }) {
                         <div className="space-y-6">
                             {/* Outbound Address */}
                             <div className="space-y-4">
-                                <span className="text-xs font-black text-stone-800 block">{locale === 'ko' ? '1. 상품 출고지 주소 (배송지)' : '1. Outbound Origin Address'}</span>
+                                <span className="text-sm font-bold text-stone-800 block">{locale === 'ko' ? '1. 상품 출고지 주소 (배송지)' : '1. Outbound Origin Address'}</span>
                                 <div className="grid grid-cols-3 gap-2">
                                     <input 
                                         type="text"
                                         placeholder={locale === 'ko' ? '우편번호' : 'Postcode'}
                                         value={outboundPostcode}
                                         onChange={(e) => handleOutboundChange('postcode', e.target.value)}
-                                        className="col-span-1 px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                        className="col-span-1 px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                     />
                                     <input 
                                         type="text"
                                         placeholder={locale === 'ko' ? '기본 주소' : 'Base Address'}
                                         value={outboundAddress}
                                         onChange={(e) => handleOutboundChange('address', e.target.value)}
-                                        className="col-span-2 px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                        className="col-span-2 px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                     />
                                 </div>
                                 <input 
@@ -489,16 +489,16 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     placeholder={locale === 'ko' ? '상세 주소 입력' : 'Detail Address'}
                                     value={outboundAddressDetail}
                                     onChange={(e) => handleOutboundChange('detail', e.target.value)}
-                                    className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                    className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                 />
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-bold text-stone-400 block">{locale === 'ko' ? '출고지 CS 연락처 *' : 'Outbound Phone *'}</label>
+                                    <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '출고지 CS 연락처 *' : 'Outbound Phone *'}</label>
                                     <input 
                                         type="text"
                                         placeholder="010-0000-0000"
                                         value={outboundContact}
                                         onChange={(e) => handleOutboundChange('contact', e.target.value)}
-                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                     />
                                 </div>
                             </div>
@@ -508,8 +508,8 @@ export function SellerInfo({ locale }: { locale: string }) {
                             {/* Return Address */}
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-xs font-black text-stone-800 block">{locale === 'ko' ? '2. 반품지 주소 (수거지)' : '2. Return Destination Address'}</span>
-                                    <label className="flex items-center gap-1.5 text-[10px] font-bold text-stone-500 cursor-pointer">
+                                    <span className="text-sm font-bold text-stone-800 block">{locale === 'ko' ? '2. 반품지 주소 (수거지)' : '2. Return Destination Address'}</span>
+                                    <label className="flex items-center gap-1.5 text-xs font-bold text-stone-500 cursor-pointer">
                                         <input 
                                             type="checkbox"
                                             checked={sameAsOutbound}
@@ -527,7 +527,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         value={returnPostcode}
                                         onChange={(e) => setReturnPostcode(e.target.value)}
                                         disabled={sameAsOutbound}
-                                        className={`col-span-1 px-4 py-2.5 rounded-xl text-xs font-bold outline-none border ${
+                                        className={`col-span-1 px-4 py-2.5 rounded-xl text-sm font-bold outline-none border ${
                                             sameAsOutbound 
                                                 ? 'bg-stone-100 text-stone-400 border-stone-150' 
                                                 : 'bg-stone-50 border-stone-200 focus:bg-white text-stone-700'
@@ -539,7 +539,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         value={returnAddress}
                                         onChange={(e) => setReturnAddress(e.target.value)}
                                         disabled={sameAsOutbound}
-                                        className={`col-span-2 px-4 py-2.5 rounded-xl text-xs font-bold outline-none border ${
+                                        className={`col-span-2 px-4 py-2.5 rounded-xl text-sm font-bold outline-none border ${
                                             sameAsOutbound 
                                                 ? 'bg-stone-100 text-stone-400 border-stone-150' 
                                                 : 'bg-stone-50 border-stone-200 focus:bg-white text-stone-700'
@@ -552,21 +552,21 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     value={returnAddressDetail}
                                     onChange={(e) => setReturnAddressDetail(e.target.value)}
                                     disabled={sameAsOutbound}
-                                    className={`w-full px-4 py-2.5 rounded-xl text-xs font-bold outline-none border ${
+                                    className={`w-full px-4 py-2.5 rounded-xl text-sm font-bold outline-none border ${
                                         sameAsOutbound 
                                             ? 'bg-stone-100 text-stone-400 border-stone-150' 
                                             : 'bg-stone-50 border-stone-200 focus:bg-white text-stone-700'
                                     }`}
                                 />
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-bold text-stone-400 block">{locale === 'ko' ? '반품지 CS 연락처 *' : 'Return Phone *'}</label>
+                                    <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '반품지 CS 연락처 *' : 'Return Phone *'}</label>
                                     <input 
                                         type="text"
                                         placeholder="010-0000-0000"
                                         value={returnContact}
                                         onChange={(e) => setReturnContact(e.target.value)}
                                         disabled={sameAsOutbound}
-                                        className={`w-full px-4 py-2.5 rounded-xl text-xs font-bold outline-none border ${
+                                        className={`w-full px-4 py-2.5 rounded-xl text-sm font-bold outline-none border ${
                                             sameAsOutbound 
                                                 ? 'bg-stone-100 text-stone-400 border-stone-150' 
                                                 : 'bg-stone-50 border-stone-200 focus:bg-white text-stone-700'
@@ -590,7 +590,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                         <div className="space-y-5">
                             {/* Base shipping fee */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 block">
+                                <label className="text-sm font-bold text-stone-400 block">
                                     {locale === 'ko' ? '기본 배송비 (원) *' : 'Base Shipping Fee (KRW) *'}
                                 </label>
                                 <input 
@@ -598,13 +598,13 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     required
                                     value={baseShippingFee}
                                     onChange={(e) => setBaseShippingFee(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 />
                             </div>
 
                             {/* Conditional Free shipping */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 block">
+                                <label className="text-sm font-bold text-stone-400 block">
                                     {locale === 'ko' ? '무료 배송 기준금액 (원) *' : 'Free Shipping Threshold (KRW) *'}
                                 </label>
                                 <input 
@@ -612,16 +612,16 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     required
                                     value={freeShippingThreshold}
                                     onChange={(e) => setFreeShippingThreshold(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 />
-                                <span className="text-[10px] text-stone-400 block font-semibold pl-1">
+                                <span className="text-xs text-stone-400 block font-semibold pl-1">
                                     {locale === 'ko' ? '* 설정 금액 이상 구매 시 기본 배송비가 0원으로 적용됩니다.' : '* Purchase above this limit will waive the base shipping fee.'}
                                 </span>
                             </div>
 
                             {/* Regional shipping fee */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 flex items-center gap-1">
+                                <label className="text-sm font-bold text-stone-400 flex items-center gap-1">
                                     <MapPin size={12} />
                                     <span>{locale === 'ko' ? '제주 / 도서산간 추가 배송비 (원) *' : 'Extra Island/Regional Fee (KRW) *'}</span>
                                 </label>
@@ -630,7 +630,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     required
                                     value={extraRegionalFee}
                                     onChange={(e) => setExtraRegionalFee(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 />
                             </div>
                         </div>
@@ -646,14 +646,14 @@ export function SellerInfo({ locale }: { locale: string }) {
                         <div className="space-y-4">
                             {/* Bank */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 flex items-center gap-1">
+                                <label className="text-sm font-bold text-stone-400 flex items-center gap-1">
                                     <Building size={12} />
                                     <span>{locale === 'ko' ? '정산 은행 *' : 'Bank *'}</span>
                                 </label>
                                 <select
                                     value={bankName}
                                     onChange={(e) => setBankName(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 >
                                     {banks.map(b => (
                                         <option key={b} value={b}>{b}</option>
@@ -663,7 +663,7 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                             {/* Account Number */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 flex items-center gap-1">
+                                <label className="text-sm font-bold text-stone-400 flex items-center gap-1">
                                     <Receipt size={12} />
                                     <span>{locale === 'ko' ? '계좌 번호 *' : 'Account Number *'}</span>
                                 </label>
@@ -672,13 +672,13 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     required
                                     value={accountNumber}
                                     onChange={(e) => setAccountNumber(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors"
                                 />
                             </div>
 
                             {/* Account Holder */}
                             <div className="space-y-1.5">
-                                <label className="text-xs font-bold text-stone-400 flex items-center gap-1">
+                                <label className="text-sm font-bold text-stone-400 flex items-center gap-1">
                                     <User size={12} />
                                     <span>{locale === 'ko' ? '예금주명 (대표자명과 필수 일치) *' : 'Holder Name (Must match Representative) *'}</span>
                                 </label>
@@ -687,9 +687,9 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     required
                                     value={accountHolder}
                                     onChange={(e) => setAccountHolder(e.target.value)}
-                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white transition-colors border-l-4 border-l-amber-500"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl text-sm font-bold text-stone-700 outline-none focus:bg-white transition-colors border-l-4 border-l-amber-500"
                                 />
-                                <span className="text-[10px] text-amber-600 font-bold block pl-1">
+                                <span className="text-xs text-amber-600 font-bold block pl-1">
                                     {locale === 'ko' ? '* 법률상 예금주명은 고객확인의 대표자(사업자)명과 반드시 동일해야 합니다.' : '* Holder name must legally match the KYC representative.'}
                                 </span>
                             </div>
@@ -710,19 +710,19 @@ export function SellerInfo({ locale }: { locale: string }) {
                     {/* Status Badge */}
                     <div className="flex items-center gap-1.5">
                         {kycStatus === 'unsubmitted' && (
-                            <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-600 border border-amber-200 text-[10px] font-black px-2.5 py-1 rounded-full">
+                            <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-600 border border-amber-200 text-xs font-bold px-2.5 py-1 rounded-full">
                                 <ShieldAlert size={12} />
                                 <span>{locale === 'ko' ? '인증 정보 미제출' : 'Info Required'}</span>
                             </span>
                         )}
                         {kycStatus === 'pending' && (
-                            <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-600 border border-blue-200 text-[10px] font-black px-2.5 py-1 rounded-full animate-pulse">
+                            <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-600 border border-blue-200 text-xs font-bold px-2.5 py-1 rounded-full animate-pulse">
                                 <Settings className="animate-spin" size={12} />
                                 <span>{locale === 'ko' ? '본사 심사 대기 중' : 'Under Review'}</span>
                             </span>
                         )}
                         {kycStatus === 'verified' && (
-                            <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-600 border border-emerald-200 text-[10px] font-black px-2.5 py-1 rounded-full">
+                            <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-600 border border-emerald-200 text-xs font-bold px-2.5 py-1 rounded-full">
                                 <ShieldCheck size={12} />
                                 <span>{locale === 'ko' ? '고객확인 인증 완료' : 'Verified'}</span>
                             </span>
@@ -735,7 +735,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="lg:col-span-2 space-y-4">
                         {/* Seller Type Selector */}
                         <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '판매자 구분' : 'Seller Type'}</label>
+                            <label className="text-sm font-bold text-stone-400 block">{locale === 'ko' ? '판매자 구분' : 'Seller Type'}</label>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                 <label className={`flex flex-col items-center justify-center p-3 border rounded-xl cursor-pointer text-center transition-all ${
                                     sellerType === 'individual' 
@@ -750,8 +750,8 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         disabled={kycStatus === 'pending'}
                                         className="sr-only"
                                     />
-                                    <span className="text-xs">{locale === 'ko' ? '개인 판매자' : 'Individual'}</span>
-                                    <span className="text-[9px] text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(비사업자)' : '(Non-biz)'}</span>
+                                    <span className="text-sm">{locale === 'ko' ? '개인 판매자' : 'Individual'}</span>
+                                    <span className="text-xs text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(비사업자)' : '(Non-biz)'}</span>
                                 </label>
                                 <label className={`flex flex-col items-center justify-center p-3 border rounded-xl cursor-pointer text-center transition-all ${
                                     sellerType === 'biz_general' 
@@ -766,8 +766,8 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         disabled={kycStatus === 'pending'}
                                         className="sr-only"
                                     />
-                                    <span className="text-xs">{locale === 'ko' ? '개인 일반과세' : 'General Biz'}</span>
-                                    <span className="text-[9px] text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(일반사업자)' : '(General Tax)'}</span>
+                                    <span className="text-sm">{locale === 'ko' ? '개인 일반과세' : 'General Biz'}</span>
+                                    <span className="text-xs text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(일반사업자)' : '(General Tax)'}</span>
                                 </label>
                                 <label className={`flex flex-col items-center justify-center p-3 border rounded-xl cursor-pointer text-center transition-all ${
                                     sellerType === 'biz_simplified' 
@@ -782,8 +782,8 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         disabled={kycStatus === 'pending'}
                                         className="sr-only"
                                     />
-                                    <span className="text-xs">{locale === 'ko' ? '개인 간이과세' : 'Simplified Biz'}</span>
-                                    <span className="text-[9px] text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(간이사업자)' : '(Simplified)'}</span>
+                                    <span className="text-sm">{locale === 'ko' ? '개인 간이과세' : 'Simplified Biz'}</span>
+                                    <span className="text-xs text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(간이사업자)' : '(Simplified)'}</span>
                                 </label>
                                 <label className={`flex flex-col items-center justify-center p-3 border rounded-xl cursor-pointer text-center transition-all ${
                                     sellerType === 'corporate' 
@@ -798,8 +798,8 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         disabled={kycStatus === 'pending'}
                                         className="sr-only"
                                     />
-                                    <span className="text-xs">{locale === 'ko' ? '법인 사업자' : 'Corporate'}</span>
-                                    <span className="text-[9px] text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(법인등록필수)' : '(Corp Reg)'}</span>
+                                    <span className="text-sm">{locale === 'ko' ? '법인 사업자' : 'Corporate'}</span>
+                                    <span className="text-xs text-stone-400 font-medium mt-0.5">{locale === 'ko' ? '(법인등록필수)' : '(Corp Reg)'}</span>
                                 </label>
                             </div>
                         </div>
@@ -807,7 +807,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                         {/* KYC fields */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label className="text-xs font-bold text-stone-400 block mb-1">
+                                <label className="text-sm font-bold text-stone-400 block mb-1">
                                     {sellerType === 'corporate' 
                                         ? (locale === 'ko' ? '대표자명 *' : 'Representative Name *')
                                         : (locale === 'ko' ? '대표자 실명 (예금주와 일치 필수) *' : 'Rep Real Name (Must match Account Holder) *')}
@@ -817,17 +817,17 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     value={repName}
                                     onChange={(e) => setRepName(e.target.value)}
                                     disabled={kycStatus === 'pending'}
-                                    className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white border-l-4 border-l-amber-500"
+                                    className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white border-l-4 border-l-amber-500"
                                 />
                             </div>
                             <div>
-                                <label className="text-xs font-bold text-stone-400 block mb-1">{locale === 'ko' ? '대표자 생년월일 *' : 'Date of Birth *'}</label>
+                                <label className="text-sm font-bold text-stone-400 block mb-1">{locale === 'ko' ? '대표자 생년월일 *' : 'Date of Birth *'}</label>
                                 <input 
                                     type="date"
                                     value={repBirth}
                                     onChange={(e) => setRepBirth(e.target.value)}
                                     disabled={kycStatus === 'pending'}
-                                    className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                    className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                 />
                             </div>
                         </div>
@@ -836,7 +836,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                         {sellerType !== 'individual' && (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeIn">
                                 <div>
-                                    <label className="text-xs font-bold text-stone-400 block mb-1">
+                                    <label className="text-sm font-bold text-stone-400 block mb-1">
                                         {sellerType === 'corporate' ? (locale === 'ko' ? '법인명(상호명) *' : 'Corporate Name *') : (locale === 'ko' ? '상호명 *' : 'Business Name *')}
                                     </label>
                                     <input 
@@ -845,42 +845,42 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         value={shopName}
                                         onChange={(e) => setShopName(e.target.value)}
                                         disabled={kycStatus === 'pending'}
-                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                     />
                                 </div>
                                 <div>
-                                    <label className="text-xs font-bold text-stone-400 block mb-1">{locale === 'ko' ? '사업자등록번호 *' : 'Business Registration No. *'}</label>
+                                    <label className="text-sm font-bold text-stone-400 block mb-1">{locale === 'ko' ? '사업자등록번호 *' : 'Business Registration No. *'}</label>
                                     <input 
                                         type="text"
                                         placeholder="000-00-00000"
                                         value={businessNum}
                                         onChange={(e) => setBusinessNum(e.target.value)}
                                         disabled={kycStatus === 'pending'}
-                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                     />
                                 </div>
                                 {sellerType === 'corporate' && (
                                     <div className="animate-fadeIn">
-                                        <label className="text-xs font-bold text-stone-400 block mb-1">{locale === 'ko' ? '법인등록번호 *' : 'Corporate Registration No. *'}</label>
+                                        <label className="text-sm font-bold text-stone-400 block mb-1">{locale === 'ko' ? '법인등록번호 *' : 'Corporate Registration No. *'}</label>
                                         <input 
                                             type="text"
                                             placeholder="000000-0000000"
                                             value={corporateNum}
                                             onChange={(e) => setCorporateNum(e.target.value)}
                                             disabled={kycStatus === 'pending'}
-                                            className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                            className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                         />
                                     </div>
                                 )}
                                 <div>
-                                    <label className="text-xs font-bold text-stone-400 block mb-1">{locale === 'ko' ? '통신판매업 신고번호 *' : 'Mail Order Business No. *'}</label>
+                                    <label className="text-sm font-bold text-stone-400 block mb-1">{locale === 'ko' ? '통신판매업 신고번호 *' : 'Mail Order Business No. *'}</label>
                                     <input 
                                         type="text"
                                         placeholder="제 2026-서울강남-0000호"
                                         value={mailOrderNum}
                                         onChange={(e) => setMailOrderNum(e.target.value)}
                                         disabled={kycStatus === 'pending'}
-                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                        className="w-full px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                     />
                                 </div>
                             </div>
@@ -888,13 +888,13 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                         {/* Phone identity authentication */}
                         <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-stone-400 block">{locale === 'ko' ? '본인인증 휴대폰 번호 *' : 'Mobile Verification *'}</label>
+                            <label className="text-sm font-bold text-stone-400 block">{locale === 'ko' ? '본인인증 휴대폰 번호 *' : 'Mobile Verification *'}</label>
                             <div className="flex gap-2">
                                 <input 
                                     type="text"
                                     placeholder="010-0000-0000"
                                     disabled={kycStatus === 'pending' || verifiedPhone}
-                                    className="flex-1 px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-xs font-bold text-stone-700 outline-none focus:bg-white"
+                                    className="flex-1 px-4 py-2.5 bg-stone-50 border border-stone-100 rounded-xl text-sm font-bold text-stone-700 outline-none focus:bg-white"
                                 />
                                 <button
                                     onClick={(e) => {
@@ -903,7 +903,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         alert(locale === 'ko' ? '본인인증이 완료되었습니다.' : 'Phone verification success.');
                                     }}
                                     disabled={kycStatus === 'pending' || verifiedPhone}
-                                    className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all ${
+                                    className={`px-4 py-2 text-sm font-bold rounded-xl border transition-all ${
                                         verifiedPhone 
                                             ? 'bg-emerald-50 border-emerald-100 text-emerald-600' 
                                             : 'bg-white border-stone-200 text-stone-700 hover:bg-stone-50'
@@ -917,11 +917,11 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                     {/* Document Upload Panels */}
                     <div className="space-y-4 bg-stone-50/50 p-5 rounded-2xl border border-stone-100 h-fit">
-                        <span className="text-xs font-bold text-stone-600 block mb-2">{locale === 'ko' ? '심사 서류 제출 (사본)' : 'Required Documents'}</span>
+                        <span className="text-sm font-bold text-stone-600 block mb-2">{locale === 'ko' ? '심사 서류 제출 (사본)' : 'Required Documents'}</span>
                         
                         {/* ID upload (only for individual and sole proprietor) */}
                         {sellerType !== 'corporate' && (
-                            <div className="flex items-center justify-between text-xs font-bold animate-fadeIn">
+                            <div className="flex items-center justify-between text-sm font-bold animate-fadeIn">
                                 <span className="text-stone-500 font-semibold">{locale === 'ko' ? '1. 대표자 신분증 사본 *' : '1. ID Copy *'}</span>
                                 <button
                                     onClick={(e) => {
@@ -929,7 +929,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         setUploadedFiles({ ...uploadedFiles, idCopy: true });
                                     }}
                                     disabled={kycStatus === 'pending' || uploadedFiles.idCopy}
-                                    className={`p-1.5 rounded-lg border flex items-center gap-1 text-[10px] transition-all ${
+                                    className={`p-1.5 rounded-lg border flex items-center gap-1 text-xs transition-all ${
                                         uploadedFiles.idCopy 
                                             ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
                                             : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -943,7 +943,7 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                         {/* Business license upload (for all businesses) */}
                         {sellerType !== 'individual' && (
-                            <div className="flex items-center justify-between text-xs font-bold animate-fadeIn">
+                            <div className="flex items-center justify-between text-sm font-bold animate-fadeIn">
                                 <span className="text-stone-500 font-semibold">
                                     {sellerType === 'corporate' ? (locale === 'ko' ? '1. 사업자등록증 사본 *' : '1. Biz Certificate *') : (locale === 'ko' ? '2. 사업자등록증 사본 *' : '2. Biz Certificate *')}
                                 </span>
@@ -953,7 +953,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         setUploadedFiles({ ...uploadedFiles, bizCert: true });
                                     }}
                                     disabled={kycStatus === 'pending' || uploadedFiles.bizCert}
-                                    className={`p-1.5 rounded-lg border flex items-center gap-1 text-[10px] transition-all ${
+                                    className={`p-1.5 rounded-lg border flex items-center gap-1 text-xs transition-all ${
                                         uploadedFiles.bizCert 
                                             ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
                                             : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -966,7 +966,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                         )}
 
                         {/* Bankbook copy upload (all types) */}
-                        <div className="flex items-center justify-between text-xs font-bold">
+                        <div className="flex items-center justify-between text-sm font-bold">
                             <span className="text-stone-500 font-semibold">
                                 {sellerType === 'individual' && (locale === 'ko' ? '2. 정산통장 사본 *' : '2. Bankbook Copy *')}
                                 {(sellerType === 'biz_general' || sellerType === 'biz_simplified') && (locale === 'ko' ? '3. 정산통장 사본 *' : '3. Bankbook Copy *')}
@@ -978,7 +978,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                     setUploadedFiles({ ...uploadedFiles, bankBook: true });
                                 }}
                                 disabled={kycStatus === 'pending' || uploadedFiles.bankBook}
-                                className={`p-1.5 rounded-lg border flex items-center gap-1 text-[10px] transition-all ${
+                                className={`p-1.5 rounded-lg border flex items-center gap-1 text-xs transition-all ${
                                     uploadedFiles.bankBook 
                                         ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
                                         : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -992,7 +992,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                         {/* Corporate registration certificate (only corporate) */}
                         {sellerType === 'corporate' && (
                             <>
-                                <div className="flex items-center justify-between text-xs font-bold animate-fadeIn">
+                                <div className="flex items-center justify-between text-sm font-bold animate-fadeIn">
                                     <span className="text-stone-500 font-semibold">{locale === 'ko' ? '3. 법인 등기부등본 *' : '3. Corporate Register *'}</span>
                                     <button
                                         onClick={(e) => {
@@ -1000,7 +1000,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                             setUploadedFiles({ ...uploadedFiles, corpRegister: true });
                                         }}
                                         disabled={kycStatus === 'pending' || uploadedFiles.corpRegister}
-                                        className={`p-1.5 rounded-lg border flex items-center gap-1 text-[10px] transition-all ${
+                                        className={`p-1.5 rounded-lg border flex items-center gap-1 text-xs transition-all ${
                                             uploadedFiles.corpRegister 
                                                 ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
                                                 : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -1010,7 +1010,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                         <span>{uploadedFiles.corpRegister ? (locale === 'ko' ? '첨부됨' : 'Attached') : (locale === 'ko' ? '업로드' : 'Upload')}</span>
                                     </button>
                                 </div>
-                                <div className="flex items-center justify-between text-xs font-bold animate-fadeIn">
+                                <div className="flex items-center justify-between text-sm font-bold animate-fadeIn">
                                     <span className="text-stone-500 font-semibold">{locale === 'ko' ? '4. 법인 인감증명서 *' : '4. Corporate Seal Cert *'}</span>
                                     <button
                                         onClick={(e) => {
@@ -1018,7 +1018,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                                             setUploadedFiles({ ...uploadedFiles, corpSeal: true });
                                         }}
                                         disabled={kycStatus === 'pending' || uploadedFiles.corpSeal}
-                                        className={`p-1.5 rounded-lg border flex items-center gap-1 text-[10px] transition-all ${
+                                        className={`p-1.5 rounded-lg border flex items-center gap-1 text-xs transition-all ${
                                             uploadedFiles.corpSeal 
                                                 ? 'bg-emerald-50 border-emerald-200 text-emerald-600' 
                                                 : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -1035,10 +1035,10 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                 {/* Display reject reason if present */}
                 {kycStatus === 'unsubmitted' && kycRejectReason && (
-                    <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl flex items-start gap-2.5 text-xs text-rose-600 font-bold animate-fadeIn">
+                    <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl flex items-start gap-2.5 text-sm text-rose-600 font-bold animate-fadeIn">
                         <ShieldAlert size={16} className="shrink-0 mt-0.5" />
                         <div>
-                            <span className="block font-black text-rose-800">{locale === 'ko' ? '이전 심사 반려 사유' : 'Previous KYC Rejection Reason'}</span>
+                            <span className="block font-bold text-rose-800">{locale === 'ko' ? '이전 심사 반려 사유' : 'Previous KYC Rejection Reason'}</span>
                             <p className="mt-0.5 leading-relaxed font-semibold">{kycRejectReason}</p>
                         </div>
                     </div>
@@ -1049,7 +1049,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                     <div className="pt-3 border-t border-stone-100 flex justify-end">
                         <button
                             onClick={handleKycSubmit}
-                            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-xs font-black transition-all shadow-soft flex items-center gap-1.5"
+                            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-sm font-bold transition-all shadow-soft flex items-center gap-1.5"
                         >
                             <ShieldCheck size={14} />
                             <span>{locale === 'ko' ? '고객확인(KYC) 심사 서류 제출하기' : 'Submit KYC for Review'}</span>
@@ -1059,10 +1059,10 @@ export function SellerInfo({ locale }: { locale: string }) {
 
                 {/* Instruction link when pending */}
                 {kycStatus === 'pending' && (
-                    <div className="pt-5 border-t border-stone-100 p-4 bg-blue-50/50 border border-blue-150 rounded-2xl text-xs text-blue-700 font-bold flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 animate-fadeIn">
+                    <div className="pt-5 border-t border-stone-100 p-4 bg-blue-50/50 border border-blue-150 rounded-2xl text-sm text-blue-700 font-bold flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 animate-fadeIn">
                         <div className="space-y-1">
-                            <span className="block font-black text-blue-800">{locale === 'ko' ? '서류 제출이 완료되었습니다.' : 'Documents Submitted Successfully'}</span>
-                            <p className="text-[10px] text-stone-500 font-semibold leading-relaxed">
+                            <span className="block font-bold text-blue-800">{locale === 'ko' ? '서류 제출이 완료되었습니다.' : 'Documents Submitted Successfully'}</span>
+                            <p className="text-xs text-stone-500 font-semibold leading-relaxed">
                                 {locale === 'ko' 
                                     ? '보안상 신청자 본인은 직접 승인 처리를 할 수 없습니다. 본사 관리자 페이지(byKnit Admin)로 이동해 검토 및 승인을 완료해 주세요.' 
                                     : 'For security, you cannot self-approve. Open the Admin console to review.'}
@@ -1072,7 +1072,7 @@ export function SellerInfo({ locale }: { locale: string }) {
                             href="/ko/admin/kyc"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-[10px] font-black transition-all flex items-center gap-1 shrink-0 self-end sm:self-center"
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1 shrink-0 self-end sm:self-center"
                         >
                             <span>{locale === 'ko' ? '본사 관리자 페이지 바로가기' : 'Go to Admin Console'}</span>
                             <ExternalLink size={10} />

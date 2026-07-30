@@ -59,14 +59,14 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
             {/* Header Section */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-stone-800 font-sans">
+                    <h1 className="text-3xl font-bold text-stone-800 font-sans">
                         {locale === 'ko' ? '상점 현황 대시보드' : 'Store Dashboard'}
                     </h1>
-                    <p className="text-stone-500 text-sm mt-1">
+                    <p className="text-stone-500 text-base mt-1">
                         {locale === 'ko' ? '오늘 하루 상점의 핵심 지표와 대응할 업무 목록입니다.' : 'Your core store metrics and tasks for today.'}
                     </p>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-stone-100 shadow-soft text-stone-600 text-xs font-bold w-fit">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-stone-100 shadow-soft text-stone-600 text-sm font-bold w-fit">
                     <Calendar size={14} className="text-[#8FBC8F]" />
                     <span>{currentDateStr || '2026.07.24 (GMT+9)'}</span>
                 </div>
@@ -80,10 +80,10 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                         onClick={() => setActiveTab(card.tab)}
                         className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between text-left group"
                     >
-                        <span className="text-stone-400 text-xs font-bold block mb-2">{card.title}</span>
+                        <span className="text-stone-400 text-sm font-bold block mb-2">{card.title}</span>
                         <div className="flex items-end justify-between">
-                            <span className="text-3xl font-black text-stone-800">{card.value}</span>
-                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs ${card.color} group-hover:scale-110 transition-transform`}>
+                            <span className="text-3xl font-bold text-stone-800">{card.value}</span>
+                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm ${card.color} group-hover:scale-110 transition-transform`}>
                                 <ChevronRight size={16} />
                             </div>
                         </div>
@@ -97,18 +97,18 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                 <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-100 shadow-soft lg:col-span-2 space-y-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <span className="text-stone-400 text-xs font-bold block">{locale === 'ko' ? '매출 리포트' : 'Sales Report'}</span>
+                            <span className="text-stone-400 text-sm font-bold block">{locale === 'ko' ? '매출 리포트' : 'Sales Report'}</span>
                             <h2 className="text-xl font-bold text-stone-800 mt-0.5">{locale === 'ko' ? '이번 주 누적 매출' : 'Weekly Revenue'}</h2>
                         </div>
-                        <div className="flex items-center gap-1.5 text-emerald-500 bg-emerald-50 px-3 py-1 rounded-full text-xs font-bold">
+                        <div className="flex items-center gap-1.5 text-emerald-500 bg-emerald-50 px-3 py-1 rounded-full text-sm font-bold">
                             <TrendingUp size={14} />
                             <span>+14.8%</span>
                         </div>
                     </div>
 
-                    <div className="text-3xl font-black text-stone-800">
+                    <div className="text-3xl font-bold text-stone-800">
                         ₩ 3,242,000 
-                        <span className="text-stone-400 text-xs font-bold ml-2">vs {locale === 'ko' ? '지난주 동일 대비' : 'vs last week'}</span>
+                        <span className="text-stone-400 text-sm font-bold ml-2">vs {locale === 'ko' ? '지난주 동일 대비' : 'vs last week'}</span>
                     </div>
 
                     {/* Premium SVG Line Chart */}
@@ -167,7 +167,7 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                                                         stroke="#ffffff" 
                                                         strokeWidth="4" 
                                                         paintOrder="stroke" 
-                                                        className="text-[10px] font-black fill-[#556B2F]"
+                                                        className="text-xs font-bold fill-[#556B2F]"
                                                     >
                                                         {label}
                                                     </text>
@@ -181,7 +181,7 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                                                         x={p.x} 
                                                         y={225} 
                                                         textAnchor="middle" 
-                                                        className="text-[10px] font-bold fill-stone-400"
+                                                        className="text-xs font-bold fill-stone-400"
                                                     >
                                                         {p.date}({p.day})
                                                     </text>
@@ -203,12 +203,12 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                             <TrendingUp size={160} />
                         </div>
                         <div>
-                            <span className="text-stone-200 text-xs font-bold block opacity-85">{locale === 'ko' ? '이번 달 정산 예정액' : 'Estimated Payout'}</span>
-                            <div className="text-3xl font-black mt-2">₩ 14,890,000</div>
+                            <span className="text-stone-200 text-sm font-bold block opacity-85">{locale === 'ko' ? '이번 달 정산 예정액' : 'Estimated Payout'}</span>
+                            <div className="text-3xl font-bold mt-2">₩ 14,890,000</div>
                         </div>
                         <button 
                             onClick={() => setActiveTab('settlement')}
-                            className="flex items-center gap-1.5 text-xs font-bold text-[#E8F0E8] hover:text-white transition-colors w-fit group"
+                            className="flex items-center gap-1.5 text-sm font-bold text-[#E8F0E8] hover:text-white transition-colors w-fit group"
                         >
                             <span>{locale === 'ko' ? '정산 세부 내역 보기' : 'View Payout Details'}</span>
                             <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -218,10 +218,10 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                     {/* Unanswered Q&As Card */}
                     <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft space-y-4">
                         <div className="flex items-center justify-between border-b border-stone-50 pb-3">
-                            <h3 className="font-bold text-stone-800 text-sm">{locale === 'ko' ? '최근 미답변 문의' : 'Recent Inquiries'}</h3>
+                            <h3 className="font-bold text-stone-800 text-base">{locale === 'ko' ? '최근 미답변 문의' : 'Recent Inquiries'}</h3>
                             <button 
                                 onClick={() => setActiveTab('claims')}
-                                className="text-xs font-bold text-stone-400 hover:text-stone-700 transition-colors"
+                                className="text-sm font-bold text-stone-400 hover:text-stone-700 transition-colors"
                             >
                                 {locale === 'ko' ? '전체보기' : 'See All'}
                             </button>
@@ -233,8 +233,8 @@ export function SellerDashboard({ setActiveTab, locale }: SellerDashboardProps) 
                                         <MessageSquare size={16} />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-xs font-bold text-stone-700 truncate">{q.title}</h4>
-                                        <div className="flex items-center gap-1.5 text-[10px] text-stone-400 mt-1 font-semibold">
+                                        <h4 className="text-sm font-bold text-stone-700 truncate">{q.title}</h4>
+                                        <div className="flex items-center gap-1.5 text-xs text-stone-400 mt-1 font-semibold">
                                             <span>{q.author}</span>
                                             <span>•</span>
                                             <span>{q.date}</span>

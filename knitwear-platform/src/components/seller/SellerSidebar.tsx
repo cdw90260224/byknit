@@ -98,7 +98,7 @@ export function SellerSidebar({
             <header className="md:hidden w-full bg-white border-b border-stone-100 px-6 py-4 flex items-center justify-between sticky top-0 z-40 shadow-sm">
                 <div className="flex items-center gap-2">
                     <Store className="text-[#8FBC8F] w-6 h-6" />
-                    <span className="font-sans font-black text-stone-800 text-lg">byKnit Seller</span>
+                    <span className="font-sans font-bold text-stone-800 text-lg">byKnit Seller</span>
                 </div>
                 <button 
                     onClick={() => setIsOpen(!isOpen)}
@@ -128,8 +128,8 @@ export function SellerSidebar({
                             <Store size={22} />
                         </div>
                         <div>
-                            <span className="font-sans font-black text-stone-800 text-xl block leading-tight">byKnit Seller</span>
-                            <span className="text-xs text-stone-400 font-medium">{locale === 'ko' ? '판매자 센터' : 'Partner Console'}</span>
+                            <span className="font-sans font-bold text-stone-800 text-xl block leading-tight">byKnit Seller</span>
+                            <span className="text-sm text-stone-400 font-medium">{locale === 'ko' ? '판매자 센터' : 'Partner Console'}</span>
                         </div>
                     </div>
 
@@ -144,7 +144,7 @@ export function SellerSidebar({
                                     <button
                                         onClick={() => handleTabChange(item.id)}
                                         className={`
-                                            w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold transition-all
+                                            w-full flex items-center justify-between px-4 py-3 rounded-2xl text-base font-bold transition-all
                                             ${isActive && item.id !== 'products' && item.id !== 'settlement'
                                                 ? 'bg-[#E8F0E8] text-[#556B2F] shadow-inner-soft' 
                                                 : isActive && (item.id === 'products' || item.id === 'settlement')
@@ -174,9 +174,9 @@ export function SellerSidebar({
                                                         key={sub.id}
                                                         onClick={() => handleSubTabChange('products', sub.id)}
                                                         className={`
-                                                            w-full text-left py-2 px-3.5 rounded-xl text-xs font-bold transition-all block
+                                                            w-full text-left py-2 px-3.5 rounded-xl text-sm font-bold transition-all block
                                                             ${isSubActive 
-                                                                ? 'text-[#556B2F] bg-[#E8F0E8] font-black' 
+                                                                ? 'text-[#556B2F] bg-[#E8F0E8] font-bold' 
                                                                 : 'text-stone-500 hover:text-stone-850 hover:bg-stone-50/70'}
                                                         `}
                                                     >
@@ -197,9 +197,9 @@ export function SellerSidebar({
                                                         key={sub.id}
                                                         onClick={() => handleSubTabChange('settlement', sub.id)}
                                                         className={`
-                                                            w-full text-left py-2 px-3.5 rounded-xl text-xs font-bold transition-all block
+                                                            w-full text-left py-2 px-3.5 rounded-xl text-sm font-bold transition-all block
                                                             ${isSubActive 
-                                                                ? 'text-[#556B2F] bg-[#E8F0E8] font-black' 
+                                                                ? 'text-[#556B2F] bg-[#E8F0E8] font-bold' 
                                                                 : 'text-stone-500 hover:text-stone-850 hover:bg-stone-50/70'}
                                                         `}
                                                     >
@@ -218,15 +218,15 @@ export function SellerSidebar({
                 {/* Footer Section */}
                 <div className="space-y-4 pt-6 border-t border-stone-100">
                     <div className="px-4">
-                        <span className="text-xs text-stone-400 block font-medium">Logged in as</span>
-                        <span className="text-sm font-bold text-stone-700 truncate block max-w-full" title={userEmail}>
+                        <span className="text-sm text-stone-400 block font-medium">Logged in as</span>
+                        <span className="text-base font-bold text-stone-700 truncate block max-w-full" title={userEmail}>
                             {userEmail}
                         </span>
                     </div>
 
                     <Link 
                         href={`/${locale}/marketplace/dashboard`}
-                        className="flex items-center gap-2.5 px-4 py-3 w-full text-stone-500 hover:text-stone-800 hover:bg-stone-50 rounded-2xl text-xs font-bold transition-all"
+                        className="flex items-center gap-2.5 px-4 py-3 w-full text-stone-500 hover:text-stone-800 hover:bg-stone-50 rounded-2xl text-sm font-bold transition-all"
                     >
                         <ArrowLeft size={16} />
                         <span>{locale === 'ko' ? '디자이너 콘솔로 이동' : 'Back to Designer Console'}</span>

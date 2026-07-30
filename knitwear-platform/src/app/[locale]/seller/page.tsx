@@ -69,10 +69,10 @@ export default function SellerPage() {
                     <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-rose-500">
                         <Lock size={32} />
                     </div>
-                    <h1 className="text-2xl font-black text-stone-800 mb-3">
+                    <h1 className="text-2xl font-bold text-stone-800 mb-3">
                         {locale === 'ko' ? '판매자 전용 공간입니다' : 'Seller Space Only'}
                     </h1>
-                    <p className="text-stone-500 mb-8 leading-relaxed text-sm">
+                    <p className="text-stone-500 mb-8 leading-relaxed text-base">
                         {locale === 'ko' 
                             ? '실물 상품 등록 및 주문 배송 관리를 하려면 바이니트 판매자 계정으로 로그인이 필요합니다.' 
                             : 'To manage physical products and orders, please sign in with your byKnit seller account.'}
@@ -96,10 +96,10 @@ export default function SellerPage() {
                     <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-rose-500">
                         <Lock size={32} />
                     </div>
-                    <h1 className="text-2xl font-black text-stone-800 mb-3">
+                    <h1 className="text-2xl font-bold text-stone-800 mb-3">
                         {locale === 'ko' ? '접근 권한이 없습니다' : 'Access Denied'}
                     </h1>
-                    <p className="text-stone-500 mb-8 leading-relaxed text-sm">
+                    <p className="text-stone-500 mb-8 leading-relaxed text-base">
                         {locale === 'ko' 
                             ? '이 공간은 입점된 판매자 및 관리자 계정만 이용할 수 있습니다. 권한 변경이 필요한 경우 관리자에게 문의해 주세요.' 
                             : 'This area is restricted to registered sellers and administrator accounts only.'}

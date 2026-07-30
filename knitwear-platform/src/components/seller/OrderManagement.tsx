@@ -387,10 +387,10 @@ export function OrderManagement({ locale }: { locale: string }) {
         <div className="space-y-6 animate-fadeIn text-stone-700">
             {/* Header Title */}
             <div>
-                <h1 className="text-3xl font-black text-stone-800 font-sans">
+                <h1 className="text-3xl font-bold text-stone-800 font-sans">
                     {locale === 'ko' ? '배송 관리 (Coupang Wing)' : 'Shipping Management (Wing)'}
                 </h1>
-                <p className="text-stone-500 text-sm mt-1">
+                <p className="text-stone-500 text-base mt-1">
                     {locale === 'ko' 
                         ? '쿠팡 윙 스타일의 발주 배송 조회 테이블입니다. 체크박스 선택 후 일괄 발송 처리 및 엑셀 업로드를 지원합니다.' 
                         : 'Coupang Wing style order list grid. Supports bulk shipping status change and Excel CSV import/export.'}
@@ -399,11 +399,11 @@ export function OrderManagement({ locale }: { locale: string }) {
 
             {/* Coupang Style Priority Filter Bars */}
             <div className="flex flex-wrap items-center gap-3 bg-white p-4 rounded-3xl border border-stone-100 shadow-soft">
-                <span className="text-xs font-black text-stone-500 mr-2">{locale === 'ko' ? '배송 우선순위' : 'Shipping Priority'}</span>
+                <span className="text-sm font-bold text-stone-500 mr-2">{locale === 'ko' ? '배송 우선순위' : 'Shipping Priority'}</span>
                 
                 <button
                     onClick={() => setActivePriorityFilter('all')}
-                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all border ${
+                    className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
                         activePriorityFilter === 'all' 
                             ? 'bg-blue-600 border-blue-600 text-white shadow-soft' 
                             : 'bg-stone-50 border-stone-100 hover:bg-stone-100 text-stone-600'
@@ -414,7 +414,7 @@ export function OrderManagement({ locale }: { locale: string }) {
 
                 <button
                     onClick={() => setActivePriorityFilter('delayed')}
-                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all border flex items-center gap-1.5 ${
+                    className={`px-4 py-2 rounded-full text-sm font-bold transition-all border flex items-center gap-1.5 ${
                         activePriorityFilter === 'delayed' 
                             ? 'bg-rose-500 border-rose-500 text-white shadow-soft' 
                             : 'bg-rose-50 border-rose-100 text-rose-600 hover:bg-rose-100'
@@ -426,7 +426,7 @@ export function OrderManagement({ locale }: { locale: string }) {
 
                 <button
                     onClick={() => setActivePriorityFilter('today')}
-                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all border flex items-center gap-1.5 ${
+                    className={`px-4 py-2 rounded-full text-sm font-bold transition-all border flex items-center gap-1.5 ${
                         activePriorityFilter === 'today' 
                             ? 'bg-amber-500 border-amber-500 text-white shadow-soft' 
                             : 'bg-amber-50 border-amber-100 text-amber-600 hover:bg-amber-100'
@@ -441,7 +441,7 @@ export function OrderManagement({ locale }: { locale: string }) {
             {Object.keys(validationErrors).length > 0 && (
                 <div className="bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-2xl flex items-center gap-3 animate-fadeIn">
                     <AlertTriangle className="w-5 h-5 text-rose-500 shrink-0" />
-                    <div className="text-xs font-bold">
+                    <div className="text-sm font-bold">
                         {locale === 'ko' 
                             ? `${Object.keys(validationErrors).length}건의 운송장 번호 오류가 있습니다. 아래 빨간색 테두리로 하이라이트된 행을 수정해 주세요.` 
                             : `${Object.keys(validationErrors).length} tracking number errors detected. Please fix the red highlighted rows.`}
@@ -454,14 +454,14 @@ export function OrderManagement({ locale }: { locale: string }) {
                 <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
                     <button
                         onClick={handleBulkConfirm}
-                        className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-xs font-bold transition-all"
+                        className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-sm font-bold transition-all"
                     >
                         {locale === 'ko' ? '선택 발주확인' : 'Confirm Selected'}
                     </button>
                     
                     <button
                         onClick={handleBulkShip}
-                        className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-soft"
+                        className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-1.5 shadow-soft"
                     >
                         <Check size={14} />
                         <span>{locale === 'ko' ? '선택 건 발송 처리' : 'Ship Selected'}</span>
@@ -469,7 +469,7 @@ export function OrderManagement({ locale }: { locale: string }) {
 
                     <button
                         onClick={toggleAllExpand}
-                        className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-xs font-bold transition-all"
+                        className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-sm font-bold transition-all"
                     >
                         {allExpanded 
                             ? (locale === 'ko' ? '상품 전체 접기 ∧' : 'Collapse All ∧') 
@@ -486,14 +486,14 @@ export function OrderManagement({ locale }: { locale: string }) {
                             placeholder={locale === 'ko' ? '주문자명, 상품명, 주문번호...' : 'Search customer, product...'}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9 pr-3 py-2 bg-stone-50 border-0 rounded-xl text-xs outline-none focus:bg-stone-100 text-stone-600 w-full"
+                            className="pl-9 pr-3 py-2 bg-stone-50 border-0 rounded-xl text-sm outline-none focus:bg-stone-100 text-stone-600 w-full"
                         />
                     </div>
 
                     {/* Excel/CSV Download */}
                     <button
                         onClick={handleExportCSV}
-                        className="px-4 py-2.5 bg-white border border-stone-100 hover:bg-stone-50 text-stone-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-inner-soft"
+                        className="px-4 py-2.5 bg-white border border-stone-100 hover:bg-stone-50 text-stone-700 rounded-xl text-sm font-bold transition-all flex items-center gap-1.5 shadow-inner-soft"
                     >
                         <Download size={14} className="text-[#8FBC8F]" />
                         <span>{locale === 'ko' ? '발주서 다운로드 (CSV)' : 'Export CSV'}</span>
@@ -509,7 +509,7 @@ export function OrderManagement({ locale }: { locale: string }) {
                     />
                     <button
                         onClick={() => fileInputRef.current?.click()}
-                        className="px-4 py-2.5 bg-[#E8F0E8] text-[#556B2F] hover:bg-[#8FBC8F] hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                        className="px-4 py-2.5 bg-[#E8F0E8] text-[#556B2F] hover:bg-[#8FBC8F] hover:text-white rounded-xl text-sm font-bold transition-all flex items-center gap-1.5"
                     >
                         <Upload size={14} />
                         <span>{locale === 'ko' ? '운송장 일괄 업로드' : 'Import CSV'}</span>
@@ -520,7 +520,7 @@ export function OrderManagement({ locale }: { locale: string }) {
             {/* Coupang Wing Grid Style Table Container */}
             <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full border-collapse text-left text-xs min-w-[1200px] table-fixed">
+                    <table className="w-full border-collapse text-left text-sm min-w-[1200px] table-fixed">
                         <colgroup>
                             <col className="w-12" />
                             <col className="w-36" />
@@ -588,7 +588,7 @@ export function OrderManagement({ locale }: { locale: string }) {
                                                 >
                                                     {o.id}
                                                 </span>
-                                                <span className="block text-[9px] text-stone-400 mt-1 font-medium">{o.orderTime}</span>
+                                                <span className="block text-xs text-stone-400 mt-1 font-medium">{o.orderTime}</span>
                                             </td>
 
                                             {/* Split Delivery */}
@@ -602,7 +602,7 @@ export function OrderManagement({ locale }: { locale: string }) {
                                                     <select
                                                         value={o.carrier || '택배사 선택'}
                                                         onChange={(e) => handleFieldChange(o.id, 'carrier', e.target.value === '택배사 선택' ? '' : e.target.value)}
-                                                        className={`w-full bg-white border border-stone-300 rounded-lg p-2 text-xs focus:ring-1 focus:ring-blue-500 outline-none font-bold ${
+                                                        className={`w-full bg-white border border-stone-300 rounded-lg p-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none font-bold ${
                                                             !o.carrier ? 'text-stone-400' : 'text-stone-700'
                                                         }`}
                                                     >
@@ -625,7 +625,7 @@ export function OrderManagement({ locale }: { locale: string }) {
                                                             placeholder={locale === 'ko' ? '운송장번호 등록' : 'Tracking Num'}
                                                             value={o.trackingNumber}
                                                             onChange={(e) => handleFieldChange(o.id, 'trackingNumber', e.target.value)}
-                                                            className="w-full bg-white border border-stone-300 rounded-lg pl-2 pr-7 py-2 text-xs outline-none focus:ring-1 focus:ring-blue-500 text-stone-700 font-bold placeholder:text-stone-400"
+                                                            className="w-full bg-white border border-stone-300 rounded-lg pl-2 pr-7 py-2 text-sm outline-none focus:ring-1 focus:ring-blue-500 text-stone-700 font-bold placeholder:text-stone-400"
                                                         />
                                                         <Edit2 size={12} className="absolute right-2 text-stone-400 pointer-events-none" />
                                                     </div>
@@ -633,7 +633,7 @@ export function OrderManagement({ locale }: { locale: string }) {
                                                     <span className="font-bold select-all">{o.trackingNumber || '-'}</span>
                                                 )}
                                                 {hasError && (
-                                                    <span className="text-[9px] text-rose-500 font-bold block mt-1 leading-tight">
+                                                    <span className="text-xs text-rose-500 font-bold block mt-1 leading-tight">
                                                         {validationErrors[o.id]}
                                                     </span>
                                                 )}
@@ -653,14 +653,14 @@ export function OrderManagement({ locale }: { locale: string }) {
                                                         </span>
                                                         <button 
                                                             onClick={() => toggleExpandOrder(o.id)}
-                                                            className="text-[10px] text-blue-500 font-bold hover:underline shrink-0"
+                                                            className="text-xs text-blue-500 font-bold hover:underline shrink-0"
                                                         >
                                                             {expandedOrderIds.includes(o.id) ? (locale === 'ko' ? '접기 ∧' : 'Fold ∧') : (locale === 'ko' ? '펼치기 ∨' : 'Expand ∨')}
                                                         </button>
                                                     </div>
                                                     
                                                     {expandedOrderIds.includes(o.id) && (
-                                                        <div className="mt-2 pt-2 border-t border-stone-100 space-y-1 text-[10px] animate-fadeIn font-semibold">
+                                                        <div className="mt-2 pt-2 border-t border-stone-100 space-y-1 text-xs animate-fadeIn font-semibold">
                                                             <div className="text-stone-400">
                                                                 등록상품명: {o.productName}
                                                             </div>
@@ -681,16 +681,16 @@ export function OrderManagement({ locale }: { locale: string }) {
                                             {/* Recipient & Contact */}
                                             <td className="p-3 border-r border-stone-200 space-y-1">
                                                 <div className="font-bold text-stone-800">{o.customerName}</div>
-                                                <div className="text-[10px] text-stone-500 font-semibold select-all">{o.contact}</div>
+                                                <div className="text-xs text-stone-500 font-semibold select-all">{o.contact}</div>
                                             </td>
 
                                             {/* Shipping address */}
-                                            <td className="p-3 border-r border-stone-200 text-xs text-stone-500 leading-tight">
+                                            <td className="p-3 border-r border-stone-200 text-sm text-stone-500 leading-tight">
                                                 {o.address}
                                             </td>
 
                                             {/* Shipping Message */}
-                                            <td className="p-3 text-xs text-stone-400 leading-tight italic">
+                                            <td className="p-3 text-sm text-stone-400 leading-tight italic">
                                                 {o.shippingMessage}
                                             </td>
                                         </tr>
@@ -712,7 +712,7 @@ export function OrderManagement({ locale }: { locale: string }) {
             {/* Legend / Info box */}
             <div className="bg-stone-50 border border-stone-150 p-4 rounded-3xl flex gap-3 text-stone-500">
                 <Info size={18} className="text-[#8FBC8F] shrink-0 mt-0.5" />
-                <div className="text-xs space-y-1">
+                <div className="text-sm space-y-1">
                     <span className="font-bold text-stone-700 block">발송처리 안내 가이드 (Coupang Wing)</span>
                     <p>1. 운송장을 개별 등록 시: 좌측 체크박스를 선택하고 택배사와 송장번호를 채운 뒤 상단 <b>[선택 건 발송 처리]</b>를 누르면 발송 완료됩니다.</p>
                     <p>2. 엑셀(CSV) 일괄 등록 시: <b>[발주서 다운로드]</b>를 진행하여 다운로드한 파일의 K열(택배사)과 L열(운송장번호)을 입력해 다시 <b>[운송장 일괄 업로드]</b> 하시면 일괄 적용됩니다.</p>

@@ -100,10 +100,10 @@ export function SalesManagement({ locale }: { locale: string }) {
         <div className="space-y-6 text-stone-700 animate-fadeIn font-sans">
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-black text-stone-800">
+                <h1 className="text-3xl font-bold text-stone-800">
                     {locale === 'ko' ? '매출 관리 및 분석' : 'Sales Management'}
                 </h1>
-                <p className="text-stone-500 text-sm mt-1">
+                <p className="text-stone-500 text-base mt-1">
                     {locale === 'ko' 
                         ? '기간별 상점의 매출 트랙과 주문 결제 내역을 모니터링합니다.' 
                         : 'Track store sales logs and payment history.'}
@@ -113,46 +113,46 @@ export function SalesManagement({ locale }: { locale: string }) {
             {/* Today's Sales Summary (지표 & 전일대비 & 전환율) */}
             <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft space-y-6">
                 <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-                    <h3 className="font-bold text-stone-800 text-sm">
+                    <h3 className="font-bold text-stone-800 text-base">
                         {locale === 'ko' ? '오늘 하루 판매 지표 (2026.07.24)' : 'Today\'s Sales Performance'}
                     </h3>
-                    <span className="text-[10px] text-stone-400 font-semibold">{locale === 'ko' ? '실시간 집계 기준' : 'Real-time'}</span>
+                    <span className="text-xs text-stone-400 font-semibold">{locale === 'ko' ? '실시간 집계 기준' : 'Real-time'}</span>
                 </div>
 
                 {/* Metrics Cards Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Today Revenue */}
                     <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-[11px] text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 매출액' : 'Today\'s Revenue'}</span>
-                        <div className="text-xl font-black text-stone-800 mt-1">₩ 132,500</div>
-                        <span className="text-[10px] text-emerald-600 font-bold mt-1.5 block">
+                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 매출액' : 'Today\'s Revenue'}</span>
+                        <div className="text-xl font-bold text-stone-800 mt-1">₩ 132,500</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
                             {locale === 'ko' ? '전일 대비 ▲ ₩62,000 (+87.9%)' : 'vs yesterday ▲ ₩62,000'}
                         </span>
                     </div>
 
                     {/* Today Orders */}
                     <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-[11px] text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 결제 건수' : 'Today\'s Orders'}</span>
-                        <div className="text-xl font-black text-stone-800 mt-1">3 건</div>
-                        <span className="text-[10px] text-emerald-600 font-bold mt-1.5 block">
+                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 결제 건수' : 'Today\'s Orders'}</span>
+                        <div className="text-xl font-bold text-stone-800 mt-1">3 건</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
                             {locale === 'ko' ? '전일 대비 ▲ 1건 (+50%)' : 'vs yesterday ▲ 1 order'}
                         </span>
                     </div>
 
                     {/* Today Sales Volume */}
                     <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-[11px] text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 판매량' : 'Today\'s Sales Volume'}</span>
-                        <div className="text-xl font-black text-stone-800 mt-1">3 개</div>
-                        <span className="text-[10px] text-emerald-600 font-bold mt-1.5 block">
+                        <span className="text-sm text-stone-400 font-bold block">{locale === 'ko' ? '오늘의 판매량' : 'Today\'s Sales Volume'}</span>
+                        <div className="text-xl font-bold text-stone-800 mt-1">3 개</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
                             {locale === 'ko' ? '전일 대비 ▲ 1개 (+50%)' : 'vs yesterday ▲ 1 pcs'}
                         </span>
                     </div>
 
                     {/* Today Conversion Rate */}
                     <div className="bg-stone-50/50 p-4.5 rounded-2xl border border-stone-100">
-                        <span className="text-[11px] text-stone-400 font-bold block">★ {locale === 'ko' ? '오늘의 구매전환율' : 'Conversion Rate'}</span>
-                        <div className="text-xl font-black text-[#556B2F] mt-1">2.5 %</div>
-                        <span className="text-[10px] text-emerald-600 font-bold mt-1.5 block">
+                        <span className="text-sm text-stone-400 font-bold block">★ {locale === 'ko' ? '오늘의 구매전환율' : 'Conversion Rate'}</span>
+                        <div className="text-xl font-bold text-[#556B2F] mt-1">2.5 %</div>
+                        <span className="text-xs text-emerald-600 font-bold mt-1.5 block">
                             {locale === 'ko' ? '전일 대비 ▲ 0.7%p (방문자 120명)' : 'vs yesterday ▲ 0.7%p'}
                         </span>
                     </div>
@@ -160,12 +160,12 @@ export function SalesManagement({ locale }: { locale: string }) {
 
                 {/* Today's Product Sales Breakdown List */}
                 <div className="bg-stone-50/40 p-4 rounded-2xl border border-stone-100 space-y-3">
-                    <h4 className="text-xs font-black text-stone-600">{locale === 'ko' ? '오늘 팔린 상품 및 금액' : 'Today\'s Sold Products & Revenues'}</h4>
+                    <h4 className="text-sm font-bold text-stone-600">{locale === 'ko' ? '오늘 팔린 상품 및 금액' : 'Today\'s Sold Products & Revenues'}</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         {todayProducts.map((p, idx) => (
-                            <div key={idx} className="flex flex-col justify-between text-xs bg-white p-4 rounded-xl border border-stone-100 font-bold space-y-2">
+                            <div key={idx} className="flex flex-col justify-between text-sm bg-white p-4 rounded-xl border border-stone-100 font-bold space-y-2">
                                 <span className="text-stone-700 truncate block w-full" title={p.name}>{p.name}</span>
-                                <div className="flex items-center justify-between border-t border-stone-50 pt-2 text-[11px]">
+                                <div className="flex items-center justify-between border-t border-stone-50 pt-2 text-sm">
                                     <span className="text-stone-400">{locale === 'ko' ? '판매량' : 'Qty'}: <b className="text-stone-700">{p.qty}개</b></span>
                                     <span className="text-[#556B2F]">₩ {p.revenue.toLocaleString()}</span>
                                 </div>
@@ -178,38 +178,38 @@ export function SalesManagement({ locale }: { locale: string }) {
             {/* Date Range Selection Box */}
             <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft space-y-4">
                 <div className="flex flex-wrap items-center gap-4">
-                    <span className="text-xs font-black text-stone-500 w-16">{locale === 'ko' ? '조회 기간' : 'Inquiry Period'}</span>
+                    <span className="text-sm font-bold text-stone-500 w-16">{locale === 'ko' ? '조회 기간' : 'Inquiry Period'}</span>
                     
                     {/* Quick Buttons */}
                     <div className="flex flex-wrap gap-2">
                         <button
                             onClick={() => handleQuickRange('today')}
-                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-xs font-bold transition-all border border-stone-100"
+                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-sm font-bold transition-all border border-stone-100"
                         >
                             {locale === 'ko' ? '오늘' : 'Today'}
                         </button>
                         <button
                             onClick={() => handleQuickRange('1week')}
-                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-xs font-bold transition-all border border-stone-100"
+                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-sm font-bold transition-all border border-stone-100"
                         >
                             {locale === 'ko' ? '최근 1주일' : '1 Week'}
                         </button>
                         <button
                             onClick={() => handleQuickRange('1month')}
-                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-xs font-bold transition-all border border-stone-100"
+                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-sm font-bold transition-all border border-stone-100"
                         >
                             {locale === 'ko' ? '1개월' : '1 Month'}
                         </button>
                         <button
                             onClick={() => handleQuickRange('3months')}
-                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-xs font-bold transition-all border border-stone-100"
+                            className="px-3.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-600 rounded-lg text-sm font-bold transition-all border border-stone-100"
                         >
                             {locale === 'ko' ? '3개월' : '3 Months'}
                         </button>
                     </div>
 
                     {/* Date Pickers */}
-                    <div className="flex items-center gap-2 text-xs font-bold">
+                    <div className="flex items-center gap-2 text-sm font-bold">
                         <div className="relative">
                             <input 
                                 type="date"
@@ -231,7 +231,7 @@ export function SalesManagement({ locale }: { locale: string }) {
                         {/* Search Action */}
                         <button
                             onClick={handleSearch}
-                            className="ml-2 px-5 py-2 bg-[#556B2F] hover:bg-[#8FBC8F] text-white rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-soft"
+                            className="ml-2 px-5 py-2 bg-[#556B2F] hover:bg-[#8FBC8F] text-white rounded-xl text-sm font-bold transition-all flex items-center gap-1.5 shadow-soft"
                         >
                             <Search size={12} />
                             <span>{locale === 'ko' ? '조회' : 'Search'}</span>
@@ -246,66 +246,66 @@ export function SalesManagement({ locale }: { locale: string }) {
                 <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft flex flex-col justify-between">
                     <div>
                         <div className="flex items-center justify-between text-stone-400 mb-2">
-                            <span className="text-xs font-bold">{locale === 'ko' ? '총 결제 금액' : 'Total Payments'}</span>
+                            <span className="text-sm font-bold">{locale === 'ko' ? '총 결제 금액' : 'Total Payments'}</span>
                             <TrendingUp size={16} className="text-[#8FBC8F]" />
                         </div>
-                        <span className="text-2xl font-black text-stone-800">₩ {totalPayment.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-stone-800">₩ {totalPayment.toLocaleString()}</span>
                     </div>
-                    <span className="text-[10px] text-stone-400 mt-3 font-semibold">선택 기간 전체 실결제액</span>
+                    <span className="text-xs text-stone-400 mt-3 font-semibold">선택 기간 전체 실결제액</span>
                 </div>
 
                 {/* Metric 2 */}
                 <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft flex flex-col justify-between">
                     <div>
                         <div className="flex items-center justify-between text-stone-400 mb-2">
-                            <span className="text-xs font-bold">{locale === 'ko' ? '결제 건수' : 'Order Count'}</span>
+                            <span className="text-sm font-bold">{locale === 'ko' ? '결제 건수' : 'Order Count'}</span>
                             <ShoppingBag size={16} className="text-blue-400" />
                         </div>
-                        <span className="text-2xl font-black text-stone-800">{totalOrderCount} 건</span>
+                        <span className="text-2xl font-bold text-stone-800">{totalOrderCount} 건</span>
                     </div>
-                    <span className="text-[10px] text-stone-400 mt-3 font-semibold">취소 제외 정상 완료 거래</span>
+                    <span className="text-xs text-stone-400 mt-3 font-semibold">취소 제외 정상 완료 거래</span>
                 </div>
 
                 {/* Metric 3 */}
                 <div className="bg-white p-6 rounded-3xl border border-stone-100 shadow-soft flex flex-col justify-between">
                     <div>
                         <div className="flex items-center justify-between text-stone-400 mb-2">
-                            <span className="text-xs font-bold">{locale === 'ko' ? '환불 및 취소 금액' : 'Refunds'}</span>
+                            <span className="text-sm font-bold">{locale === 'ko' ? '환불 및 취소 금액' : 'Refunds'}</span>
                             <RotateCcw size={16} className="text-rose-400" />
                         </div>
-                        <span className="text-2xl font-black text-rose-500">₩ {totalCancelledAmount.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-rose-500">₩ {totalCancelledAmount.toLocaleString()}</span>
                     </div>
-                    <span className="text-[10px] text-stone-400 mt-3 font-semibold">취소 및 반품 완료 환불액</span>
+                    <span className="text-xs text-stone-400 mt-3 font-semibold">취소 및 반품 완료 환불액</span>
                 </div>
 
                 {/* Metric 4 */}
                 <div className="bg-white p-6 rounded-3xl border border-[#E8F0E8] shadow-soft flex flex-col justify-between bg-gradient-to-br from-white to-[#FAFDF9]">
                     <div>
                         <div className="flex items-center justify-between text-stone-400 mb-2">
-                            <span className="text-xs font-bold">{locale === 'ko' ? '순 매출액' : 'Net Sales'}</span>
+                            <span className="text-sm font-bold">{locale === 'ko' ? '순 매출액' : 'Net Sales'}</span>
                             <Coins size={16} className="text-[#556B2F]" />
                         </div>
-                        <span className="text-2xl font-black text-[#556B2F]">₩ {netSales.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-[#556B2F]">₩ {netSales.toLocaleString()}</span>
                     </div>
-                    <span className="text-[10px] text-[#8FBC8F] mt-3 font-bold">정산 대상 순수 매출액</span>
+                    <span className="text-xs text-[#8FBC8F] mt-3 font-bold">정산 대상 순수 매출액</span>
                 </div>
             </div>
 
             {/* Sales Transaction Grid Table */}
             <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden">
                 <div className="p-5 border-b border-stone-100 flex items-center justify-between bg-stone-50/50">
-                    <span className="text-xs font-black text-stone-600">
+                    <span className="text-sm font-bold text-stone-600">
                         {locale === 'ko' 
                             ? `조회 결과: 총 ${filteredRecords.length}건` 
                             : `Results: ${filteredRecords.length} records`}
                     </span>
-                    <span className="text-[10px] text-stone-400 font-semibold">
+                    <span className="text-xs text-stone-400 font-semibold">
                         기간: {appliedRange.start} ~ {appliedRange.end}
                     </span>
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full border-collapse text-left text-xs min-w-[900px]">
+                    <table className="w-full border-collapse text-left text-sm min-w-[900px]">
                         <thead>
                             <tr className="bg-stone-100 text-stone-600 font-bold border-b border-stone-200">
                                 <th className="p-3.5 border-r border-stone-200">{locale === 'ko' ? '결제 일시' : 'Payment Time'}</th>
@@ -357,7 +357,7 @@ export function SalesManagement({ locale }: { locale: string }) {
                                             </td>
 
                                             {/* Total */}
-                                            <td className={`p-3.5 border-r border-stone-200 text-right font-black ${
+                                            <td className={`p-3.5 border-r border-stone-200 text-right font-bold ${
                                                 isCancelled ? 'text-stone-400 line-through' : 'text-stone-800'
                                             }`}>
                                                 ₩ {total.toLocaleString()}
@@ -370,7 +370,7 @@ export function SalesManagement({ locale }: { locale: string }) {
 
                                             {/* Status Badge */}
                                             <td className="p-3.5 text-center">
-                                                <span className={`px-2.5 py-1 rounded-full text-[10px] font-black inline-block ${
+                                                <span className={`px-2.5 py-1 rounded-full text-xs font-bold inline-block ${
                                                     r.status === 'paid' 
                                                         ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
                                                         : r.status === 'completed'

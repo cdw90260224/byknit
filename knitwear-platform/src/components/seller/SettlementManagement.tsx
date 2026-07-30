@@ -130,10 +130,10 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
         <div className="space-y-8 animate-fadeIn font-sans">
             {/* Page Header */}
             <div>
-                <h1 className="text-3xl font-black text-stone-850">
+                <h1 className="text-3xl font-bold text-stone-850">
                     {locale === 'ko' ? '정산 관리' : 'Settlement Management'}
                 </h1>
-                <p className="text-stone-500 text-sm mt-1">
+                <p className="text-stone-500 text-base mt-1">
                     {locale === 'ko' 
                         ? '구매확정 완료된 실물 상품 대금의 정산 지급 내역 및 영수증을 확인합니다.' 
                         : 'Check completed settlement history and pending payout details.'}
@@ -146,14 +146,14 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                 <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-100 shadow-soft flex flex-col justify-between h-40">
                     <div>
                         <div className="flex items-center justify-between text-stone-400 mb-2">
-                            <span className="text-xs font-bold">{locale === 'ko' ? '오늘 정산 예정 금액' : 'Scheduled for Today'}</span>
-                            <span className="text-[10px] font-bold bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full">지급대기</span>
+                            <span className="text-sm font-bold">{locale === 'ko' ? '오늘 정산 예정 금액' : 'Scheduled for Today'}</span>
+                            <span className="text-xs font-bold bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full">지급대기</span>
                         </div>
-                        <span className="text-3xl font-black text-[#556B2F] mt-2 block">
+                        <span className="text-3xl font-bold text-[#556B2F] mt-2 block">
                             ₩ {todayScheduledTotal.toLocaleString()}
                         </span>
                     </div>
-                    <span className="text-[10px] text-stone-400 font-bold block">
+                    <span className="text-xs text-stone-400 font-bold block">
                         {locale === 'ko' ? `* 오늘(${todayStr}) 정산 지급 대기 중인 금액입니다.` : `* Pending payouts scheduled for today (${todayStr}).`}
                     </span>
                 </div>
@@ -162,14 +162,14 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                 <div className="bg-white p-6 md:p-8 rounded-3xl border border-stone-100 shadow-soft flex flex-col justify-between h-40">
                     <div>
                         <div className="flex items-center justify-between text-stone-400 mb-2">
-                            <span className="text-xs font-bold">{locale === 'ko' ? '오늘 정산 완료 금액' : 'Settled Today'}</span>
-                            <span className="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">지급완료</span>
+                            <span className="text-sm font-bold">{locale === 'ko' ? '오늘 정산 완료 금액' : 'Settled Today'}</span>
+                            <span className="text-xs font-bold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">지급완료</span>
                         </div>
-                        <span className="text-3xl font-black text-stone-850 mt-2 block">
+                        <span className="text-3xl font-bold text-stone-850 mt-2 block">
                             ₩ {todaySettledTotal.toLocaleString()}
                         </span>
                     </div>
-                    <span className="text-[10px] text-[#8FBC8F] font-bold block flex items-center gap-1">
+                    <span className="text-xs text-[#8FBC8F] font-bold block flex items-center gap-1">
                         <Check size={12} />
                         <span>{locale === 'ko' ? `오늘(${todayStr}) 계좌 이체가 정상 완료되었습니다.` : `Transferred to account today (${todayStr}).`}</span>
                     </span>
@@ -187,7 +187,7 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                     </div>
                     <button
                         onClick={handleExportExcel}
-                        className="px-4 py-2.5 bg-white border border-stone-200 text-stone-700 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shadow-inner-soft hover:bg-stone-50"
+                        className="px-4 py-2.5 bg-white border border-stone-200 text-stone-700 rounded-xl text-sm font-bold transition-all flex items-center gap-2 shadow-inner-soft hover:bg-stone-50"
                     >
                         <Download size={14} className="text-[#8FBC8F]" />
                         <span>{locale === 'ko' ? '정산 대장 엑셀 다운로드 (CSV)' : 'Export Excel (CSV)'}</span>
@@ -195,7 +195,7 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse min-w-[800px] text-xs">
+                    <table className="w-full text-left border-collapse min-w-[800px] text-sm">
                         <thead>
                             <tr className="bg-stone-100 text-stone-600 font-bold border-b border-stone-200">
                                 <th className="p-4 pl-6 md:pl-8 border-r border-stone-200">{locale === 'ko' ? '정산번호 / 주문번호' : 'Payout ID / Order ID'}</th>
@@ -214,7 +214,7 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                                     {/* ID & Order ID */}
                                     <td className="p-4 pl-6 md:pl-8 border-r border-stone-200">
                                         <span className="font-bold text-stone-850 block">{s.id}</span>
-                                        <span className="text-[10px] text-stone-400 block font-medium mt-0.5">{s.orderId}</span>
+                                        <span className="text-xs text-stone-400 block font-medium mt-0.5">{s.orderId}</span>
                                     </td>
                                     {/* Product Name */}
                                     <td className="p-4 border-r border-stone-200 font-bold text-stone-800 max-w-[180px] truncate" title={s.productName}>
@@ -237,20 +237,20 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                                         -₩ {s.commission.toLocaleString()}
                                     </td>
                                     {/* Net Amount */}
-                                    <td className="p-4 border-r border-stone-200 text-right font-black text-stone-850">
+                                    <td className="p-4 border-r border-stone-200 text-right font-bold text-stone-850">
                                         ₩ {s.netAmount.toLocaleString()}
                                     </td>
                                     {/* Status */}
                                     <td className="p-4 pr-6 md:pr-8 text-center">
                                         {s.status === 'paid' ? (
                                             <div className="space-y-0.5">
-                                                <span className="inline-block bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black px-2 py-0.5 rounded-md">
+                                                <span className="inline-block bg-emerald-50 text-emerald-600 border border-emerald-100 text-xs font-bold px-2 py-0.5 rounded-md">
                                                     {locale === 'ko' ? '지급 완료' : 'Paid'}
                                                 </span>
-                                                <span className="text-[9px] text-stone-400 block font-semibold">{s.paidDate}</span>
+                                                <span className="text-xs text-stone-400 block font-semibold">{s.paidDate}</span>
                                             </div>
                                         ) : (
-                                            <span className="inline-block bg-amber-50 text-amber-600 border border-amber-100 text-[10px] font-black px-2 py-0.5 rounded-md">
+                                            <span className="inline-block bg-amber-50 text-amber-600 border border-amber-100 text-xs font-bold px-2 py-0.5 rounded-md">
                                                 {locale === 'ko' ? '지급 대기' : 'Pending'}
                                             </span>
                                         )}
@@ -267,7 +267,7 @@ export function SettlementManagement({ locale, activeSubTab }: SettlementManagem
                     <h2 className="text-lg font-bold text-stone-800 mb-2">
                         {locale === 'ko' ? '항목별 정산 내역 준비 중' : 'Category Settlement History Coming Soon'}
                     </h2>
-                    <p className="text-sm">
+                    <p className="text-base">
                         {locale === 'ko' 
                             ? '상품 카테고리별(예: 털실, 바늘, 도안 등) 정산 내역 및 통계 기능이 곧 추가될 예정입니다.' 
                             : 'Settlement statistics by category will be available soon.'}

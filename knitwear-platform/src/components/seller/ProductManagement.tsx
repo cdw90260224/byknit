@@ -779,10 +779,10 @@ export function ProductManagement({
             {/* Page Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-stone-900">
+                    <h1 className="text-3xl font-bold text-stone-900">
                         {locale === 'ko' ? '상품 관리' : 'Product Console'}
                     </h1>
-                    <p className="text-stone-500 text-sm mt-1">
+                    <p className="text-stone-500 text-base mt-1">
                         {locale === 'ko' 
                             ? '실물 상품 등록 및 수정, 2단계 분류 검색, 공지사항 지정 및 택배 배송비 묶음그룹을 스마트스토어 실무 격자 구조로 관리합니다.' 
                             : 'Configure 2-level categories, announcements, shipping bundles, and product options.'}
@@ -795,17 +795,17 @@ export function ProductManagement({
                 <div className="bg-white p-6 rounded-3xl border border-stone-150 shadow-soft space-y-4 animate-fadeIn">
                     <div className="flex items-center gap-2 text-stone-900 border-b border-stone-50 pb-2.5">
                         <FolderTree size={16} className="text-blue-500" />
-                        <span className="text-xs font-black">{locale === 'ko' ? '상세 필터' : 'Detailed Filter'}</span>
+                        <span className="text-sm font-bold">{locale === 'ko' ? '상세 필터' : 'Detailed Filter'}</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {/* Main Category Select */}
                         <div className="space-y-1">
-                            <label className="text-[10.5px] font-black text-stone-700 block">{locale === 'ko' ? '대분류 선택' : 'Large Category'}</label>
+                            <label className="text-[10.5px] font-bold text-stone-700 block">{locale === 'ko' ? '대분류 선택' : 'Large Category'}</label>
                             <select
                                 value={filterMainCategory}
                                 onChange={(e) => handleFilterMainCatChange(e.target.value)}
-                                className="w-full bg-stone-50 border border-stone-250 rounded-xl px-3 py-2 text-xs font-bold text-stone-850 outline-none focus:bg-white focus:ring-1 focus:ring-blue-500"
+                                className="w-full bg-stone-50 border border-stone-250 rounded-xl px-3 py-2 text-sm font-bold text-stone-850 outline-none focus:bg-white focus:ring-1 focus:ring-blue-500"
                             >
                                 <option value="all">{locale === 'ko' ? '전체 대분류' : 'All Large Categories'}</option>
                                 {Object.entries(categoryMap).map(([key, data]) => (
@@ -816,12 +816,12 @@ export function ProductManagement({
 
                         {/* Sub Category Select (Dependent) */}
                         <div className="space-y-1">
-                            <label className="text-[10.5px] font-black text-stone-700 block">{locale === 'ko' ? '중분류 선택' : 'Medium Category'}</label>
+                            <label className="text-[10.5px] font-bold text-stone-700 block">{locale === 'ko' ? '중분류 선택' : 'Medium Category'}</label>
                             <select
                                 value={filterSubCategory}
                                 onChange={(e) => setFilterSubCategory(e.target.value)}
                                 disabled={filterMainCategory === 'all'}
-                                className={`w-full border rounded-xl px-3 py-2 text-xs font-bold outline-none ${
+                                className={`w-full border rounded-xl px-3 py-2 text-sm font-bold outline-none ${
                                     filterMainCategory === 'all'
                                         ? 'bg-stone-100 text-stone-400 border-stone-200'
                                         : 'bg-stone-50 border-stone-250 focus:bg-white text-stone-850 focus:ring-1 focus:ring-blue-500'
@@ -838,7 +838,7 @@ export function ProductManagement({
 
                         {/* Text Search */}
                         <div className="space-y-1">
-                            <label className="text-[10.5px] font-black text-stone-700 block">{locale === 'ko' ? '상품명 및 코드 검색' : 'Search Term'}</label>
+                            <label className="text-[10.5px] font-bold text-stone-700 block">{locale === 'ko' ? '상품명 및 코드 검색' : 'Search Term'}</label>
                             <div className="relative">
                                 <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
                                 <input 
@@ -846,7 +846,7 @@ export function ProductManagement({
                                     placeholder={locale === 'ko' ? '상품명 또는 코드를 입력해 주세요.' : 'Search product name/code...'}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="pl-8 pr-3 py-2 bg-stone-50 border border-stone-250 rounded-xl text-xs outline-none focus:bg-white text-stone-850 font-bold w-full focus:ring-1 focus:ring-blue-500"
+                                    className="pl-8 pr-3 py-2 bg-stone-50 border border-stone-250 rounded-xl text-sm outline-none focus:bg-white text-stone-850 font-bold w-full focus:ring-1 focus:ring-blue-500"
                                 />
                             </div>
                         </div>
@@ -863,59 +863,59 @@ export function ProductManagement({
                     {/* Naver Smartstore Summary Counter Bar */}
                     <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
                         <div className="bg-white p-3.5 rounded-2xl border border-stone-150 shadow-soft text-center space-y-1">
-                            <span className="text-[10px] text-stone-400 font-bold block">전체 상품</span>
-                            <span className="text-base font-black text-stone-900">{products.length}건</span>
+                            <span className="text-xs text-stone-400 font-bold block">전체 상품</span>
+                            <span className="text-base font-bold text-stone-900">{products.length}건</span>
                         </div>
                         <div className="bg-white p-3.5 rounded-2xl border border-stone-150 shadow-soft text-center space-y-1">
-                            <span className="text-[10px] text-stone-400 font-bold block">판매대기</span>
-                            <span className="text-base font-black text-stone-400">0건</span>
+                            <span className="text-xs text-stone-400 font-bold block">판매대기</span>
+                            <span className="text-base font-bold text-stone-400">0건</span>
                         </div>
                         <div className="bg-white p-3.5 rounded-2xl border border-stone-150 shadow-soft text-center space-y-1 bg-emerald-50/20 border-emerald-100">
-                            <span className="text-[10px] text-emerald-600/80 font-bold block">판매중</span>
-                            <span className="text-base font-black text-emerald-600">{products.filter(p => p.status === 'selling').length}건</span>
+                            <span className="text-xs text-emerald-600/80 font-bold block">판매중</span>
+                            <span className="text-base font-bold text-emerald-600">{products.filter(p => p.status === 'selling').length}건</span>
                         </div>
                         <div className="bg-white p-3.5 rounded-2xl border border-stone-150 shadow-soft text-center space-y-1 bg-rose-50/20 border-rose-100">
-                            <span className="text-[10px] text-rose-500/85 font-bold block">품절</span>
-                            <span className="text-base font-black text-rose-500">{products.filter(p => p.status === 'soldout').length}건</span>
+                            <span className="text-xs text-rose-500/85 font-bold block">품절</span>
+                            <span className="text-base font-bold text-rose-500">{products.filter(p => p.status === 'soldout').length}건</span>
                         </div>
                         <div className="bg-white p-3.5 rounded-2xl border border-stone-150 shadow-soft text-center space-y-1">
-                            <span className="text-[10px] text-stone-400 font-bold block">승인대기</span>
-                            <span className="text-base font-black text-stone-400">0건</span>
+                            <span className="text-xs text-stone-400 font-bold block">승인대기</span>
+                            <span className="text-base font-bold text-stone-400">0건</span>
                         </div>
                         <div className="bg-white p-3.5 rounded-2xl border border-stone-150 shadow-soft text-center space-y-1">
-                            <span className="text-[10px] text-stone-400 font-bold block">판매중지(숨김)</span>
-                            <span className="text-base font-black text-stone-600">{products.filter(p => p.status === 'hidden').length}건</span>
+                            <span className="text-xs text-stone-400 font-bold block">판매중지(숨김)</span>
+                            <span className="text-base font-bold text-stone-600">{products.filter(p => p.status === 'hidden').length}건</span>
                         </div>
                     </div>
 
                     {/* Bulk Actions Bar */}
                     <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-stone-150 shadow-soft">
-                        <span className="text-[11px] font-bold text-stone-500 pl-2">
-                            선택된 상품: <span className="text-blue-600 font-black">{selectedProductIds.length}</span>개
+                        <span className="text-sm font-bold text-stone-500 pl-2">
+                            선택된 상품: <span className="text-blue-600 font-bold">{selectedProductIds.length}</span>개
                         </span>
                         
                         <div className="flex items-center gap-1.5 flex-wrap">
                             <button
                                 onClick={() => handleBulkStatusChange('selling')}
-                                className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 rounded-lg text-[10px] font-bold transition-all"
+                                className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 rounded-lg text-xs font-bold transition-all"
                             >
                                 판매중 전환
                             </button>
                             <button
                                 onClick={() => handleBulkStatusChange('soldout')}
-                                className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 rounded-lg text-[10px] font-bold transition-all"
+                                className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 rounded-lg text-xs font-bold transition-all"
                             >
                                 품절 처리
                             </button>
                             <button
                                 onClick={() => handleBulkStatusChange('hidden')}
-                                className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 rounded-lg text-[10px] font-bold transition-all"
+                                className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200 rounded-lg text-xs font-bold transition-all"
                             >
                                 숨김(판매중지) 처리
                             </button>
                             <button
                                 onClick={handleBulkDelete}
-                                className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1"
+                                className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-xs font-bold transition-all flex items-center gap-1"
                             >
                                 <Trash2 size={10} />
                                 <span>선택 삭제</span>
@@ -926,7 +926,7 @@ export function ProductManagement({
                     {/* Product Listing Table */}
                     <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full border-collapse text-left text-xs min-w-[1050px]">
+                            <table className="w-full border-collapse text-left text-sm min-w-[1050px]">
                                 <thead>
                                     <tr className="bg-stone-100 text-stone-600 font-bold border-b border-stone-200">
                                         <th className="p-3.5 text-center w-12 border-r border-stone-200">
@@ -978,17 +978,17 @@ export function ProductManagement({
 
                                                     {/* Name & ID */}
                                                     <td className="p-3.5 border-r border-stone-200 space-y-1">
-                                                        <div className="font-bold text-stone-900 text-sm leading-snug">{p.name}</div>
+                                                        <div className="font-bold text-stone-900 text-base leading-snug">{p.name}</div>
                                                         <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                                                            <span className="text-[10px] text-stone-400 font-mono">ID: {p.id}</span>
+                                                            <span className="text-xs text-stone-400 font-mono">ID: {p.id}</span>
                                                             {(!p.deliveryType || p.deliveryType === 'immediate') && (
-                                                                <span className="px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 text-emerald-600 text-[9px] font-black rounded">바로배송</span>
+                                                                <span className="px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 text-emerald-600 text-xs font-bold rounded">바로배송</span>
                                                             )}
                                                             {p.deliveryType === 'custom' && (
-                                                                <span className="px-1.5 py-0.5 bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-black rounded">주문제작 ({p.customDeliveryDays || 3}일)</span>
+                                                                <span className="px-1.5 py-0.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold rounded">주문제작 ({p.customDeliveryDays || 3}일)</span>
                                                             )}
                                                             {p.deliveryType === 'reserve' && (
-                                                                <span className="px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-600 text-[9px] font-black rounded">예약발송</span>
+                                                                <span className="px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold rounded">예약발송</span>
                                                             )}
                                                         </div>
                                                     </td>
@@ -996,26 +996,26 @@ export function ProductManagement({
                                                     {/* Category Path */}
                                                     <td className="p-3.5 border-r border-stone-200">
                                                         <div className="flex flex-col gap-1">
-                                                            <span className="inline-flex max-w-fit items-center px-2 py-0.5 bg-stone-50 border border-stone-150 text-[9px] font-bold text-stone-500 rounded-md">
+                                                            <span className="inline-flex max-w-fit items-center px-2 py-0.5 bg-stone-50 border border-stone-150 text-xs font-bold text-stone-500 rounded-md">
                                                                 {mainLabel}
                                                             </span>
-                                                            <span className="text-xs text-stone-850 font-black pl-1">
+                                                            <span className="text-sm text-stone-850 font-bold pl-1">
                                                                 ↳ {subLabel}
                                                             </span>
                                                         </div>
                                                     </td>
 
                                                     {/* Shipping details */}
-                                                    <td className="p-3.5 border-r border-stone-200 space-y-1.5 text-[10px]">
+                                                    <td className="p-3.5 border-r border-stone-200 space-y-1.5 text-xs">
                                                         <div className="flex items-center gap-1 text-stone-800">
                                                             <Truck size={10} className="text-[#8FBC8F]" />
-                                                            <span className="font-black">
+                                                            <span className="font-bold">
                                                                 {p.shippingMethod === 'courier' && '택배/포장배송'}
                                                                 {p.shippingMethod === 'direct' && '직접배송(퀵)'}
                                                                 {p.shippingMethod === 'pickup' && '매장 직접수령'}
                                                             </span>
                                                         </div>
-                                                        <div className="text-[9px] text-stone-450 font-semibold leading-relaxed">
+                                                        <div className="text-xs text-stone-450 font-semibold leading-relaxed">
                                                             {p.shippingFeeType === 'free' && '무료배송'}
                                                             {p.shippingFeeType === 'paid' && `기본 ₩${(p.basicShippingFee || 0).toLocaleString()}`}
                                                             {p.shippingFeeType === 'conditional' && (
@@ -1030,7 +1030,7 @@ export function ProductManagement({
                                                                 반품 ₩${(p.returnShippingFee || 0).toLocaleString()} / 교환 ₩${(p.exchangeShippingFee || 0).toLocaleString()}
                                                             </span>
                                                             {linkedBundle && (
-                                                                <span className="block font-black text-blue-600 mt-0.5">
+                                                                <span className="block font-bold text-blue-600 mt-0.5">
                                                                     ({linkedBundle.name} - {linkedBundle.carrier})
                                                                 </span>
                                                             )}
@@ -1041,30 +1041,30 @@ export function ProductManagement({
                                                     <td className="p-3.5 border-r border-stone-200 text-right space-y-0.5">
                                                         {p.discountPrice ? (
                                                             <>
-                                                                <div className="text-stone-300 line-through text-[10px]">₩{p.price.toLocaleString()}</div>
-                                                                <div className="text-blue-600 font-black text-xs">₩{p.discountPrice.toLocaleString()}</div>
+                                                                <div className="text-stone-300 line-through text-xs">₩{p.price.toLocaleString()}</div>
+                                                                <div className="text-blue-600 font-bold text-sm">₩{p.discountPrice.toLocaleString()}</div>
                                                             </>
                                                         ) : (
-                                                            <div className="font-black text-xs text-stone-900">₩{p.price.toLocaleString()}</div>
+                                                            <div className="font-bold text-sm text-stone-900">₩{p.price.toLocaleString()}</div>
                                                         )}
                                                     </td>
 
                                                     {/* Options */}
-                                                    <td className="p-3.5 border-r border-stone-200 text-xs space-y-1 text-stone-500">
-                                                        <div className="font-bold text-stone-700 text-[10px] mb-1 flex items-center justify-between">
+                                                    <td className="p-3.5 border-r border-stone-200 text-sm space-y-1 text-stone-500">
+                                                        <div className="font-bold text-stone-700 text-xs mb-1 flex items-center justify-between">
                                                             <span>옵션: {p.options.length}개</span>
-                                                            <span className={`px-1.5 py-0.5 rounded text-[9px] ${
+                                                            <span className={`px-1.5 py-0.5 rounded text-xs ${
                                                                 totalStock <= 10 
-                                                                    ? 'bg-rose-50 text-rose-500 border border-rose-100 font-black animate-pulse' 
+                                                                    ? 'bg-rose-50 text-rose-500 border border-rose-100 font-bold animate-pulse' 
                                                                     : 'bg-emerald-50 text-emerald-600 border border-emerald-100 font-bold'
                                                             }`}>
                                                                 재고: {totalStock}개 {totalStock <= 10 && '품절임박'}
                                                             </span>
                                                         </div>
                                                         {p.options.slice(0, 2).map((opt, i) => (
-                                                            <div key={i} className="flex justify-between text-[10px] bg-stone-50/50 p-1 rounded border border-stone-100/50">
+                                                            <div key={i} className="flex justify-between text-xs bg-stone-50/50 p-1 rounded border border-stone-100/50">
                                                                 <span className="truncate max-w-[125px] font-medium">{opt.name}</span>
-                                                                <span className={opt.stock <= 5 ? 'text-rose-500 font-black' : 'font-bold text-stone-600'}>
+                                                                <span className={opt.stock <= 5 ? 'text-rose-500 font-bold' : 'font-bold text-stone-600'}>
                                                                     {opt.stock}개
                                                                 </span>
                                                             </div>
@@ -1076,7 +1076,7 @@ export function ProductManagement({
                                                         <select
                                                             value={p.status}
                                                             onChange={(e) => handleStatusChange(p.id, e.target.value as any)}
-                                                            className={`bg-white border border-stone-300 rounded-lg p-1.5 text-[10px] font-black outline-none cursor-pointer ${
+                                                            className={`bg-white border border-stone-300 rounded-lg p-1.5 text-xs font-bold outline-none cursor-pointer ${
                                                                 p.status === 'selling' 
                                                                     ? 'text-emerald-600 border-emerald-200 bg-emerald-50/10'
                                                                     : p.status === 'hidden'
@@ -1094,7 +1094,7 @@ export function ProductManagement({
                                                     <td className="p-3.5 text-center flex items-center justify-center gap-1.5">
                                                         <button 
                                                             onClick={() => handleCloneProduct(p)}
-                                                            className="px-2 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 text-[10px] font-black rounded-lg flex items-center gap-0.5 hover:bg-emerald-100 transition-colors"
+                                                            className="px-2 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 text-xs font-bold rounded-lg flex items-center gap-0.5 hover:bg-emerald-100 transition-colors"
                                                             title="복사"
                                                         >
                                                             <Copy size={10} />
@@ -1139,14 +1139,14 @@ export function ProductManagement({
                         <div className="flex items-center gap-2">
                             <PlusCircle className="text-emerald-600" size={22} />
                             <div>
-                                <span className="text-lg font-black text-stone-900">{locale === 'ko' ? '스마트스토어형 상품 등록 에디터' : 'Smartstore Product Editor'}</span>
-                                <span className="block text-[10px] text-stone-400 font-bold mt-0.5">네이버 스마트스토어 실무 규격에 최적화된 상품 세부 설정</span>
+                                <span className="text-lg font-bold text-stone-900">{locale === 'ko' ? '스마트스토어형 상품 등록 에디터' : 'Smartstore Product Editor'}</span>
+                                <span className="block text-xs text-stone-400 font-bold mt-0.5">네이버 스마트스토어 실무 규격에 최적화된 상품 세부 설정</span>
                             </div>
                         </div>
                         <button
                             type="button"
                             onClick={() => setActiveSubTab('list')}
-                            className="px-4 py-2 bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 rounded-xl text-xs font-bold transition-all shadow-xs"
+                            className="px-4 py-2 bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 rounded-xl text-sm font-bold transition-all shadow-xs"
                         >
                             목록으로 돌아가기
                         </button>
@@ -1154,18 +1154,18 @@ export function ProductManagement({
 
                     {/* Section 1: 카테고리 & 상품명 */}
                     <div className="bg-white p-6 rounded-2xl border border-stone-150 shadow-soft space-y-5">
-                        <span className="text-xs font-black text-stone-900 border-l-4 border-emerald-600 pl-2 block">
+                        <span className="text-sm font-bold text-stone-900 border-l-4 border-emerald-600 pl-2 block">
                             SECTION 1. 카테고리 및 상품명 설정
                         </span>
                         
                         {/* Category search & select */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">대분류 카테고리 *</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">대분류 카테고리 *</label>
                                 <select 
                                     value={regMainCategory}
                                     onChange={(e) => handleRegMainCategoryChange(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-sm outline-none focus:bg-white text-stone-700 font-bold"
                                 >
                                     {Object.entries(categoryMap).map(([key, data]) => (
                                         <option key={key} value={key}>{data.label}</option>
@@ -1173,11 +1173,11 @@ export function ProductManagement({
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">중분류 카테고리 *</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">중분류 카테고리 *</label>
                                 <select 
                                     value={regSubCategory}
                                     onChange={(e) => setRegSubCategory(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-sm outline-none focus:bg-white text-stone-700 font-bold"
                                 >
                                     {Object.entries(categoryMap[regMainCategory].sub).map(([key, val]) => (
                                         <option key={key} value={key}>{val}</option>
@@ -1185,7 +1185,7 @@ export function ProductManagement({
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">카테고리명 빠른 검색/매칭</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">카테고리명 빠른 검색/매칭</label>
                                 <input 
                                     type="text" 
                                     placeholder="예: 울, 면, 세트, 완성품"
@@ -1207,7 +1207,7 @@ export function ProductManagement({
                                             }
                                         }
                                     }}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500 text-stone-700 font-bold"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-sm outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500 text-stone-700 font-bold"
                                 />
                             </div>
                         </div>
@@ -1215,8 +1215,8 @@ export function ProductManagement({
                         {/* Title with letter count */}
                         <div>
                             <div className="flex justify-between items-center mb-1">
-                                <label className="block text-[10px] font-bold text-stone-700">상품명 (검색 키워드 정합성 가이드) *</label>
-                                <span className={`text-[10px] font-mono font-bold ${regName.length > 100 ? 'text-rose-500 font-black animate-pulse' : 'text-stone-400'}`}>
+                                <label className="block text-xs font-bold text-stone-700">상품명 (검색 키워드 정합성 가이드) *</label>
+                                <span className={`text-xs font-mono font-bold ${regName.length > 100 ? 'text-rose-500 font-bold animate-pulse' : 'text-stone-400'}`}>
                                     {regName.length}/100자
                                 </span>
                             </div>
@@ -1227,10 +1227,10 @@ export function ProductManagement({
                                 placeholder="브랜드명 + 핵심속성 + 상품 키워드 조합을 권장합니다. (예: 바이니트 천연 유기농 메리노 울 털실)"
                                 value={regName}
                                 onChange={(e) => setRegName(e.target.value)}
-                                className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500 text-stone-850 font-bold"
+                                className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white focus:ring-1 focus:ring-emerald-500 text-stone-850 font-bold"
                             />
                             {regName.length > 80 && (
-                                <span className="text-[9px] text-amber-600 font-bold mt-1 block">
+                                <span className="text-xs text-amber-600 font-bold mt-1 block">
                                     ※ 상품명이 80자를 초과하면 스마트스토어 검색 노출 패널티가 발생할 수 있습니다.
                                 </span>
                             )}
@@ -1239,31 +1239,31 @@ export function ProductManagement({
 
                     {/* Section 2: 판매가 & 즉시할인 계산기 */}
                     <div className="bg-white p-6 rounded-2xl border border-stone-150 shadow-soft space-y-5">
-                        <span className="text-xs font-black text-stone-900 border-l-4 border-emerald-600 pl-2 block">
+                        <span className="text-sm font-bold text-stone-900 border-l-4 border-emerald-600 pl-2 block">
                             SECTION 2. 판매가 및 즉시할인 설정
                         </span>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">기본 판매가 (정가, 원) *</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">기본 판매가 (정가, 원) *</label>
                                 <input 
                                     type="number" 
                                     required
                                     placeholder="10000"
                                     value={regPrice}
                                     onChange={(e) => setRegPrice(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-800 font-bold"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-800 font-bold"
                                 />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">할인 유형 설정</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">할인 유형 설정</label>
                                 <select 
                                     value={regDiscountType}
                                     onChange={(e) => {
                                         setRegDiscountType(e.target.value as any);
                                         setRegDiscountValue('0');
                                     }}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-700 font-bold"
                                 >
                                     <option value="none">할인 설정 없음</option>
                                     <option value="won">정액 할인 (원)</option>
@@ -1272,7 +1272,7 @@ export function ProductManagement({
                             </div>
                             {regDiscountType !== 'none' && (
                                 <div className="animate-fadeIn">
-                                    <label className="block text-[10px] font-bold text-stone-700 mb-1">
+                                    <label className="block text-xs font-bold text-stone-700 mb-1">
                                         {regDiscountType === 'won' ? '할인 금액 (원)' : '할인 비율 (%)'} *
                                     </label>
                                     <input 
@@ -1281,7 +1281,7 @@ export function ProductManagement({
                                         placeholder={regDiscountType === 'won' ? '1000' : '10'}
                                         value={regDiscountValue}
                                         onChange={(e) => setRegDiscountValue(e.target.value)}
-                                        className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-850 font-bold"
+                                        className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-850 font-bold"
                                     />
                                 </div>
                             )}
@@ -1289,9 +1289,9 @@ export function ProductManagement({
 
                         {/* Real-time calculated final price */}
                         {Number(regPrice) > 0 && regDiscountType !== 'none' && (
-                            <div className="p-3.5 bg-emerald-50/50 border border-emerald-100 rounded-xl flex items-center justify-between text-xs font-bold text-emerald-800 animate-fadeIn">
+                            <div className="p-3.5 bg-emerald-50/50 border border-emerald-100 rounded-xl flex items-center justify-between text-sm font-bold text-emerald-800 animate-fadeIn">
                                 <span>할인 적용 최종 소비자 결제액:</span>
-                                <span className="text-sm font-black text-emerald-600">
+                                <span className="text-base font-bold text-emerald-600">
                                     ₩{(
                                         regDiscountType === 'won'
                                             ? Math.max(0, Number(regPrice) - Number(regDiscountValue))
@@ -1304,31 +1304,50 @@ export function ProductManagement({
 
                     {/* Section 3: 대표 및 추가 이미지 */}
                     <div className="bg-white p-6 rounded-2xl border border-stone-150 shadow-soft space-y-5">
-                        <span className="text-xs font-black text-stone-900 border-l-4 border-emerald-600 pl-2 block">
+                        <span className="text-sm font-bold text-stone-900 border-l-4 border-emerald-600 pl-2 block">
                             SECTION 3. 대표 이미지 및 썸네일 갤러리
                         </span>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">대표 썸네일 이미지 URL *</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">대표 썸네일 이미지 파일 업로드 *</label>
                                 <input 
-                                    type="text" 
-                                    placeholder="https://images.unsplash.com/photo-..."
-                                    value={regImageUrl}
-                                    onChange={(e) => setRegImageUrl(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onloadend = () => {
+                                                setRegImageUrl(reader.result as string);
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    }}
+                                    className="w-full bg-white border border-stone-200 rounded-xl p-2.5 text-sm outline-none text-stone-700 font-bold file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#E8F0E8] file:text-[#556B2F] hover:file:bg-[#D0E0D0] cursor-pointer"
                                 />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">추가 썸네일 이미지 URL (콤마로 구분하여 여러 개 추가 가능)</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">추가 썸네일 이미지 파일 다중 업로드</label>
                                 <input 
-                                    type="text" 
-                                    placeholder="https://image1.jpg, https://image2.jpg"
+                                    type="file" 
+                                    accept="image/*"
+                                    multiple
                                     onChange={(e) => {
-                                        const urls = e.target.value.split(',').map(u => u.trim()).filter(u => u !== '');
-                                        setRegSubImages(urls);
+                                        const files = Array.from(e.target.files || []);
+                                        const newUrls: string[] = [];
+                                        files.forEach(file => {
+                                            const reader = new FileReader();
+                                            reader.onloadend = () => {
+                                                newUrls.push(reader.result as string);
+                                                if (newUrls.length === files.length) {
+                                                    setRegSubImages(prev => [...prev, ...newUrls]);
+                                                }
+                                            };
+                                            reader.readAsDataURL(file);
+                                        });
                                     }}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                    className="w-full bg-white border border-stone-200 rounded-xl p-2.5 text-sm outline-none text-stone-700 font-bold file:mr-4 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200 cursor-pointer"
                                 />
                             </div>
                         </div>
@@ -1336,12 +1355,12 @@ export function ProductManagement({
                         {/* Thumbnail Previews */}
                         {(regImageUrl || regSubImages.length > 0) && (
                             <div className="space-y-2">
-                                <span className="text-[10px] font-bold text-stone-400 block">썸네일 이미지 미리보기</span>
+                                <span className="text-xs font-bold text-stone-400 block">썸네일 이미지 미리보기</span>
                                 <div className="flex gap-2 flex-wrap">
                                     {regImageUrl && (
                                         <div className="relative group rounded-xl border border-stone-200 overflow-hidden bg-stone-50 w-16 h-16 shadow-soft">
                                             <img src={regImageUrl} alt="Main" className="w-full h-full object-cover" />
-                                            <span className="absolute bottom-0 inset-x-0 bg-stone-900/60 text-white text-[8px] font-black text-center py-0.5">대표</span>
+                                            <span className="absolute bottom-0 inset-x-0 bg-stone-900/60 text-white text-[8px] font-bold text-center py-0.5">대표</span>
                                         </div>
                                     )}
                                     {regSubImages.map((img, i) => (
@@ -1357,21 +1376,21 @@ export function ProductManagement({
 
                     {/* Section 4: 발송유형 & 택배배송 정보 */}
                     <div className="bg-white p-6 rounded-2xl border border-stone-150 shadow-soft space-y-5">
-                        <span className="text-xs font-black text-stone-900 border-l-4 border-emerald-600 pl-2 block">
+                        <span className="text-sm font-bold text-stone-900 border-l-4 border-emerald-600 pl-2 block">
                             SECTION 4. 발송 속성 (바로 배송 vs 주문 제작) 및 배송 조건
                         </span>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 bg-stone-50 p-4 rounded-2xl border border-stone-150">
                             {/* Delivery Options */}
                             <div className="space-y-4">
-                                <span className="text-[11px] font-black text-stone-800 block">발송 희망일 / 제작 유형</span>
+                                <span className="text-sm font-bold text-stone-800 block">발송 희망일 / 제작 유형</span>
                                 <div className="grid grid-cols-3 gap-2">
                                     {(['immediate', 'custom', 'reserve'] as const).map(dt => (
                                         <button
                                             key={dt}
                                             type="button"
                                             onClick={() => setRegDeliveryType(dt)}
-                                            className={`py-2 rounded-xl text-[11px] font-black border transition-all ${
+                                            className={`py-2 rounded-xl text-sm font-bold border transition-all ${
                                                 regDeliveryType === dt
                                                     ? 'bg-emerald-600 border-emerald-700 text-white shadow-soft'
                                                     : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -1386,15 +1405,15 @@ export function ProductManagement({
 
                                 {regDeliveryType === 'custom' && (
                                     <div className="p-3 bg-white border border-stone-200 rounded-xl space-y-1.5 animate-fadeIn">
-                                        <label className="block text-[9px] font-bold text-stone-700">핸드메이드 주문 제작 기간 설정 (영업일 기준)</label>
+                                        <label className="block text-xs font-bold text-stone-700">핸드메이드 주문 제작 기간 설정 (영업일 기준)</label>
                                         <div className="flex items-center gap-2">
                                             <input 
                                                 type="number"
                                                 value={regCustomDeliveryDays}
                                                 onChange={(e) => setRegCustomDeliveryDays(e.target.value)}
-                                                className="w-16 bg-stone-50 border border-stone-200 rounded-lg p-1.5 text-xs font-bold text-center"
+                                                className="w-16 bg-stone-50 border border-stone-200 rounded-lg p-1.5 text-sm font-bold text-center"
                                             />
-                                            <span className="text-xs font-bold text-stone-600">일 이내에 제작 완료 후 발송</span>
+                                            <span className="text-sm font-bold text-stone-600">일 이내에 제작 완료 후 발송</span>
                                         </div>
                                     </div>
                                 )}
@@ -1402,10 +1421,10 @@ export function ProductManagement({
 
                             {/* Shipping Details */}
                             <div className="space-y-4">
-                                <span className="text-[11px] font-black text-stone-800 block">택배 배송비 상세 조건</span>
-                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                <span className="text-sm font-bold text-stone-800 block">택배 배송비 상세 조건</span>
+                                <div className="grid grid-cols-2 gap-3 text-sm">
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">배송 수단</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">배송 수단</label>
                                         <select
                                             value={regShippingMethod}
                                             onChange={(e) => setRegShippingMethod(e.target.value as any)}
@@ -1417,7 +1436,7 @@ export function ProductManagement({
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">배송비 구분</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">배송비 구분</label>
                                         <select
                                             value={regShippingFeeType}
                                             onChange={(e) => setRegShippingFeeType(e.target.value as any)}
@@ -1433,11 +1452,11 @@ export function ProductManagement({
                         </div>
 
                         {/* CS Fees & Shipping bundle */}
-                        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
                             {regShippingFeeType !== 'free' && (
                                 <>
                                     <div>
-                                        <label className="block text-[10px] font-bold text-stone-700 mb-1">기본 배송비 (원)</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-1">기본 배송비 (원)</label>
                                         <input 
                                             type="number"
                                             value={regBasicShippingFee}
@@ -1447,7 +1466,7 @@ export function ProductManagement({
                                     </div>
                                     {regShippingFeeType === 'conditional' && (
                                         <div>
-                                            <label className="block text-[10px] font-bold text-stone-700 mb-1">무료 조건 금액 (원)</label>
+                                            <label className="block text-xs font-bold text-stone-700 mb-1">무료 조건 금액 (원)</label>
                                             <input 
                                                 type="number"
                                                 value={regFreeShippingThreshold}
@@ -1459,7 +1478,7 @@ export function ProductManagement({
                                 </>
                             )}
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">반품 배송비 (편도, 원)</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">반품 배송비 (편도, 원)</label>
                                 <input 
                                     type="number"
                                     value={regReturnShippingFee}
@@ -1468,7 +1487,7 @@ export function ProductManagement({
                                 />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold text-stone-700 mb-1">교환 배송비 (왕복, 원)</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-1">교환 배송비 (왕복, 원)</label>
                                 <input 
                                     type="number"
                                     value={regExchangeShippingFee}
@@ -1479,11 +1498,11 @@ export function ProductManagement({
                         </div>
 
                         <div>
-                            <label className="block text-[10px] font-bold text-stone-700 mb-1">연동할 배송비 묶음그룹</label>
+                            <label className="block text-xs font-bold text-stone-700 mb-1">연동할 배송비 묶음그룹</label>
                             <select
                                 value={regBundleGroupId}
                                 onChange={(e) => setRegBundleGroupId(Number(e.target.value))}
-                                className="w-full bg-white border border-stone-200 rounded-xl p-2.5 text-xs font-bold text-stone-700"
+                                className="w-full bg-white border border-stone-200 rounded-xl p-2.5 text-sm font-bold text-stone-700"
                             >
                                 {bundleGroups.map(bg => (
                                     <option key={bg.id} value={bg.id}>
@@ -1496,12 +1515,12 @@ export function ProductManagement({
 
                     {/* Section 5: 스마트스토어형 옵션 설정 */}
                     <div className="bg-white p-6 rounded-2xl border border-stone-150 shadow-soft space-y-5">
-                        <span className="text-xs font-black text-stone-900 border-l-4 border-emerald-600 pl-2 block">
+                        <span className="text-sm font-bold text-stone-900 border-l-4 border-emerald-600 pl-2 block">
                             SECTION 5. 옵션 설정 (단일형 / 조합형 Matrix 생성기)
                         </span>
 
                         <div className="flex gap-4 border-b border-stone-100 pb-3">
-                            <label className="flex items-center gap-1.5 text-xs font-bold text-stone-700 cursor-pointer">
+                            <label className="flex items-center gap-1.5 text-sm font-bold text-stone-700 cursor-pointer">
                                 <input 
                                     type="radio" 
                                     checked={regOptionType === 'simple'} 
@@ -1510,7 +1529,7 @@ export function ProductManagement({
                                 />
                                 <span>단일형 옵션 (옵션 수동 개별 기입)</span>
                             </label>
-                            <label className="flex items-center gap-1.5 text-xs font-bold text-stone-700 cursor-pointer">
+                            <label className="flex items-center gap-1.5 text-sm font-bold text-stone-700 cursor-pointer">
                                 <input 
                                     type="radio" 
                                     checked={regOptionType === 'combination'} 
@@ -1525,11 +1544,11 @@ export function ProductManagement({
                             /* Simple manual options */
                             <div className="space-y-4 animate-fadeIn">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-[11px] font-bold text-stone-400">수동 기입형 옵션 및 재고</span>
+                                    <span className="text-sm font-bold text-stone-400">수동 기입형 옵션 및 재고</span>
                                     <button
                                         type="button"
                                         onClick={handleAddRegOption}
-                                        className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 border border-stone-200 text-stone-750 text-[10px] font-bold rounded-lg transition-all"
+                                        className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 border border-stone-200 text-stone-750 text-xs font-bold rounded-lg transition-all"
                                     >
                                         + 옵션 추가
                                     </button>
@@ -1543,7 +1562,7 @@ export function ProductManagement({
                                                 placeholder="옵션 규격명 (예: 밤부목재 10mm / 보통)"
                                                 value={opt.name}
                                                 onChange={(e) => handleRegOptionChange(index, 'name', e.target.value)}
-                                                className="flex-1 bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs font-bold outline-none text-stone-700 focus:bg-white"
+                                                className="flex-1 bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-sm font-bold outline-none text-stone-700 focus:bg-white"
                                             />
                                             <input 
                                                 type="number" 
@@ -1551,7 +1570,7 @@ export function ProductManagement({
                                                 placeholder="재고수량"
                                                 value={opt.stock}
                                                 onChange={(e) => handleRegOptionChange(index, 'stock', Number(e.target.value))}
-                                                className="w-24 bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-xs font-bold outline-none text-stone-700 focus:bg-white"
+                                                className="w-24 bg-stone-50 border border-stone-200 rounded-xl p-2.5 text-sm font-bold outline-none text-stone-700 focus:bg-white"
                                             />
                                             {regOptions.length > 1 && (
                                                 <button 
@@ -1570,10 +1589,10 @@ export function ProductManagement({
                             /* Smartstore combination option matrix generator */
                             <div className="space-y-5 animate-fadeIn">
                                 <div className="bg-stone-50 border border-stone-200 p-4 rounded-xl space-y-3">
-                                    <span className="text-[11px] font-black text-stone-700 block">스마트스토어 옵션 생성 정보 기입</span>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-semibold">
+                                    <span className="text-sm font-bold text-stone-700 block">스마트스토어 옵션 생성 정보 기입</span>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-semibold">
                                         <div>
-                                            <label className="block text-[9px] font-bold text-stone-700 mb-1">옵션명 (예: 색상, 사이즈)</label>
+                                            <label className="block text-xs font-bold text-stone-700 mb-1">옵션명 (예: 색상, 사이즈)</label>
                                             <input 
                                                 type="text"
                                                 value={regOptionNames.join(',')}
@@ -1583,7 +1602,7 @@ export function ProductManagement({
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-[9px] font-bold text-stone-700 mb-1">옵션값 (쉼표로 나열, 옵션수와 1:1 대응하여 기입)</label>
+                                            <label className="block text-xs font-bold text-stone-700 mb-1">옵션값 (쉼표로 나열, 옵션수와 1:1 대응하여 기입)</label>
                                             <input 
                                                 type="text"
                                                 value={regOptionValues.join(' | ')}
@@ -1596,7 +1615,7 @@ export function ProductManagement({
                                     <button
                                         type="button"
                                         onClick={handleApplyOptionMatrix}
-                                        className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black shadow-soft"
+                                        className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-soft"
                                     >
                                         [옵션 목록 적용] 스마트스토어 조합형 행 자동 생성
                                     </button>
@@ -1605,9 +1624,9 @@ export function ProductManagement({
                                 {/* Matrix rendering */}
                                 {regOptionMatrix.length > 0 && (
                                     <div className="border border-stone-200 rounded-xl overflow-hidden animate-fadeIn">
-                                        <table className="w-full text-left border-collapse text-xs">
+                                        <table className="w-full text-left border-collapse text-sm">
                                             <thead>
-                                                <tr className="bg-stone-50 border-b border-stone-200 text-[10px] font-black text-stone-500">
+                                                <tr className="bg-stone-50 border-b border-stone-200 text-xs font-bold text-stone-500">
                                                     <th className="p-2.5">옵션 조합명</th>
                                                     <th className="p-2.5 w-32">옵션가 변동 (+/-원)</th>
                                                     <th className="p-2.5 w-24">재고수량</th>
@@ -1617,7 +1636,7 @@ export function ProductManagement({
                                             <tbody className="divide-y divide-stone-150 text-stone-700 font-bold">
                                                 {regOptionMatrix.map((item, idx) => (
                                                     <tr key={item.id} className="hover:bg-stone-50/50">
-                                                        <td className="p-2.5 font-black text-stone-800">{item.name}</td>
+                                                        <td className="p-2.5 font-bold text-stone-800">{item.name}</td>
                                                         <td className="p-2.5">
                                                             <input 
                                                                 type="number"
@@ -1668,35 +1687,35 @@ export function ProductManagement({
                     {/* Section 6: 블로그형 상세페이지 에디터 (스마트에디터 ONE) */}
                     <div className="bg-white p-6 rounded-2xl border border-stone-150 shadow-soft space-y-5">
                         <div className="flex justify-between items-center border-b border-stone-100 pb-3">
-                            <span className="text-xs font-black text-stone-900 border-l-4 border-emerald-600 pl-2 block">
+                            <span className="text-sm font-bold text-stone-900 border-l-4 border-emerald-600 pl-2 block">
                                 SECTION 6. 스마트에디터 ONE (상세페이지 블록 편집기)
                             </span>
                             <div className="flex gap-1">
                                 <button
                                     type="button"
                                     onClick={() => handleAddDetailBlock('text')}
-                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold rounded-lg border border-stone-200"
+                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-lg border border-stone-200"
                                 >
                                     + 글 단락
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => handleAddDetailBlock('image')}
-                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold rounded-lg border border-stone-200"
+                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-lg border border-stone-200"
                                 >
                                     + 사진 추가
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => handleAddDetailBlock('notice')}
-                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold rounded-lg border border-stone-200"
+                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-lg border border-stone-200"
                                 >
                                     + 강조공지
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => handleAddDetailBlock('guide')}
-                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-[10px] font-bold rounded-lg border border-stone-200"
+                                    className="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-lg border border-stone-200"
                                 >
                                     + 세탁가이드
                                 </button>
@@ -1707,7 +1726,7 @@ export function ProductManagement({
                         <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1 bg-stone-50/50 p-4 rounded-xl border border-stone-150">
                             {regDetailBlocks.map((block, idx) => (
                                 <div key={idx} className="bg-white p-4 rounded-xl border border-stone-200 shadow-xs relative group animate-fadeIn space-y-2">
-                                    <div className="flex justify-between items-center text-[10px] font-black uppercase text-emerald-700">
+                                    <div className="flex justify-between items-center text-xs font-bold uppercase text-emerald-700">
                                         <span>
                                             {block.type === 'text' && '✍️ 글 단락 블록'}
                                             {block.type === 'image' && '🖼️ 사진 갤러리 블록'}
@@ -1727,7 +1746,7 @@ export function ProductManagement({
                                         <textarea
                                             value={block.content}
                                             onChange={(e) => handleUpdateDetailBlock(idx, e.target.value)}
-                                            className="w-full bg-stone-50 border border-stone-200 rounded-lg p-2 text-xs font-bold outline-none text-stone-750 resize-none focus:bg-white"
+                                            className="w-full bg-stone-50 border border-stone-200 rounded-lg p-2 text-sm font-bold outline-none text-stone-750 resize-none focus:bg-white"
                                             rows={2}
                                         />
                                     ) : block.type === 'image' ? (
@@ -1736,7 +1755,7 @@ export function ProductManagement({
                                                 type="text"
                                                 value={block.content}
                                                 onChange={(e) => handleUpdateDetailBlock(idx, e.target.value)}
-                                                className="w-full bg-stone-50 border border-stone-200 rounded-lg p-2 text-[10px] font-mono outline-none"
+                                                className="w-full bg-stone-50 border border-stone-200 rounded-lg p-2 text-xs font-mono outline-none"
                                                 placeholder="이미지 URL 입력..."
                                             />
                                             {block.content && (
@@ -1748,7 +1767,7 @@ export function ProductManagement({
                                             type="text"
                                             value={block.content}
                                             onChange={(e) => handleUpdateDetailBlock(idx, e.target.value)}
-                                            className="w-full bg-stone-50 border border-stone-200 rounded-lg p-2 text-xs font-bold outline-none text-stone-700 focus:bg-white"
+                                            className="w-full bg-stone-50 border border-stone-200 rounded-lg p-2 text-sm font-bold outline-none text-stone-700 focus:bg-white"
                                         />
                                     )}
                                 </div>
@@ -1761,13 +1780,13 @@ export function ProductManagement({
                         <button
                             type="button"
                             onClick={() => setActiveSubTab('list')}
-                            className="px-5 py-3 bg-stone-150 hover:bg-stone-200 text-stone-600 rounded-2xl text-xs font-bold transition-all"
+                            className="px-5 py-3 bg-stone-150 hover:bg-stone-200 text-stone-600 rounded-2xl text-sm font-bold transition-all"
                         >
                             취소
                         </button>
                         <button
                             type="submit"
-                            className="px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-2xl text-xs font-black transition-all shadow-soft flex items-center gap-1.5"
+                            className="px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-2xl text-sm font-bold transition-all shadow-soft flex items-center gap-1.5"
                         >
                             <Check size={14} />
                             <span>스마트스토어 양식으로 상품 등록 완료</span>
@@ -1786,8 +1805,8 @@ export function ProductManagement({
 
                     <div className="bg-stone-50 border border-stone-200 p-5 rounded-2xl flex gap-3 text-stone-700">
                         <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                        <div className="text-xs space-y-2 leading-relaxed text-stone-600">
-                            <span className="font-black text-stone-850 block text-sm">일괄 등록 가이드 및 대분류/중분류 코드 안내</span>
+                        <div className="text-sm space-y-2 leading-relaxed text-stone-600">
+                            <span className="font-bold text-stone-850 block text-base">일괄 등록 가이드 및 대분류/중분류 코드 안내</span>
                             <p>1. 하단의 **[일괄등록 양식 템플릿 다운로드]**를 눌러 가이드가 포함된 CSV 양식을 내려받습니다.</p>
                             <p>2. 대분류는 반드시 아래 영문 식별 ID 중 하나를 입력합니다:
                                 <code className="bg-white px-1.5 py-0.5 rounded border border-stone-200 ml-1 font-mono font-bold text-blue-600">yarn</code>, 
@@ -1801,15 +1820,15 @@ export function ProductManagement({
 
                     {/* Visual Template Structure Guide */}
                     <div className="space-y-3">
-                        <span className="text-xs font-black text-stone-850 flex items-center gap-1.5 pl-1">
+                        <span className="text-sm font-bold text-stone-850 flex items-center gap-1.5 pl-1">
                             <FolderTree size={14} className="text-blue-500" />
                             <span>일괄 등록 CSV 템플릿 열람 및 구조 가이드 (틀 미리보기)</span>
                         </span>
                         
                         <div className="border border-stone-200 rounded-2xl overflow-hidden shadow-soft">
-                            <table className="w-full text-left text-xs border-collapse bg-white">
+                            <table className="w-full text-left text-sm border-collapse bg-white">
                                 <thead>
-                                    <tr className="bg-stone-50 text-stone-700 text-[10px] font-black border-b border-stone-200 uppercase tracking-wider">
+                                    <tr className="bg-stone-50 text-stone-700 text-xs font-bold border-b border-stone-200 uppercase tracking-wider">
                                         <th className="p-3 w-16">열 순서</th>
                                         <th className="p-3 w-28">열 이름 (헤더)</th>
                                         <th className="p-3 w-20">필수여부</th>
@@ -1820,52 +1839,52 @@ export function ProductManagement({
                                 <tbody className="divide-y divide-stone-150 font-bold text-stone-700">
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">1</td>
-                                        <td className="p-3 text-stone-900 font-black">상품명</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3 text-stone-900 font-bold">상품명</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-xs">필수</span></td>
                                         <td className="p-3">텍스트 (100자 이하)</td>
                                         <td className="p-3 text-stone-500 font-medium">파스텔 소프트 울 털실</td>
                                     </tr>
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">2</td>
-                                        <td className="p-3 text-stone-900 font-black">대분류</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
-                                        <td className="p-3 text-[10px] font-mono text-blue-600">yarn | needle | notions | finished | package</td>
+                                        <td className="p-3 text-stone-900 font-bold">대분류</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-xs">필수</span></td>
+                                        <td className="p-3 text-xs font-mono text-blue-600">yarn | needle | notions | finished | package</td>
                                         <td className="p-3 text-stone-500 font-medium">yarn</td>
                                     </tr>
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">3</td>
-                                        <td className="p-3 text-stone-900 font-black">중분류</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3 text-stone-900 font-bold">중분류</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-xs">필수</span></td>
                                         <td className="p-3">선택한 대분류의 하위 중분류 코드를 기입</td>
                                         <td className="p-3 text-stone-500 font-medium">wool</td>
                                     </tr>
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">4</td>
-                                        <td className="p-3 text-stone-900 font-black">판매가</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3 text-stone-900 font-bold">판매가</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-xs">필수</span></td>
                                         <td className="p-3">숫자 기입 (소수점 제외 정가 원화)</td>
                                         <td className="p-3 text-stone-500 font-medium">8900</td>
                                     </tr>
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">5</td>
-                                        <td className="p-3 text-stone-900 font-black">할인가</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-[9px]">선택</span></td>
+                                        <td className="p-3 text-stone-900 font-bold">할인가</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-xs">선택</span></td>
                                         <td className="p-3">기본 할인가 입력 (없으면 공란 가능)</td>
                                         <td className="p-3 text-stone-500 font-medium">7900</td>
                                     </tr>
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">6</td>
-                                        <td className="p-3 text-stone-900 font-black">옵션리스트</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-[9px]">선택</span></td>
+                                        <td className="p-3 text-stone-900 font-bold">옵션리스트</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-xs">선택</span></td>
                                         <td className="p-3">규격명:재고 형태 기입, 파이프(|)로 구분하여 나열</td>
                                         <td className="p-3 text-stone-500 font-medium">화이트:100|핑크:80|베이지:50</td>
                                     </tr>
                                     <tr className="hover:bg-stone-50/50">
                                         <td className="p-3 text-stone-400 font-mono">7</td>
-                                        <td className="p-3 text-stone-900 font-black">이미지URL</td>
-                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-[9px]">선택</span></td>
+                                        <td className="p-3 text-stone-900 font-bold">이미지URL</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-xs">선택</span></td>
                                         <td className="p-3">대표 썸네일 이미지 파일 주소 URL</td>
-                                        <td className="p-3 text-[10px] text-blue-600 font-mono truncate max-w-xs">https://images.unsplash.com/...</td>
+                                        <td className="p-3 text-xs text-blue-600 font-mono truncate max-w-xs">https://images.unsplash.com/...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1875,7 +1894,7 @@ export function ProductManagement({
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-8 border-2 border-dashed border-stone-200 rounded-2xl bg-stone-50/50">
                         <button
                             onClick={handleDownloadTemplate}
-                            className="px-5 py-3 bg-white border border-stone-200 text-stone-700 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shadow-inner-soft hover:bg-stone-50"
+                            className="px-5 py-3 bg-white border border-stone-200 text-stone-700 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 shadow-inner-soft hover:bg-stone-50"
                         >
                             <Download size={14} className="text-blue-500" />
                             <span>{locale === 'ko' ? '일괄등록 템플릿 양식 다운로드' : 'Download CSV Template'}</span>
@@ -1890,7 +1909,7 @@ export function ProductManagement({
                         />
                         <button
                             onClick={() => fileInputRef.current?.click()}
-                            className="px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-xs font-black transition-all flex items-center gap-2 shadow-soft"
+                            className="px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 shadow-soft"
                         >
                             <Upload size={14} />
                             <span>{locale === 'ko' ? 'CSV 파일 선택하여 일괄 등록' : 'Select CSV & Upload'}</span>
@@ -1906,10 +1925,10 @@ export function ProductManagement({
                     {/* Search & Action bar */}
                     <div className="bg-white p-6 rounded-3xl border border-stone-150 shadow-soft space-y-4">
                         <div className="flex items-center justify-between border-b border-stone-50 pb-2.5">
-                            <span className="text-xs font-black text-stone-900">공지사항 상세 검색</span>
+                            <span className="text-sm font-bold text-stone-900">공지사항 상세 검색</span>
                             <button
                                 onClick={() => handleOpenAnnoModal()}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black transition-all flex items-center gap-1 shadow-soft"
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-1 shadow-soft"
                             >
                                 <PlusCircle size={14} />
                                 <span>새 상품 공지사항 등록</span>
@@ -1918,21 +1937,21 @@ export function ProductManagement({
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">제목 검색</label>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">제목 검색</label>
                                 <input 
                                     type="text"
                                     placeholder="공지 제목 검색..."
                                     value={annoSearchTitle}
                                     onChange={(e) => setAnnoSearchTitle(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:bg-white"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none focus:bg-white"
                                 />
                             </div>
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">분류</label>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">분류</label>
                                 <select
                                     value={annoSearchCategory}
                                     onChange={(e) => setAnnoSearchCategory(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:bg-white"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none focus:bg-white"
                                 >
                                     <option value="all">전체 분류</option>
                                     <option value="general">일반</option>
@@ -1941,11 +1960,11 @@ export function ProductManagement({
                                 </select>
                             </div>
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">전시 상태</label>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">전시 상태</label>
                                 <select
                                     value={annoSearchStatus}
                                     onChange={(e) => setAnnoSearchStatus(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:bg-white"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none focus:bg-white"
                                 >
                                     <option value="all">전체 상태</option>
                                     <option value="display">전시중</option>
@@ -1958,7 +1977,7 @@ export function ProductManagement({
                     {/* Announcement Listing Grid Table */}
                     <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full border-collapse text-left text-xs min-w-[900px]">
+                            <table className="w-full border-collapse text-left text-sm min-w-[900px]">
                                 <thead>
                                     <tr className="bg-stone-100 text-stone-600 font-bold border-b border-stone-200">
                                         <th className="p-3.5 border-r border-stone-200 w-16 text-center">수정</th>
@@ -1979,21 +1998,21 @@ export function ProductManagement({
                                                 <td className="p-3.5 border-r border-stone-200 text-center">
                                                     <button
                                                         onClick={() => handleOpenAnnoModal(a)}
-                                                        className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded text-[10px] font-bold"
+                                                        className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded text-xs font-bold"
                                                     >
                                                         수정
                                                     </button>
                                                 </td>
                                                 <td className="p-3.5 border-r border-stone-200 text-center text-stone-500 font-mono">{a.id}</td>
                                                 <td className="p-3.5 border-r border-stone-200 text-center">
-                                                    <span className="px-2 py-0.5 bg-stone-50 border border-stone-150 text-[10px] text-stone-600 rounded">
+                                                    <span className="px-2 py-0.5 bg-stone-50 border border-stone-150 text-xs text-stone-600 rounded">
                                                         {a.category === 'general' && '일반'}
                                                         {a.category === 'event' && '이벤트'}
                                                         {a.category === 'shipping' && '배송공지'}
                                                     </span>
                                                 </td>
                                                 <td className="p-3.5 border-r border-stone-200 text-center">
-                                                    <span className={`px-2 py-0.5 rounded text-[10px] ${
+                                                    <span className={`px-2 py-0.5 rounded text-xs ${
                                                         a.status === 'display' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-stone-100 text-stone-400 border border-stone-200'
                                                     }`}>
                                                         {a.status === 'display' ? '전시중' : '전시중지'}
@@ -2008,7 +2027,7 @@ export function ProductManagement({
                                                 <td className="p-3.5 text-center">
                                                     <button
                                                         onClick={() => handleDeleteAnno(a.id)}
-                                                        className="px-2.5 py-1 bg-rose-500 hover:bg-rose-600 text-white rounded text-[10px] font-bold"
+                                                        className="px-2.5 py-1 bg-rose-500 hover:bg-rose-600 text-white rounded text-xs font-bold"
                                                     >
                                                         삭제
                                                     </button>
@@ -2034,10 +2053,10 @@ export function ProductManagement({
                     {/* Search & Actions Bar */}
                     <div className="bg-white p-6 rounded-3xl border border-stone-150 shadow-soft space-y-4">
                         <div className="flex items-center justify-between border-b border-stone-50 pb-2.5">
-                            <span className="text-xs font-black text-stone-900">배송비 묶음그룹 조회</span>
+                            <span className="text-sm font-bold text-stone-900">배송비 묶음그룹 조회</span>
                             <button
                                 onClick={() => handleOpenBundleModal()}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black transition-all flex items-center gap-1 shadow-soft"
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-1 shadow-soft"
                             >
                                 <PlusCircle size={14} />
                                 <span>+ 묶음그룹 추가</span>
@@ -2045,7 +2064,7 @@ export function ProductManagement({
                         </div>
 
                         <div className="max-w-md">
-                            <label className="text-[10px] font-bold text-stone-700 block mb-1">배송비 묶음그룹명</label>
+                            <label className="text-xs font-bold text-stone-700 block mb-1">배송비 묶음그룹명</label>
                             <div className="relative">
                                 <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
                                 <input 
@@ -2053,7 +2072,7 @@ export function ProductManagement({
                                     placeholder="묶음그룹명 검색..."
                                     value={bundleSearchName}
                                     onChange={(e) => setBundleSearchName(e.target.value)}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-8 pr-3 py-2 text-xs font-bold outline-none focus:bg-white"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl pl-8 pr-3 py-2 text-sm font-bold outline-none focus:bg-white"
                                 />
                             </div>
                         </div>
@@ -2062,7 +2081,7 @@ export function ProductManagement({
                     {/* Bundle Group Table Grid */}
                     <div className="bg-white rounded-3xl border border-stone-150 shadow-soft overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full border-collapse text-left text-xs min-w-[950px]">
+                            <table className="w-full border-collapse text-left text-sm min-w-[950px]">
                                 <thead>
                                     <tr className="bg-stone-100 text-stone-600 font-bold border-b border-stone-200">
                                         <th className="p-3.5 border-r border-stone-200 w-16 text-center">수정</th>
@@ -2086,7 +2105,7 @@ export function ProductManagement({
                                                 <td className="p-3.5 border-r border-stone-200 text-center">
                                                     <button
                                                         onClick={() => handleOpenBundleModal(b)}
-                                                        className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded text-[10px] font-bold"
+                                                        className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded text-xs font-bold"
                                                     >
                                                         수정
                                                     </button>
@@ -2096,7 +2115,7 @@ export function ProductManagement({
                                                     <div className="flex items-center gap-1.5">
                                                         <span>{b.name}</span>
                                                         {b.isDefault && (
-                                                            <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 border border-blue-100 text-[8px] font-black rounded-md">
+                                                            <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 border border-blue-100 text-[8px] font-bold rounded-md">
                                                                 기본
                                                             </span>
                                                         )}
@@ -2107,7 +2126,7 @@ export function ProductManagement({
                                                     {b.calcMethod === 'max' && '최대부과'}
                                                     {b.calcMethod === 'item' && '개별부과'}
                                                 </td>
-                                                <td className="p-3.5 border-r border-stone-200 text-center font-black text-stone-800">
+                                                <td className="p-3.5 border-r border-stone-200 text-center font-bold text-stone-800">
                                                     {b.carrier}
                                                 </td>
                                                 <td className="p-3.5 border-r border-stone-200 text-center font-bold text-stone-500">
@@ -2118,7 +2137,7 @@ export function ProductManagement({
                                                     {b.regionType === '3' ? `₩${b.region3Fee.toLocaleString()}` : '-'}
                                                 </td>
                                                 <td className="p-3.5 border-r border-stone-200 text-center">
-                                                    <span className={`px-1.5 py-0.5 rounded text-[10px] ${
+                                                    <span className={`px-1.5 py-0.5 rounded text-xs ${
                                                         b.useYn === 'Y' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-stone-50 text-stone-400 border border-stone-150'
                                                     }`}>
                                                         {b.useYn === 'Y' ? '사용' : '미사용'}
@@ -2130,7 +2149,7 @@ export function ProductManagement({
                                                     <button
                                                         onClick={() => handleDeleteBundle(b.id)}
                                                         disabled={b.isDefault}
-                                                        className={`px-2.5 py-1 rounded text-[10px] font-bold ${
+                                                        className={`px-2.5 py-1 rounded text-xs font-bold ${
                                                             b.isDefault ? 'bg-stone-100 text-stone-300 cursor-not-allowed' : 'bg-rose-500 hover:bg-rose-600 text-white'
                                                         }`}
                                                     >
@@ -2156,57 +2175,57 @@ export function ProductManagement({
                 <div className="space-y-6 animate-fadeIn">
                     {/* Summary Counters */}
                     <div className="bg-white p-6 rounded-3xl border border-stone-150 shadow-soft space-y-4">
-                        <div className="flex items-start gap-3 bg-blue-50/20 p-4.5 rounded-2xl border border-blue-100/50 text-blue-800 text-xs">
+                        <div className="flex items-start gap-3 bg-blue-50/20 p-4.5 rounded-2xl border border-blue-100/50 text-blue-800 text-sm">
                             <Info size={16} className="text-blue-500 shrink-0 mt-0.5" />
                             <div className="space-y-1">
-                                <span className="font-black text-sm block">카탈로그 매칭 가격비교 안내</span>
+                                <span className="font-bold text-base block">카탈로그 매칭 가격비교 안내</span>
                                 <p className="text-stone-600 font-medium">카탈로그 페이지에 판매자의 뜨개 상품을 매칭하여 최저가 경쟁을 진행할 수 있습니다. 매칭 시 노출 지수가 대폭 상승합니다.</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <div className="bg-stone-50 p-4 rounded-2xl text-center">
-                                <span className="text-[10px] text-stone-400 font-bold block">카탈로그 매칭 완료</span>
-                                <span className="text-base font-black text-stone-850">0건</span>
+                                <span className="text-xs text-stone-400 font-bold block">카탈로그 매칭 완료</span>
+                                <span className="text-base font-bold text-stone-850">0건</span>
                             </div>
                             <div className="bg-stone-50 p-4 rounded-2xl text-center">
-                                <span className="text-[10px] text-stone-400 font-bold block">매칭 대기중</span>
-                                <span className="text-base font-black text-stone-850">0건</span>
+                                <span className="text-xs text-stone-400 font-bold block">매칭 대기중</span>
+                                <span className="text-base font-bold text-stone-850">0건</span>
                             </div>
                             <div className="bg-stone-50 p-4 rounded-2xl text-center">
-                                <span className="text-[10px] text-stone-400 font-bold block">최저가 단독 노출</span>
-                                <span className="text-base font-black text-stone-850">0건</span>
+                                <span className="text-xs text-stone-400 font-bold block">최저가 단독 노출</span>
+                                <span className="text-base font-bold text-stone-850">0건</span>
                             </div>
                             <div className="bg-stone-50 p-4 rounded-2xl text-center">
-                                <span className="text-[10px] text-stone-400 font-bold block">최저가보다 높은 상품</span>
-                                <span className="text-base font-black text-stone-850">0건</span>
+                                <span className="text-xs text-stone-400 font-bold block">최저가보다 높은 상품</span>
+                                <span className="text-base font-bold text-stone-850">0건</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Filter bar */}
                     <div className="bg-white p-6 rounded-3xl border border-stone-150 shadow-soft space-y-4">
-                        <span className="text-xs font-black text-stone-900 border-b border-stone-50 pb-2 block">카탈로그 가격비교 매칭 검색</span>
+                        <span className="text-sm font-bold text-stone-900 border-b border-stone-50 pb-2 block">카탈로그 가격비교 매칭 검색</span>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">카탈로그명 / 상품번호</label>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">카탈로그명 / 상품번호</label>
                                 <input 
                                     type="text" 
                                     placeholder="검색어 기입..."
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none cursor-not-allowed"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none cursor-not-allowed"
                                     disabled
                                 />
                             </div>
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">매칭 여부</label>
-                                <select className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none cursor-not-allowed" disabled>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">매칭 여부</label>
+                                <select className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none cursor-not-allowed" disabled>
                                     <option>전체</option>
                                     <option>매칭 완료</option>
                                     <option>매칭 대기</option>
                                 </select>
                             </div>
                             <div className="flex items-end">
-                                <button type="button" className="w-full py-2 bg-stone-100 text-stone-400 rounded-xl text-xs font-bold cursor-not-allowed" disabled>
+                                <button type="button" className="w-full py-2 bg-stone-100 text-stone-400 rounded-xl text-sm font-bold cursor-not-allowed" disabled>
                                     검색 (매칭 데이터 없음)
                                 </button>
                             </div>
@@ -2216,11 +2235,11 @@ export function ProductManagement({
                     {/* Empty Table */}
                     <div className="bg-white rounded-3xl border border-stone-150 shadow-soft p-20 text-center space-y-3">
                         <HelpCircle size={40} className="text-stone-300 mx-auto animate-pulse" />
-                        <p className="text-stone-400 font-bold text-sm">카탈로그 매칭 가격비교 데이터가 존재하지 않습니다.</p>
+                        <p className="text-stone-400 font-bold text-base">카탈로그 매칭 가격비교 데이터가 존재하지 않습니다.</p>
                         <button 
                             type="button" 
                             onClick={() => alert('본사 카탈로그 가격비교 연동 및 매칭 신청이 정상 접수되었습니다.')}
-                            className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black transition-all shadow-soft"
+                            className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all shadow-soft"
                         >
                             신규 카탈로그 매칭 요청 신청
                         </button>
@@ -2234,11 +2253,11 @@ export function ProductManagement({
                     {/* Filter bar */}
                     <div className="bg-white p-6 rounded-3xl border border-stone-150 shadow-soft space-y-4">
                         <div className="flex items-center justify-between border-b border-stone-50 pb-2.5">
-                            <span className="text-xs font-black text-stone-900">연관상품 (코디/추천) 조회</span>
+                            <span className="text-sm font-bold text-stone-900">연관상품 (코디/추천) 조회</span>
                             <button
                                 type="button"
                                 onClick={() => alert('연관 상품(코디/세트) 코디네이션 등록 기능이 정상 요청되었습니다.')}
-                                className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black transition-all shadow-soft flex items-center gap-1"
+                                className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold transition-all shadow-soft flex items-center gap-1"
                             >
                                 <Plus size={12} />
                                 <span>연관 코디/추천상품 등록</span>
@@ -2247,17 +2266,17 @@ export function ProductManagement({
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">대표 상품명 / 연관 ID</label>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">대표 상품명 / 연관 ID</label>
                                 <input 
                                     type="text" 
                                     placeholder="대표 상품명 입력..."
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none cursor-not-allowed"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none cursor-not-allowed"
                                     disabled
                                 />
                             </div>
                             <div>
-                                <label className="text-[10px] font-bold text-stone-700 block mb-1">연관상품 유형</label>
-                                <select className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs font-bold outline-none cursor-not-allowed" disabled>
+                                <label className="text-xs font-bold text-stone-700 block mb-1">연관상품 유형</label>
+                                <select className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-sm font-bold outline-none cursor-not-allowed" disabled>
                                     <option>전체 유형</option>
                                     <option>코디 상품 (함께 연출)</option>
                                     <option>함께 사면 좋은 상품 (추천)</option>
@@ -2265,7 +2284,7 @@ export function ProductManagement({
                                 </select>
                             </div>
                             <div className="flex items-end">
-                                <button type="button" className="w-full py-2 bg-stone-100 text-stone-400 rounded-xl text-xs font-bold cursor-not-allowed" disabled>
+                                <button type="button" className="w-full py-2 bg-stone-100 text-stone-400 rounded-xl text-sm font-bold cursor-not-allowed" disabled>
                                     조회 (등록 내역 없음)
                                 </button>
                             </div>
@@ -2275,8 +2294,8 @@ export function ProductManagement({
                     {/* Empty Table */}
                     <div className="bg-white rounded-3xl border border-stone-150 shadow-soft p-20 text-center space-y-3">
                         <FolderTree size={40} className="text-stone-300 mx-auto" />
-                        <p className="text-stone-400 font-bold text-sm">연관 코디/함께 사면 좋은 추천 상품 데이터가 존재하지 않습니다.</p>
-                        <p className="text-[11px] text-stone-400">상단의 [연관 코디/추천상품 등록] 단추를 통해 털실과 바늘 등을 매칭할 수 있습니다.</p>
+                        <p className="text-stone-400 font-bold text-base">연관 코디/함께 사면 좋은 추천 상품 데이터가 존재하지 않습니다.</p>
+                        <p className="text-sm text-stone-400">상단의 [연관 코디/추천상품 등록] 단추를 통해 털실과 바늘 등을 매칭할 수 있습니다.</p>
                     </div>
                 </div>
             )}
@@ -2297,19 +2316,19 @@ export function ProductManagement({
 
                         <div className="p-6 space-y-4 max-h-[420px] overflow-y-auto pr-2">
                             <div>
-                                <label className="block text-xs font-black text-stone-700 mb-1.5">{locale === 'ko' ? '상품명 *' : 'Product Name *'}</label>
+                                <label className="block text-sm font-bold text-stone-700 mb-1.5">{locale === 'ko' ? '상품명 *' : 'Product Name *'}</label>
                                 <input 
                                     type="text" 
                                     value={editingProduct.name}
                                     onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
-                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-750 font-bold"
+                                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-750 font-bold"
                                 />
                             </div>
 
                             {/* 2-Level Category select */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-black text-stone-700 mb-1.5">{locale === 'ko' ? '대분류 카테고리' : 'Large Category'}</label>
+                                    <label className="block text-sm font-bold text-stone-700 mb-1.5">{locale === 'ko' ? '대분류 카테고리' : 'Large Category'}</label>
                                     <select 
                                         value={editingProduct.mainCategory}
                                         onChange={(e) => {
@@ -2321,7 +2340,7 @@ export function ProductManagement({
                                                 subCategory: subCats[0]
                                             });
                                         }}
-                                        className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-750 font-bold"
+                                        className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-750 font-bold"
                                     >
                                         {Object.entries(categoryMap).map(([key, data]) => (
                                             <option key={key} value={key}>{data.label}</option>
@@ -2329,11 +2348,11 @@ export function ProductManagement({
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-black text-stone-700 mb-1.5">{locale === 'ko' ? '중분류 카테고리' : 'Medium Category'}</label>
+                                    <label className="block text-sm font-bold text-stone-700 mb-1.5">{locale === 'ko' ? '중분류 카테고리' : 'Medium Category'}</label>
                                     <select 
                                         value={editingProduct.subCategory}
                                         onChange={(e) => setEditingProduct({ ...editingProduct, subCategory: e.target.value })}
-                                        className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-750 font-bold"
+                                        className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-750 font-bold"
                                     >
                                         {Object.entries(categoryMap[editingProduct.mainCategory].sub).map(([key, val]) => (
                                             <option key={key} value={key}>{val}</option>
@@ -2344,10 +2363,10 @@ export function ProductManagement({
 
                             {/* Pricing & Discount */}
                             <div className="bg-stone-50 p-4 rounded-xl border border-stone-150 space-y-3">
-                                <span className="text-[11px] font-black text-stone-600 block">가격 및 할인 정보 설정</span>
-                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                <span className="text-sm font-bold text-stone-600 block">가격 및 할인 정보 설정</span>
+                                <div className="grid grid-cols-2 gap-3 text-sm">
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">기본 판매가 (원) *</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">기본 판매가 (원) *</label>
                                         <input 
                                             type="number" 
                                             value={editingProduct.price}
@@ -2365,7 +2384,7 @@ export function ProductManagement({
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">할인 방식</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">할인 방식</label>
                                         <select
                                             value={editingProduct.discountType || 'none'}
                                             onChange={(e) => {
@@ -2388,9 +2407,9 @@ export function ProductManagement({
                                     </div>
                                 </div>
                                 {editingProduct.discountType && editingProduct.discountType !== 'none' && (
-                                    <div className="grid grid-cols-2 gap-3 text-xs animate-fadeIn">
+                                    <div className="grid grid-cols-2 gap-3 text-sm animate-fadeIn">
                                         <div>
-                                            <label className="block text-[9px] font-bold text-stone-700 mb-0.5">
+                                            <label className="block text-xs font-bold text-stone-700 mb-0.5">
                                                 {editingProduct.discountType === 'won' ? '할인액 (원)' : '할인율 (%)'}
                                             </label>
                                             <input 
@@ -2409,7 +2428,7 @@ export function ProductManagement({
                                                 className="w-full bg-white border border-stone-200 rounded p-1.5 font-bold outline-none"
                                             />
                                         </div>
-                                        <div className="flex items-end pb-1.5 text-[10px] text-emerald-700 font-bold">
+                                        <div className="flex items-end pb-1.5 text-xs text-emerald-700 font-bold">
                                             최종 판매가: ₩{(editingProduct.discountPrice || editingProduct.price).toLocaleString()}
                                         </div>
                                     </div>
@@ -2418,10 +2437,10 @@ export function ProductManagement({
 
                             {/* Delivery Attributes in Edit modal */}
                             <div className="bg-stone-50 p-4 rounded-xl border border-stone-150 space-y-3">
-                                <span className="text-[11px] font-black text-stone-600 block">발송 및 제작 속성 설정</span>
-                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                <span className="text-sm font-bold text-stone-600 block">발송 및 제작 속성 설정</span>
+                                <div className="grid grid-cols-2 gap-3 text-sm">
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">발송 유형</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">발송 유형</label>
                                         <select
                                             value={editingProduct.deliveryType || 'immediate'}
                                             onChange={(e) => setEditingProduct({ ...editingProduct, deliveryType: e.target.value as any })}
@@ -2434,7 +2453,7 @@ export function ProductManagement({
                                     </div>
                                     {editingProduct.deliveryType === 'custom' && (
                                         <div>
-                                            <label className="block text-[9px] font-bold text-stone-700 mb-0.5">제작 완료 기간 (일)</label>
+                                            <label className="block text-xs font-bold text-stone-700 mb-0.5">제작 완료 기간 (일)</label>
                                             <input 
                                                 type="number"
                                                 value={editingProduct.customDeliveryDays || 3}
@@ -2447,9 +2466,9 @@ export function ProductManagement({
                             </div>
 
                             {/* Options and Inventory Editor in Edit Modal */}
-                            <div className="bg-stone-50 p-4 rounded-xl border border-stone-150 space-y-3 text-xs">
+                            <div className="bg-stone-50 p-4 rounded-xl border border-stone-150 space-y-3 text-sm">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-[11px] font-black text-stone-600">옵션 및 재고 수량 편집</span>
+                                    <span className="text-sm font-bold text-stone-600">옵션 및 재고 수량 편집</span>
                                     {(!editingProduct.optionType || editingProduct.optionType === 'simple') && (
                                         <button
                                             type="button"
@@ -2458,7 +2477,7 @@ export function ProductManagement({
                                                 opts.push({ name: '새 옵션', stock: 10 });
                                                 setEditingProduct({ ...editingProduct, options: opts });
                                             }}
-                                            className="px-2 py-0.5 bg-stone-200 text-stone-700 font-bold rounded text-[9px]"
+                                            className="px-2 py-0.5 bg-stone-200 text-stone-700 font-bold rounded text-xs"
                                         >
                                             + 옵션 규격 추가
                                         </button>
@@ -2467,9 +2486,9 @@ export function ProductManagement({
 
                                 {editingProduct.optionType === 'combination' && editingProduct.optionMatrix && editingProduct.optionMatrix.length > 0 ? (
                                     <div className="border border-stone-200 rounded overflow-hidden max-h-40 overflow-y-auto">
-                                        <table className="w-full text-[10px] border-collapse bg-white">
+                                        <table className="w-full text-xs border-collapse bg-white">
                                             <thead>
-                                                <tr className="bg-stone-100 text-stone-500 text-[8px] font-black border-b border-stone-200">
+                                                <tr className="bg-stone-100 text-stone-500 text-[8px] font-bold border-b border-stone-200">
                                                     <th className="p-1.5 text-left">조합옵션명</th>
                                                     <th className="p-1.5 w-16 text-center">재고</th>
                                                     <th className="p-1.5 w-20 text-center">옵션가</th>
@@ -2528,7 +2547,7 @@ export function ProductManagement({
                                                         opts[index].name = e.target.value;
                                                         setEditingProduct({ ...editingProduct, options: opts });
                                                     }}
-                                                    className="flex-1 bg-white border border-stone-200 rounded p-1 text-[11px] font-bold"
+                                                    className="flex-1 bg-white border border-stone-200 rounded p-1 text-sm font-bold"
                                                 />
                                                 <input 
                                                     type="number"
@@ -2538,7 +2557,7 @@ export function ProductManagement({
                                                         opts[index].stock = Number(e.target.value);
                                                         setEditingProduct({ ...editingProduct, options: opts });
                                                     }}
-                                                    className="w-16 bg-white border border-stone-200 rounded p-1 text-[11px] font-bold text-center"
+                                                    className="w-16 bg-white border border-stone-200 rounded p-1 text-sm font-bold text-center"
                                                 />
                                                 {editingProduct.options.length > 1 && (
                                                     <button
@@ -2559,15 +2578,15 @@ export function ProductManagement({
                             </div>
 
                             {/* Shipping edits in Quick edit */}
-                            <div className="bg-stone-50 p-4 rounded-xl space-y-3 border border-stone-150 text-xs">
-                                <span className="text-[11px] font-black text-stone-600 block">배송 설정 변경</span>
+                            <div className="bg-stone-50 p-4 rounded-xl space-y-3 border border-stone-150 text-sm">
+                                <span className="text-sm font-bold text-stone-600 block">배송 설정 변경</span>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">배송방법</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">배송방법</label>
                                         <select
                                             value={editingProduct.shippingMethod}
                                             onChange={(e) => setEditingProduct({ ...editingProduct, shippingMethod: e.target.value as any })}
-                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold"
+                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold"
                                         >
                                             <option value="courier">택배/포장배송</option>
                                             <option value="direct">직접배송</option>
@@ -2575,11 +2594,11 @@ export function ProductManagement({
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">배송비유형</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">배송비유형</label>
                                         <select
                                             value={editingProduct.shippingFeeType}
                                             onChange={(e) => setEditingProduct({ ...editingProduct, shippingFeeType: e.target.value as any })}
-                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold"
+                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold"
                                         >
                                             <option value="free">무료</option>
                                             <option value="conditional">조건부 무료</option>
@@ -2592,22 +2611,22 @@ export function ProductManagement({
                                 {editingProduct.shippingFeeType !== 'free' && (
                                     <div className="grid grid-cols-2 gap-3 animate-fadeIn">
                                         <div>
-                                            <label className="block text-[9px] font-bold text-stone-700 mb-0.5">기본 배송비 (원)</label>
+                                            <label className="block text-xs font-bold text-stone-700 mb-0.5">기본 배송비 (원)</label>
                                             <input 
                                                 type="number"
                                                 value={editingProduct.basicShippingFee || ''}
                                                 onChange={(e) => setEditingProduct({ ...editingProduct, basicShippingFee: Number(e.target.value) })}
-                                                className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold outline-none"
+                                                className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold outline-none"
                                             />
                                         </div>
                                         {editingProduct.shippingFeeType === 'conditional' && (
                                             <div>
-                                                <label className="block text-[9px] font-bold text-stone-700 mb-0.5">무료 조건 금액 (원)</label>
+                                                <label className="block text-xs font-bold text-stone-700 mb-0.5">무료 조건 금액 (원)</label>
                                                 <input 
                                                     type="number"
                                                     value={editingProduct.freeShippingThreshold || ''}
                                                     onChange={(e) => setEditingProduct({ ...editingProduct, freeShippingThreshold: Number(e.target.value) })}
-                                                    className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold outline-none"
+                                                    className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold outline-none"
                                                 />
                                             </div>
                                         )}
@@ -2617,31 +2636,31 @@ export function ProductManagement({
                                 {/* CS shipping fees */}
                                 <div className="grid grid-cols-2 gap-3 border-t border-stone-100 pt-2">
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">반품 배송비 (편도, 원)</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">반품 배송비 (편도, 원)</label>
                                         <input 
                                             type="number"
                                             value={editingProduct.returnShippingFee || ''}
                                             onChange={(e) => setEditingProduct({ ...editingProduct, returnShippingFee: Number(e.target.value) })}
-                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold outline-none"
+                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold outline-none"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] font-bold text-stone-700 mb-0.5">교환 배송비 (왕복, 원)</label>
+                                        <label className="block text-xs font-bold text-stone-700 mb-0.5">교환 배송비 (왕복, 원)</label>
                                         <input 
                                             type="number"
                                             value={editingProduct.exchangeShippingFee || ''}
                                             onChange={(e) => setEditingProduct({ ...editingProduct, exchangeShippingFee: Number(e.target.value) })}
-                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold outline-none"
+                                            className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold outline-none"
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[9px] font-bold text-stone-700 mb-0.5">배송비 묶음그룹</label>
+                                    <label className="block text-xs font-bold text-stone-700 mb-0.5">배송비 묶음그룹</label>
                                     <select
                                         value={editingProduct.bundleGroupId}
                                         onChange={(e) => setEditingProduct({ ...editingProduct, bundleGroupId: Number(e.target.value) })}
-                                        className="w-full bg-white border border-stone-200 rounded p-1.5 text-xs font-bold"
+                                        className="w-full bg-white border border-stone-200 rounded p-1.5 text-sm font-bold"
                                     >
                                         {bundleGroups.map(bg => (
                                             <option key={bg.id} value={bg.id}>{bg.name} ({bg.carrier})</option>
@@ -2652,7 +2671,7 @@ export function ProductManagement({
                         </div>
 
                         <div className="p-6 bg-stone-50/50 border-t border-stone-100 flex items-center justify-end gap-2">
-                            <button onClick={() => setEditingProduct(null)} className="px-4 py-2.5 bg-white border border-stone-200 text-stone-600 rounded-xl text-xs font-bold">
+                            <button onClick={() => setEditingProduct(null)} className="px-4 py-2.5 bg-white border border-stone-200 text-stone-600 rounded-xl text-sm font-bold">
                                 {locale === 'ko' ? '취소' : 'Cancel'}
                             </button>
                             <button
@@ -2662,7 +2681,7 @@ export function ProductManagement({
                                     setEditingProduct(null);
                                     alert('상품 정보 변경이 완료되었습니다.');
                                 }}
-                                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-soft"
+                                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-soft"
                             >
                                 {locale === 'ko' ? '저장하기' : 'Save Changes'}
                             </button>
@@ -2676,7 +2695,7 @@ export function ProductManagement({
                 <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
                     <form onSubmit={handleSaveAnnouncement} className="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-stone-150 overflow-hidden flex flex-col">
                         <div className="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50/50">
-                            <h2 className="text-sm font-black text-stone-900 flex items-center gap-2">
+                            <h2 className="text-base font-bold text-stone-900 flex items-center gap-2">
                                 <Megaphone size={16} className="text-blue-500" />
                                 <span>{editingAnno ? '상품 공지사항 수정' : '신규 상품 공지사항 등록'}</span>
                             </h2>
@@ -2685,7 +2704,7 @@ export function ProductManagement({
                             </button>
                         </div>
 
-                        <div className="p-6 space-y-4 text-xs">
+                        <div className="p-6 space-y-4 text-sm">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block font-bold text-stone-700 mb-1">공지 분류 *</label>
@@ -2777,7 +2796,7 @@ export function ProductManagement({
                 <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
                     <form onSubmit={handleSaveBundleGroup} className="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-stone-150 overflow-hidden flex flex-col">
                         <div className="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50/50">
-                            <h2 className="text-sm font-black text-stone-900 flex items-center gap-2">
+                            <h2 className="text-base font-bold text-stone-900 flex items-center gap-2">
                                 <Truck size={16} className="text-blue-500" />
                                 <span>{editingBundle ? '배송비 묶음그룹 설정 수정' : '배송비 묶음그룹 추가'}</span>
                             </h2>
@@ -2786,7 +2805,7 @@ export function ProductManagement({
                             </button>
                         </div>
 
-                        <div className="p-6 space-y-4 text-xs">
+                        <div className="p-6 space-y-4 text-sm">
                             <div>
                                 <label className="block font-bold text-stone-700 mb-1">묶음그룹명 *</label>
                                 <input 

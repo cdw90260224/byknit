@@ -272,10 +272,10 @@ export function ClaimManagement({ locale }: { locale: string }) {
         <div className="space-y-6 text-stone-700 animate-fadeIn font-sans">
             {/* Page Header */}
             <div>
-                <h1 className="text-3xl font-black text-stone-800">
+                <h1 className="text-3xl font-bold text-stone-800">
                     {locale === 'ko' ? '클레임 및 CS 관리' : 'CS & Claim Center'}
                 </h1>
-                <p className="text-stone-500 text-sm mt-1">
+                <p className="text-stone-500 text-base mt-1">
                     {locale === 'ko' 
                         ? '고객의 주문 취소, 반품 수거, 교환 요청 처리 및 문의/리뷰 게시판을 전담 관리합니다.' 
                         : 'Manage cancellations, returns, exchanges, inquiries, and customer reviews.'}
@@ -286,7 +286,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
             <div className="flex border-b border-stone-200">
                 <button
                     onClick={() => setActiveSubTab('cancel')}
-                    className={`px-5 py-3 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                    className={`px-5 py-3 text-base font-bold border-b-2 transition-all flex items-center gap-2 ${
                         activeSubTab === 'cancel'
                             ? 'border-blue-600 text-blue-600'
                             : 'border-transparent text-stone-500 hover:text-stone-800'
@@ -294,14 +294,14 @@ export function ClaimManagement({ locale }: { locale: string }) {
                 >
                     <span>{locale === 'ko' ? '주문취소 관리' : 'Cancel Orders'}</span>
                     {getPendingCount('cancel') > 0 && (
-                        <span className="text-[10px] font-black bg-amber-50 text-amber-600 border border-amber-200 px-1.5 py-0.5 rounded-full">
+                        <span className="text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 px-1.5 py-0.5 rounded-full">
                             {getPendingCount('cancel')}
                         </span>
                     )}
                 </button>
                 <button
                     onClick={() => setActiveSubTab('return')}
-                    className={`px-5 py-3 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                    className={`px-5 py-3 text-base font-bold border-b-2 transition-all flex items-center gap-2 ${
                         activeSubTab === 'return'
                             ? 'border-blue-600 text-blue-600'
                             : 'border-transparent text-stone-500 hover:text-stone-800'
@@ -309,14 +309,14 @@ export function ClaimManagement({ locale }: { locale: string }) {
                 >
                     <span>{locale === 'ko' ? '반품 관리' : 'Return Log'}</span>
                     {getPendingCount('return') > 0 && (
-                        <span className="text-[10px] font-black bg-rose-50 text-rose-500 border border-rose-200 px-1.5 py-0.5 rounded-full">
+                        <span className="text-xs font-bold bg-rose-50 text-rose-500 border border-rose-200 px-1.5 py-0.5 rounded-full">
                             {getPendingCount('return')}
                         </span>
                     )}
                 </button>
                 <button
                     onClick={() => setActiveSubTab('exchange')}
-                    className={`px-5 py-3 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                    className={`px-5 py-3 text-base font-bold border-b-2 transition-all flex items-center gap-2 ${
                         activeSubTab === 'exchange'
                             ? 'border-blue-600 text-blue-600'
                             : 'border-transparent text-stone-500 hover:text-stone-800'
@@ -324,14 +324,14 @@ export function ClaimManagement({ locale }: { locale: string }) {
                 >
                     <span>{locale === 'ko' ? '교환 관리' : 'Exchange Log'}</span>
                     {getPendingCount('exchange') > 0 && (
-                        <span className="text-[10px] font-black bg-indigo-50 text-indigo-500 border border-indigo-200 px-1.5 py-0.5 rounded-full">
+                        <span className="text-xs font-bold bg-indigo-50 text-indigo-500 border border-indigo-200 px-1.5 py-0.5 rounded-full">
                             {getPendingCount('exchange')}
                         </span>
                     )}
                 </button>
                 <button
                     onClick={() => setActiveSubTab('inquiries')}
-                    className={`px-5 py-3 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                    className={`px-5 py-3 text-base font-bold border-b-2 transition-all flex items-center gap-2 ${
                         activeSubTab === 'inquiries'
                             ? 'border-blue-600 text-blue-600'
                             : 'border-transparent text-stone-500 hover:text-stone-800'
@@ -339,14 +339,14 @@ export function ClaimManagement({ locale }: { locale: string }) {
                 >
                     <span>{locale === 'ko' ? '상품 Q&A 문의' : 'Product Q&A'}</span>
                     {inquiries.filter(i => i.status === 'pending').length > 0 && (
-                        <span className="text-[10px] font-black bg-stone-100 text-stone-600 border border-stone-200 px-1.5 py-0.5 rounded-full">
+                        <span className="text-xs font-bold bg-stone-100 text-stone-600 border border-stone-200 px-1.5 py-0.5 rounded-full">
                             {inquiries.filter(i => i.status === 'pending').length}
                         </span>
                     )}
                 </button>
                 <button
                     onClick={() => setActiveSubTab('reviews')}
-                    className={`px-5 py-3 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                    className={`px-5 py-3 text-base font-bold border-b-2 transition-all flex items-center gap-2 ${
                         activeSubTab === 'reviews'
                             ? 'border-blue-600 text-blue-600'
                             : 'border-transparent text-stone-500 hover:text-stone-800'
@@ -354,7 +354,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
                 >
                     <span>{locale === 'ko' ? '구매후기(리뷰) 관리' : 'Product Reviews'}</span>
                     {reviews.filter(r => r.status === 'pending').length > 0 && (
-                        <span className="text-[10px] font-black bg-rose-50 text-rose-500 border border-rose-200 px-1.5 py-0.5 rounded-full">
+                        <span className="text-xs font-bold bg-rose-50 text-rose-500 border border-rose-200 px-1.5 py-0.5 rounded-full">
                             {reviews.filter(r => r.status === 'pending').length}
                         </span>
                     )}
@@ -372,12 +372,12 @@ export function ClaimManagement({ locale }: { locale: string }) {
                             }`}>
                                 <div className="space-y-3 flex-1">
                                     <div className="flex flex-wrap items-center gap-3">
-                                        <span className="text-[10px] font-black bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-md">
+                                        <span className="text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-md">
                                             {locale === 'ko' ? '취소 요청' : 'Cancel Request'}
                                         </span>
-                                        <span className="text-stone-400 text-xs font-semibold">{c.id}</span>
-                                        <span className="text-stone-800 text-xs font-black">{c.customerName}</span>
-                                        <span className="text-stone-400 text-xs">{c.date}</span>
+                                        <span className="text-stone-400 text-sm font-semibold">{c.id}</span>
+                                        <span className="text-stone-800 text-sm font-bold">{c.customerName}</span>
+                                        <span className="text-stone-400 text-sm">{c.date}</span>
                                     </div>
                                     
                                     <div className="flex gap-3.5 items-start">
@@ -387,16 +387,16 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             className="w-12 h-12 object-cover rounded-xl border border-stone-150 shrink-0 mt-0.5"
                                         />
                                         <div className="space-y-1">
-                                            <h4 className="font-bold text-stone-700 text-sm">
+                                            <h4 className="font-bold text-stone-700 text-base">
                                                 {locale === 'ko' ? '취소 상품' : 'Product'}: <span className="text-stone-800">{c.productName} ({c.optionSelected})</span>
                                             </h4>
-                                            <div className="text-xs text-stone-500 font-bold">
-                                                {locale === 'ko' ? '환불 예정액' : 'Refund Value'}: <span className="text-rose-500 font-black">₩{(c.price + c.shippingFee).toLocaleString()}</span> (배송비 포함)
+                                            <div className="text-sm text-stone-500 font-bold">
+                                                {locale === 'ko' ? '환불 예정액' : 'Refund Value'}: <span className="text-rose-500 font-bold">₩{(c.price + c.shippingFee).toLocaleString()}</span> (배송비 포함)
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="text-xs text-stone-500 bg-stone-50 p-3 rounded-2xl border border-stone-100 leading-relaxed font-semibold">
+                                    <div className="text-sm text-stone-500 bg-stone-50 p-3 rounded-2xl border border-stone-100 leading-relaxed font-semibold">
                                         <b>{locale === 'ko' ? '취소 사유' : 'Reason'}:</b> {c.reason}
                                     </div>
                                 </div>
@@ -406,21 +406,21 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                         <>
                                             <button
                                                 onClick={() => handleRejectClaim(c.id)}
-                                                className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold rounded-xl text-xs transition-all flex items-center gap-1.5"
+                                                className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold rounded-xl text-sm transition-all flex items-center gap-1.5"
                                             >
                                                 <X size={14} />
                                                 <span>{locale === 'ko' ? '취소 반려' : 'Reject'}</span>
                                             </button>
                                             <button
                                                 onClick={() => handleApproveClaim(c.id, locale === 'ko' ? '취소 승인' : 'Approve')}
-                                                className="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-soft"
+                                                className="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow-soft"
                                             >
                                                 <Check size={14} />
                                                 <span>{locale === 'ko' ? '취소 승인 (환불)' : 'Approve Refund'}</span>
                                             </button>
                                         </>
                                     ) : (
-                                        <span className={`text-xs font-black px-3 py-1 rounded-full ${
+                                        <span className={`text-sm font-bold px-3 py-1 rounded-full ${
                                             c.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-200 text-stone-500'
                                         }`}>
                                             {c.status === 'approved' ? (locale === 'ko' ? '취소완료(환불완료)' : 'Refunded') : (locale === 'ko' ? '취소거부(반려)' : 'Rejected')}
@@ -441,12 +441,12 @@ export function ClaimManagement({ locale }: { locale: string }) {
                             }`}>
                                 <div className="space-y-3 flex-1">
                                     <div className="flex flex-wrap items-center gap-3">
-                                        <span className="text-[10px] font-black bg-rose-50 text-rose-500 border border-rose-200 px-2 py-0.5 rounded-md">
+                                        <span className="text-xs font-bold bg-rose-50 text-rose-500 border border-rose-200 px-2 py-0.5 rounded-md">
                                             {locale === 'ko' ? '반품 요청' : 'Return Request'}
                                         </span>
-                                        <span className="text-stone-400 text-xs font-semibold">{c.id}</span>
-                                        <span className="text-stone-800 text-xs font-black">{c.customerName}</span>
-                                        <span className="text-stone-400 text-xs">{c.date}</span>
+                                        <span className="text-stone-400 text-sm font-semibold">{c.id}</span>
+                                        <span className="text-stone-800 text-sm font-bold">{c.customerName}</span>
+                                        <span className="text-stone-400 text-sm">{c.date}</span>
                                     </div>
                                     
                                     <div className="flex gap-3.5 items-start">
@@ -456,19 +456,19 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             className="w-12 h-12 object-cover rounded-xl border border-stone-150 shrink-0 mt-0.5"
                                         />
                                         <div className="space-y-1">
-                                            <h4 className="font-bold text-stone-700 text-sm">
+                                            <h4 className="font-bold text-stone-700 text-base">
                                                 {locale === 'ko' ? '반품 대상 상품' : 'Return Product'}: <span className="text-stone-800">{c.productName} ({c.optionSelected})</span>
                                             </h4>
-                                            <div className="text-xs text-stone-500 font-bold">
+                                            <div className="text-sm text-stone-500 font-bold">
                                                 {locale === 'ko' ? '반품가' : 'Return Value'}: <span className="text-[#556B2F]">₩{c.price.toLocaleString()}</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="text-xs text-stone-500 bg-stone-50 p-3 rounded-2xl border border-stone-100 leading-relaxed font-semibold">
+                                    <div className="text-sm text-stone-500 bg-stone-50 p-3 rounded-2xl border border-stone-100 leading-relaxed font-semibold">
                                         <b>{locale === 'ko' ? '반품 사유' : 'Reason'}:</b> {c.reason}
                                     </div>
-                                    <div className="flex gap-4 text-xs text-stone-500 font-bold">
+                                    <div className="flex gap-4 text-sm text-stone-500 font-bold">
                                         <div>
                                             {locale === 'ko' ? '반품수거방식' : 'Return Carrier'}: <span className="text-stone-850">지정 택배 자동 수거 (우체국택배)</span>
                                         </div>
@@ -483,21 +483,21 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                         <>
                                             <button
                                                 onClick={() => handleRejectClaim(c.id)}
-                                                className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold rounded-xl text-xs transition-all flex items-center gap-1.5"
+                                                className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold rounded-xl text-sm transition-all flex items-center gap-1.5"
                                             >
                                                 <XCircle size={14} />
                                                 <span>{locale === 'ko' ? '반품 거부' : 'Reject'}</span>
                                             </button>
                                             <button
                                                 onClick={() => handleApproveClaim(c.id, locale === 'ko' ? '반품 승인' : 'Approve')}
-                                                className="px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-soft"
+                                                className="px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow-soft"
                                             >
                                                 <Truck size={14} />
                                                 <span>{locale === 'ko' ? '수거완료 & 환불승인' : 'Approve Refund'}</span>
                                             </button>
                                         </>
                                     ) : (
-                                        <span className={`text-xs font-black px-3 py-1 rounded-full ${
+                                        <span className={`text-sm font-bold px-3 py-1 rounded-full ${
                                             c.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-200 text-stone-500'
                                         }`}>
                                             {c.status === 'approved' ? (locale === 'ko' ? '반품완료(환불입금완료)' : 'Returned & Refunded') : (locale === 'ko' ? '반품보류(거부)' : 'Rejected')}
@@ -518,12 +518,12 @@ export function ClaimManagement({ locale }: { locale: string }) {
                             }`}>
                                 <div className="space-y-3 flex-1">
                                     <div className="flex flex-wrap items-center gap-3">
-                                        <span className="text-[10px] font-black bg-indigo-50 text-indigo-600 border border-indigo-200 px-2 py-0.5 rounded-md">
+                                        <span className="text-xs font-bold bg-indigo-50 text-indigo-600 border border-indigo-200 px-2 py-0.5 rounded-md">
                                             {locale === 'ko' ? '교환 요청' : 'Exchange Request'}
                                         </span>
-                                        <span className="text-stone-400 text-xs font-semibold">{c.id}</span>
-                                        <span className="text-stone-800 text-xs font-black">{c.customerName}</span>
-                                        <span className="text-stone-400 text-xs">{c.date}</span>
+                                        <span className="text-stone-400 text-sm font-semibold">{c.id}</span>
+                                        <span className="text-stone-800 text-sm font-bold">{c.customerName}</span>
+                                        <span className="text-stone-400 text-sm">{c.date}</span>
                                     </div>
                                     
                                     <div className="flex gap-3.5 items-start">
@@ -533,11 +533,11 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             className="w-12 h-12 object-cover rounded-xl border border-stone-150 shrink-0 mt-0.5"
                                         />
                                         <div className="space-y-1">
-                                            <h4 className="font-bold text-stone-700 text-sm">
+                                            <h4 className="font-bold text-stone-700 text-base">
                                                 {locale === 'ko' ? '교환 대상 상품' : 'Exchange Product'}: <span className="text-stone-800">{c.productName}</span>
                                             </h4>
                                             {/* Option exchange flow */}
-                                            <div className="flex items-center gap-2 text-xs bg-stone-50 p-2 rounded-xl border border-stone-100 w-fit font-bold">
+                                            <div className="flex items-center gap-2 text-sm bg-stone-50 p-2 rounded-xl border border-stone-100 w-fit font-bold">
                                                 <span className="text-stone-400">기존 옵션: {c.optionSelected}</span>
                                                 <span className="text-stone-300">➡️</span>
                                                 <span className="text-blue-600">교환 옵션: {c.exchangeOption}</span>
@@ -545,7 +545,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                         </div>
                                     </div>
 
-                                    <div className="text-xs text-stone-500 bg-stone-50 p-3 rounded-2xl border border-stone-100 leading-relaxed font-semibold">
+                                    <div className="text-sm text-stone-500 bg-stone-50 p-3 rounded-2xl border border-stone-100 leading-relaxed font-semibold">
                                         <b>{locale === 'ko' ? '교환 사유' : 'Reason'}:</b> {c.reason}
                                     </div>
                                 </div>
@@ -555,21 +555,21 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                         <>
                                             <button
                                                 onClick={() => handleRejectClaim(c.id)}
-                                                className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold rounded-xl text-xs transition-all flex items-center gap-1.5"
+                                                className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold rounded-xl text-sm transition-all flex items-center gap-1.5"
                                             >
                                                 <X size={14} />
                                                 <span>{locale === 'ko' ? '교환 거절' : 'Reject'}</span>
                                             </button>
                                             <button
                                                 onClick={() => handleApproveClaim(c.id, locale === 'ko' ? '교환 재발송' : 'Re-Ship')}
-                                                className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-soft"
+                                                className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow-soft"
                                             >
                                                 <RefreshCw size={14} />
                                                 <span>{locale === 'ko' ? '교환 수거 및 재배송' : 'Collect & Re-Ship'}</span>
                                             </button>
                                         </>
                                     ) : (
-                                        <span className={`text-xs font-black px-3 py-1 rounded-full ${
+                                        <span className={`text-sm font-bold px-3 py-1 rounded-full ${
                                             c.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-200 text-stone-500'
                                         }`}>
                                             {c.status === 'approved' ? (locale === 'ko' ? '교환완료(재발송송장등록)' : 'Exchanged & Shipped') : (locale === 'ko' ? '교환반려' : 'Rejected')}
@@ -596,7 +596,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             alt={q.productName}
                                             className="w-10 h-10 object-cover rounded-xl border border-stone-100 shrink-0"
                                         />
-                                        <div className="text-xs space-y-0.5">
+                                        <div className="text-sm space-y-0.5">
                                             <div className="font-bold text-stone-850 truncate max-w-[250px]" title={q.productName}>
                                                 {q.productName}
                                             </div>
@@ -609,14 +609,14 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                     </div>
                                 </div>
 
-                                <p className="text-xs text-stone-600 font-semibold leading-relaxed pl-1">
+                                <p className="text-sm text-stone-600 font-semibold leading-relaxed pl-1">
                                     {q.content}
                                 </p>
 
                                 {q.status === 'answered' ? (
                                     <div className="bg-stone-50 p-4 rounded-2xl border border-stone-100 flex items-start gap-2.5 animate-fadeIn">
                                         <CornerDownRight size={14} className="text-[#8FBC8F] shrink-0 mt-0.5" />
-                                        <div className="text-xs space-y-1">
+                                        <div className="text-sm space-y-1">
                                             <span className="font-bold text-[#556B2F] block">{locale === 'ko' ? '상점 답변 완료' : 'Shop Answer'}</span>
                                             <p className="text-stone-500 leading-relaxed font-semibold">{q.answer}</p>
                                         </div>
@@ -628,7 +628,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             placeholder={locale === 'ko' ? '답변을 등록해 주세요...' : 'Write answer to customer...'}
                                             value={answerText[q.id] || ''}
                                             onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                                            className="flex-1 bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                            className="flex-1 bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-700 font-bold"
                                         />
                                         <button 
                                             onClick={() => handleRegisterAnswer(q.id)}
@@ -660,7 +660,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             alt={r.productName}
                                             className="w-10 h-10 object-cover rounded-xl border border-stone-100 shrink-0"
                                         />
-                                        <div className="text-xs space-y-0.5">
+                                        <div className="text-sm space-y-0.5">
                                             <div className="font-bold text-stone-850 truncate max-w-[220px]" title={r.productName}>
                                                 {r.productName}
                                             </div>
@@ -674,17 +674,17 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <span className="text-stone-400 text-[10px] font-semibold">{r.date}</span>
+                                    <span className="text-stone-400 text-xs font-semibold">{r.date}</span>
                                 </div>
 
-                                <p className="text-xs text-stone-600 font-semibold leading-relaxed pl-1">
+                                <p className="text-sm text-stone-600 font-semibold leading-relaxed pl-1">
                                     {r.content}
                                 </p>
 
                                 {r.status === 'answered' ? (
                                     <div className="bg-[#FAFDF9] p-4 rounded-2xl border border-[#E8F0E8] flex items-start gap-2.5 animate-fadeIn">
                                         <CornerDownRight size={14} className="text-[#8FBC8F] shrink-0 mt-0.5" />
-                                        <div className="text-xs space-y-1">
+                                        <div className="text-sm space-y-1">
                                             <span className="font-bold text-[#556B2F] block">{locale === 'ko' ? '판매자 답변 완료' : 'Seller Reply'}</span>
                                             <p className="text-stone-600 leading-relaxed font-medium">{r.answer}</p>
                                         </div>
@@ -696,7 +696,7 @@ export function ClaimManagement({ locale }: { locale: string }) {
                                             placeholder={locale === 'ko' ? '리뷰에 감사 답변을 작성해 주세요...' : 'Write reply to review...'}
                                             value={reviewAnswerText[r.id] || ''}
                                             onChange={(e) => handleReviewAnswerChange(r.id, e.target.value)}
-                                            className="flex-1 bg-stone-50 border border-stone-200 rounded-xl p-3 text-xs outline-none focus:bg-white text-stone-700 font-bold"
+                                            className="flex-1 bg-stone-50 border border-stone-200 rounded-xl p-3 text-sm outline-none focus:bg-white text-stone-700 font-bold"
                                         />
                                         <button 
                                             onClick={() => handleRegisterReviewAnswer(r.id)}
