@@ -14,7 +14,6 @@ import {
     AlertTriangle,
     Eye,
     Lock,
-    EyeOff,
     Store,
     Clock,
     CheckCircle2,
@@ -46,18 +45,55 @@ export default function AdminKycPage() {
     const [proposals, setProposals] = useState<StoreProposal[]>([]);
     const [selectedProposal, setSelectedProposal] = useState<StoreProposal | null>(null);
     const [viewingDocType, setViewingDocType] = useState<'bizCert' | 'bankBook' | null>(null);
+    const [rejectMode, setRejectMode] = useState(false);
+    const [rejectReasonInput, setRejectReasonInput] = useState('');
     const [proposalFilter, setProposalFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
 
     // Admin authorization states
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const [adminPasswordInput, setAdminPasswordInput] = useState('');
-    const [adminError, setAdminError] = useState('');
-    const [showAdminPassword, setShowAdminPassword] = useState(false);
+    const [authUser, setAuthUser] = useState<any>(null);
+    const [authProfile, setAuthProfile] = useState<any>(null);
+    const [authChecking, setAuthChecking] = useState(true);
     
     const [isLoading, setIsLoading] = useState(true);
 
-    // Load data from localStorage on mount
+    // Check authentication and admin role from DB
     useEffect(() => {
+        const checkAdminAuth = async () => {
+            if (typeof window === 'undefined') return;
+
+            const { createClient } = await import('@/utils/supabase/client');
+            const supabase = createClient();
+
+            // 1. Check if user is logged in
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                setAuthChecking(false);
+                return;
+            }
+            setAuthUser(user);
+
+            // 2. Check if user has admin role in DB
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role, display_name')
+                .eq('id', user.id)
+                .single();
+
+            setAuthProfile(profile);
+
+            if (profile?.role === 'admin') {
+                setIsAuthorized(true);
+            }
+
+            setAuthChecking(false);
+        };
+        checkAdminAuth();
+    }, []);
+
+    // Load data from localStorage on mount (only after authorized)
+    useEffect(() => {
+        if (!isAuthorized) return;
         if (typeof window !== 'undefined') {
             // 1. Load KYC Data
             const status = localStorage.getItem('byknit_kyc_status') as any;
@@ -127,18 +163,7 @@ export default function AdminKycPage() {
 
             setIsLoading(false);
         }
-    }, []);
-
-    const handleVerifyAdmin = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Password: 행복하자12! or godqhrgkwk12! or admin123
-        if (adminPasswordInput === '행복하자12!' || adminPasswordInput === 'godqhrgkwk12!' || adminPasswordInput === 'admin123') {
-            setIsAuthorized(true);
-            setAdminError('');
-        } else {
-            setAdminError('관리자 보안 비밀번호가 일치하지 않습니다.');
-        }
-    };
+    }, [isAuthorized]);
 
     // Proposal status changes
     const handleApproveProposal = (id: string) => {
@@ -150,13 +175,17 @@ export default function AdminKycPage() {
     };
 
     const handleRejectProposal = (id: string) => {
-        const reason = prompt('입점 제안 반려 사유를 기입해 주세요:', '제출 서류 미비 (사업자등록증 예금주 불일치)');
-        if (reason === null) return;
+        if (!rejectReasonInput.trim()) {
+            alert('반려 사유를 반드시 기입해 주세요.');
+            return;
+        }
 
-        const updated = proposals.map(p => p.id === id ? { ...p, status: 'rejected' as const, rejectReason: reason } : p);
+        const updated = proposals.map(p => p.id === id ? { ...p, status: 'rejected' as const, rejectReason: rejectReasonInput.trim() } : p);
         setProposals(updated);
         localStorage.setItem('byknit_store_proposals', JSON.stringify(updated));
-        alert('입점 제안이 반려되었습니다.');
+        alert('입점 제안이 반려 처리되었습니다. 반려 사유가 기록되었습니다.');
+        setRejectMode(false);
+        setRejectReasonInput('');
         setSelectedProposal(null);
     };
 
@@ -180,63 +209,73 @@ export default function AdminKycPage() {
         window.location.reload();
     };
 
-    if (isLoading) {
+    // Loading state for auth check
+    if (authChecking) {
         return (
             <div className="min-h-screen bg-stone-50 flex items-center justify-center font-sans">
-                <span className="text-stone-400 text-xs font-bold">어드민 데이터를 불러오는 중...</span>
+                <span className="text-stone-400 text-xs font-bold">관리자 인증 확인 중...</span>
             </div>
         );
     }
 
-    // Render Admin authentication lock screen if not authorized
+    // Not logged in at all
+    if (!authUser) {
+        return (
+            <div className="min-h-screen bg-[#F9F9F8] flex items-center justify-center p-6 font-sans">
+                <div className="max-w-md w-full p-8 bg-white rounded-3xl border border-stone-200 shadow-soft text-stone-700 space-y-6">
+                    <div className="text-center space-y-3">
+                        <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-100">
+                            <Lock size={20} />
+                        </div>
+                        <h2 className="text-lg font-black text-stone-900">로그인이 필요합니다</h2>
+                        <p className="text-xs text-stone-400 font-medium leading-relaxed">
+                            이 페이지에 접근하려면 먼저 바이니트 계정으로 로그인해야 합니다.
+                        </p>
+                    </div>
+                    <Link
+                        href={`/${(typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'ko')}/login`}
+                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft block text-center"
+                    >
+                        로그인 하러 가기
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
+    // Logged in but NOT admin role
     if (!isAuthorized) {
         return (
             <div className="min-h-screen bg-[#F9F9F8] flex items-center justify-center p-6 font-sans">
                 <div className="max-w-md w-full p-8 bg-white rounded-3xl border border-stone-200 shadow-soft text-stone-700 space-y-6">
                     <div className="text-center space-y-3">
-                        <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-100 animate-pulse">
-                            <Lock size={20} />
+                        <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto border border-rose-100">
+                            <AlertTriangle size={20} />
                         </div>
-                        <h2 className="text-lg font-black text-stone-900">byKnit 본사 관리자 인증</h2>
+                        <h2 className="text-lg font-black text-stone-900">접근 권한이 없습니다</h2>
                         <p className="text-xs text-stone-400 font-medium leading-relaxed">
-                            본 페이지는 승인되지 않은 일반 사용자의 접근이 법적으로 금지됩니다.<br />
-                            보안 구역 입장을 위해 본사 비밀번호를 입력하십시오.
+                            본 페이지는 바이니트 본사 관리자 전용 보안 구역입니다.<br />
+                            일반 계정으로는 열람이 불가합니다.
+                        </p>
+                        <p className="text-[10px] text-stone-300 font-mono">
+                            현재 계정: {authUser.email} (Role: {authProfile?.role || 'user'})
                         </p>
                     </div>
-
-                    <form onSubmit={handleVerifyAdmin} className="space-y-4">
-                        <div className="space-y-1.5 relative">
-                            <label className="text-[10px] font-bold text-stone-700 block">관리자 인증 비밀번호 *</label>
-                            <div className="relative">
-                                <input 
-                                    type={showAdminPassword ? "text" : "password"}
-                                    required
-                                    placeholder="••••••••"
-                                    value={adminPasswordInput}
-                                    onChange={(e) => setAdminPasswordInput(e.target.value)}
-                                    className="w-full pl-4 pr-10 py-3 bg-stone-50 border border-stone-200 rounded-2xl text-xs font-bold text-stone-700 outline-none focus:bg-white focus:ring-1 focus:ring-rose-500"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowAdminPassword(!showAdminPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
-                                >
-                                    {showAdminPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                                </button>
-                            </div>
-                            {adminError && (
-                                <span className="text-[10px] text-rose-500 font-bold block mt-1">{adminError}</span>
-                            )}
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft"
-                        >
-                            본사 어드민 서버 입장
-                        </button>
-                    </form>
+                    <Link
+                        href={`/${(typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : 'ko')}`}
+                        className="w-full py-3.5 bg-stone-900 hover:bg-stone-950 text-white rounded-2xl text-xs font-black transition-all shadow-soft block text-center"
+                    >
+                        메인 홈으로 돌아가기
+                    </Link>
                 </div>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-stone-50 flex items-center justify-center font-sans">
+                <span className="text-stone-400 text-xs font-bold">어드민 데이터를 불러오는 중...</span>
             </div>
         );
     }
@@ -584,29 +623,60 @@ export default function AdminKycPage() {
                             </div>
 
                             {/* Modal Footer Actions */}
-                            <div className="p-4 border-t border-stone-150 bg-stone-50 flex items-center justify-between gap-3">
-                                <button
-                                    onClick={() => setSelectedProposal(null)}
-                                    className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-bold rounded-xl"
-                                >
-                                    닫기
-                                </button>
-                                
-                                <div className="flex gap-2">
-                                    <button
-                                        onClick={() => handleRejectProposal(selectedProposal.id)}
-                                        className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-black rounded-xl"
-                                    >
-                                        제안 반려
-                                    </button>
-                                    <button
-                                        onClick={() => handleApproveProposal(selectedProposal.id)}
-                                        className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-soft flex items-center gap-1"
-                                    >
-                                        <Check size={14} />
-                                        <span>입점 최종 승인</span>
-                                    </button>
-                                </div>
+                            <div className="p-4 border-t border-stone-150 bg-stone-50 space-y-3">
+                                {rejectMode ? (
+                                    <div className="space-y-3 animate-fadeIn">
+                                        <div className="space-y-1.5">
+                                            <label className="text-[11px] font-black text-rose-600 block">반려 사유를 상세히 기입해 주세요 *</label>
+                                            <textarea
+                                                value={rejectReasonInput}
+                                                onChange={(e) => setRejectReasonInput(e.target.value)}
+                                                placeholder="예: 제출 서류 미비 (사업자등록증 예금주와 정산 통장 예금주가 불일치합니다. 동일 명의의 통장 사본을 재제출해 주세요.)"
+                                                rows={3}
+                                                className="w-full bg-white border border-rose-200 rounded-xl p-3 text-xs font-bold text-stone-700 outline-none focus:ring-1 focus:ring-rose-400 resize-none placeholder:text-stone-400"
+                                            />
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <button
+                                                onClick={() => { setRejectMode(false); setRejectReasonInput(''); }}
+                                                className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-bold rounded-xl"
+                                            >
+                                                취소 (돌아가기)
+                                            </button>
+                                            <button
+                                                onClick={() => handleRejectProposal(selectedProposal.id)}
+                                                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-black rounded-xl shadow-soft flex items-center gap-1"
+                                            >
+                                                <XCircle size={14} />
+                                                <span>반려 사유 확정 및 반려 처리</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-between">
+                                        <button
+                                            onClick={() => { setSelectedProposal(null); setRejectMode(false); setRejectReasonInput(''); }}
+                                            className="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-bold rounded-xl"
+                                        >
+                                            닫기
+                                        </button>
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => setRejectMode(true)}
+                                                className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-black rounded-xl"
+                                            >
+                                                제안 반려
+                                            </button>
+                                            <button
+                                                onClick={() => handleApproveProposal(selectedProposal.id)}
+                                                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-soft flex items-center gap-1"
+                                            >
+                                                <Check size={14} />
+                                                <span>입점 최종 승인</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

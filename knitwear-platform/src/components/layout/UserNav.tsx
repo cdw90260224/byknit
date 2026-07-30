@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { User } from '@supabase/supabase-js';
 import { signout } from '@/app/actions/auth';
-import { LogOut, User as UserIcon, LayoutDashboard, CreditCard, Palette, PenTool, ShoppingBag, Coins, Sparkles, Store } from 'lucide-react';
+import { LogOut, User as UserIcon, LayoutDashboard, CreditCard, Palette, PenTool, ShoppingBag, Coins, Sparkles, Store, Shield } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
@@ -19,6 +19,7 @@ export function UserNav({ user }: { user: User | null }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [displayName, setDisplayName] = useState<string | null>(null);
     const [credits, setCredits] = useState<number>(0);
+    const [role, setRole] = useState<string | null>(null);
 
     // Initial load and Realtime subscription for profile updates
     useEffect(() => {
@@ -31,7 +32,7 @@ export function UserNav({ user }: { user: User | null }) {
             try {
                 const { data, error } = await supabase
                     .from('profiles')
-                    .select('display_name, credits')
+                    .select('display_name, credits, role')
                     .eq('id', user.id)
                     .single();
 
@@ -40,6 +41,7 @@ export function UserNav({ user }: { user: User | null }) {
                 if (data) {
                     if (data.display_name) setDisplayName(data.display_name);
                     if (data.credits !== null) setCredits(data.credits);
+                    if (data.role) setRole(data.role);
                 }
             } catch (err) {
                 console.error('Error fetching profile:', err);
@@ -63,6 +65,7 @@ export function UserNav({ user }: { user: User | null }) {
                     if (payload.new) {
                         if ('display_name' in payload.new) setDisplayName(payload.new.display_name as string);
                         if ('credits' in payload.new) setCredits(payload.new.credits as number);
+                        if ('role' in payload.new) setRole(payload.new.role as string);
                     }
                 }
             )
@@ -175,6 +178,15 @@ export function UserNav({ user }: { user: User | null }) {
                             <Store size={18} className="text-stone-500" />
                             <span>{locale === 'ko' ? '판매자 콘솔 (실물)' : 'Seller Console'}</span>
                         </button>
+                        {role === 'admin' && (
+                            <button
+                                onClick={() => { setIsOpen(false); router.push(`/${locale}/admin/kyc`); }}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-stone-600 hover:bg-rose-50 hover:text-rose-600 rounded-2xl transition-all"
+                            >
+                                <Shield size={18} className="text-rose-500" />
+                                <span>{locale === 'ko' ? '관리자 심사 센터' : 'Admin Console'}</span>
+                            </button>
+                        )}
                         <button
                             onClick={() => {
                                 setIsOpen(false);
