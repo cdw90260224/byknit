@@ -1784,18 +1784,91 @@ export function ProductManagement({
                         <span className="text-lg font-bold">{locale === 'ko' ? '상품 일괄 등록 (CSV 2단계 카테고리 지원)' : 'Bulk Product Registration (CSV)'}</span>
                     </div>
 
-                    <div className="bg-stone-50 border border-stone-200 p-5 rounded-2xl flex gap-3 text-stone-500">
+                    <div className="bg-stone-50 border border-stone-200 p-5 rounded-2xl flex gap-3 text-stone-700">
                         <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                         <div className="text-xs space-y-2 leading-relaxed text-stone-600">
-                            <span className="font-black text-stone-800 block text-sm">일괄 등록 가이드 및 대분류/중분류 코드 안내</span>
-                            <p>1. 하단의 **[일괄등록 양식 템플릿 다운로드]**를 눌러 샘플 양식을 내려받습니다.</p>
-                            <p>2. 대분류에는 다음 **영문 식별 ID** 중 하나를 입력합니다:
+                            <span className="font-black text-stone-850 block text-sm">일괄 등록 가이드 및 대분류/중분류 코드 안내</span>
+                            <p>1. 하단의 **[일괄등록 양식 템플릿 다운로드]**를 눌러 가이드가 포함된 CSV 양식을 내려받습니다.</p>
+                            <p>2. 대분류는 반드시 아래 영문 식별 ID 중 하나를 입력합니다:
                                 <code className="bg-white px-1.5 py-0.5 rounded border border-stone-200 ml-1 font-mono font-bold text-blue-600">yarn</code>, 
                                 <code className="bg-white px-1.5 py-0.5 rounded border border-stone-200 ml-1 font-mono font-bold text-blue-600">needle</code>, 
                                 <code className="bg-white px-1.5 py-0.5 rounded border border-stone-200 ml-1 font-mono font-bold text-blue-600">notions</code>, 
                                 <code className="bg-white px-1.5 py-0.5 rounded border border-stone-200 ml-1 font-mono font-bold text-blue-600">finished</code>, 
                                 <code className="bg-white px-1.5 py-0.5 rounded border border-stone-200 ml-1 font-mono font-bold text-blue-600">package</code>
                             </p>
+                        </div>
+                    </div>
+
+                    {/* Visual Template Structure Guide */}
+                    <div className="space-y-3">
+                        <span className="text-xs font-black text-stone-850 flex items-center gap-1.5 pl-1">
+                            <FolderTree size={14} className="text-blue-500" />
+                            <span>일괄 등록 CSV 템플릿 열람 및 구조 가이드 (틀 미리보기)</span>
+                        </span>
+                        
+                        <div className="border border-stone-200 rounded-2xl overflow-hidden shadow-soft">
+                            <table className="w-full text-left text-xs border-collapse bg-white">
+                                <thead>
+                                    <tr className="bg-stone-50 text-stone-700 text-[10px] font-black border-b border-stone-200 uppercase tracking-wider">
+                                        <th className="p-3 w-16">열 순서</th>
+                                        <th className="p-3 w-28">열 이름 (헤더)</th>
+                                        <th className="p-3 w-20">필수여부</th>
+                                        <th className="p-3">허용값 및 설명</th>
+                                        <th className="p-3">작성 예시</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-stone-150 font-bold text-stone-700">
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">1</td>
+                                        <td className="p-3 text-stone-900 font-black">상품명</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3">텍스트 (100자 이하)</td>
+                                        <td className="p-3 text-stone-500 font-medium">파스텔 소프트 울 털실</td>
+                                    </tr>
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">2</td>
+                                        <td className="p-3 text-stone-900 font-black">대분류</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3 text-[10px] font-mono text-blue-600">yarn | needle | notions | finished | package</td>
+                                        <td className="p-3 text-stone-500 font-medium">yarn</td>
+                                    </tr>
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">3</td>
+                                        <td className="p-3 text-stone-900 font-black">중분류</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3">선택한 대분류의 하위 중분류 코드를 기입</td>
+                                        <td className="p-3 text-stone-500 font-medium">wool</td>
+                                    </tr>
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">4</td>
+                                        <td className="p-3 text-stone-900 font-black">판매가</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded text-[9px]">필수</span></td>
+                                        <td className="p-3">숫자 기입 (소수점 제외 정가 원화)</td>
+                                        <td className="p-3 text-stone-500 font-medium">8900</td>
+                                    </tr>
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">5</td>
+                                        <td className="p-3 text-stone-900 font-black">할인가</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-[9px]">선택</span></td>
+                                        <td className="p-3">기본 할인가 입력 (없으면 공란 가능)</td>
+                                        <td className="p-3 text-stone-500 font-medium">7900</td>
+                                    </tr>
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">6</td>
+                                        <td className="p-3 text-stone-900 font-black">옵션리스트</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-[9px]">선택</span></td>
+                                        <td className="p-3">규격명:재고 형태 기입, 파이프(|)로 구분하여 나열</td>
+                                        <td className="p-3 text-stone-500 font-medium">화이트:100|핑크:80|베이지:50</td>
+                                    </tr>
+                                    <tr className="hover:bg-stone-50/50">
+                                        <td className="p-3 text-stone-400 font-mono">7</td>
+                                        <td className="p-3 text-stone-900 font-black">이미지URL</td>
+                                        <td className="p-3"><span className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded text-[9px]">선택</span></td>
+                                        <td className="p-3">대표 썸네일 이미지 파일 주소 URL</td>
+                                        <td className="p-3 text-[10px] text-blue-600 font-mono truncate max-w-xs">https://images.unsplash.com/...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
