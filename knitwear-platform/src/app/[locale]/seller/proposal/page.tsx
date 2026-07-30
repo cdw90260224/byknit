@@ -99,6 +99,11 @@ export default function SellerProposalPage() {
             return;
         }
 
+        if (!mailOrderFile) {
+            alert(locale === 'ko' ? '통신판매업신고증 사본 파일(이미지/PDF)을 반드시 첨부해 주세요.' : 'Please upload your Mail-order Business Registration file.');
+            return;
+        }
+
         // Build proposal record
         const newProposal: StoreProposal = {
             id: 'PROP-' + Date.now(),
@@ -454,6 +459,36 @@ export default function SellerProposalPage() {
                                             type="file" 
                                             accept="image/*,application/pdf"
                                             onChange={(e) => e.target.files?.[0] && setBankBookFile(e.target.files[0])}
+                                            className="hidden" 
+                                        />
+                                    </label>
+                                </div>
+
+                                {/* Mail-order Business Registration Upload */}
+                                <div className="p-4 bg-stone-50 border border-stone-200 rounded-2xl space-y-3 md:col-span-2">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-black text-stone-800 flex items-center gap-1.5">
+                                            <FileText size={14} className="text-emerald-600" />
+                                            <span>통신판매업신고증 사본 *</span>
+                                        </span>
+                                        {mailOrderFile && (
+                                            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                                                <FileCheck size={10} />
+                                                <span>첨부완료</span>
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <label className="border-2 border-dashed border-stone-300 hover:border-emerald-500 bg-white rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition-colors space-y-1 text-center">
+                                        <Upload size={20} className={mailOrderFile ? "text-emerald-500" : "text-stone-400"} />
+                                        <span className="text-xs font-bold text-stone-700 truncate max-w-[200px]">
+                                            {mailOrderFile ? mailOrderFile.name : '통신판매업신고증 파일 선택'}
+                                        </span>
+                                        <span className="text-[10px] text-stone-400">클릭하여 통신판매업신고증 이미지/PDF 업로드</span>
+                                        <input 
+                                            type="file" 
+                                            accept="image/*,application/pdf"
+                                            onChange={(e) => e.target.files?.[0] && setMailOrderFile(e.target.files[0])}
                                             className="hidden" 
                                         />
                                     </label>

@@ -44,7 +44,7 @@ export default function AdminKycPage() {
     // Store Proposals states
     const [proposals, setProposals] = useState<StoreProposal[]>([]);
     const [selectedProposal, setSelectedProposal] = useState<StoreProposal | null>(null);
-    const [viewingDocType, setViewingDocType] = useState<'bizCert' | 'bankBook' | null>(null);
+    const [viewingDocType, setViewingDocType] = useState<'bizCert' | 'bankBook' | 'mailOrder' | null>(null);
     const [rejectMode, setRejectMode] = useState(false);
     const [rejectReasonInput, setRejectReasonInput] = useState('');
     const [proposalFilter, setProposalFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
@@ -567,7 +567,7 @@ export default function AdminKycPage() {
                                 <div className="space-y-3">
                                     <span className="text-xs font-black text-stone-800 block">제출된 증빙 서류 돋보기 미리보기</span>
 
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         {/* Biz Cert Viewer Button */}
                                         <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
                                             <div className="flex justify-between items-center text-xs font-bold text-stone-700">
@@ -580,7 +580,7 @@ export default function AdminKycPage() {
                                                 className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs"
                                             >
                                                 <Eye size={12} />
-                                                <span>사업자등록증 원본 열람</span>
+                                                <span>사업자 원본 열람</span>
                                             </button>
                                         </div>
 
@@ -596,7 +596,24 @@ export default function AdminKycPage() {
                                                 className="w-full py-1.5 bg-white border border-stone-200 hover:bg-stone-100 text-stone-700 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs"
                                             >
                                                 <Eye size={12} />
-                                                <span>통장 사본 원본 열람</span>
+                                                <span>통장 사본 열람</span>
+                                            </button>
+                                        </div>
+
+                                        {/* Mail Order Viewer Button */}
+                                        <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
+                                            <div className="flex justify-between items-center text-xs font-bold text-stone-700">
+                                                <span>3. 통신판매업신고증</span>
+                                                <FileText size={14} className="text-indigo-600" />
+                                            </div>
+                                            <div className="text-[10px] text-stone-400 truncate">{selectedProposal.mailOrderFileName || '미제출'}</div>
+                                            <button
+                                                onClick={() => setViewingDocType('mailOrder')}
+                                                disabled={!selectedProposal.mailOrderFileName}
+                                                className={`w-full py-1.5 border border-stone-200 text-[10px] font-black rounded-lg flex items-center justify-center gap-1 shadow-xs ${!selectedProposal.mailOrderFileName ? 'bg-stone-100 text-stone-400 cursor-not-allowed' : 'bg-white hover:bg-stone-100 text-stone-700'}`}
+                                            >
+                                                <Eye size={12} />
+                                                <span>통신판매업 열람</span>
                                             </button>
                                         </div>
                                     </div>
@@ -690,7 +707,8 @@ export default function AdminKycPage() {
                                 <span className="font-black text-stone-900 text-sm flex items-center gap-1.5">
                                     <FileCheck size={16} className="text-emerald-600" />
                                     <span>
-                                        {viewingDocType === 'bizCert' ? '사업자등록증 원본 서류' : '정산 통장 사본 원본 서류'}
+                                        {viewingDocType === 'bizCert' ? '사업자등록증 원본 서류' : 
+                                         viewingDocType === 'mailOrder' ? '통신판매업신고증 원본 서류' : '정산 통장 사본 원본 서류'}
                                     </span>
                                 </span>
                                 <button onClick={() => setViewingDocType(null)} className="p-1.5 text-stone-400 hover:text-stone-600 rounded-lg">
@@ -702,7 +720,8 @@ export default function AdminKycPage() {
                             <div className="bg-stone-100 p-8 rounded-2xl border border-stone-200 text-center space-y-4">
                                 <div className="border-4 border-double border-stone-400 p-6 bg-amber-50/20 text-stone-800 space-y-3 font-serif">
                                     <h3 className="text-lg font-black tracking-widest text-stone-900 border-b border-stone-300 pb-2">
-                                        {viewingDocType === 'bizCert' ? '사 업 자 등 록 증' : '정 산 통 장 사 본'}
+                                        {viewingDocType === 'bizCert' ? '사 업 자 등 록 증' : 
+                                         viewingDocType === 'mailOrder' ? '통 신 판 매 업 신 고 증' : '정 산 통 장 사 본'}
                                     </h3>
                                     <div className="text-xs space-y-1 font-sans text-left pt-2">
                                         <p><span className="font-bold">상호/법인명:</span> {selectedProposal.brandName}</p>
@@ -713,7 +732,8 @@ export default function AdminKycPage() {
                                         )}
                                     </div>
                                     <div className="pt-4 text-[10px] text-stone-400 font-mono">
-                                        [인증필] {viewingDocType === 'bizCert' ? selectedProposal.bizCertFileName : selectedProposal.bankBookFileName}
+                                        [인증필] {viewingDocType === 'bizCert' ? selectedProposal.bizCertFileName : 
+                                                viewingDocType === 'mailOrder' ? selectedProposal.mailOrderFileName : selectedProposal.bankBookFileName}
                                     </div>
                                 </div>
                             </div>
