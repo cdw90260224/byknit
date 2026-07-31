@@ -11,26 +11,27 @@ export default async function AdminSellersPage({
     const { locale } = await params;
     const supabase = await createClient();
 
-    // Fetch users with the 'seller' role (B2B Sellers who passed onboarding)
+    // [임시 복구] 대표님 시연을 위해 실제 seller 권한 대신 마켓플레이스 도안 등록자 목록을 임시로 불러옵니다.
     const { data: profiles, error } = await supabase
         .from('profiles')
         .select(`
             id,
             display_name,
             avatar_url,
-            created_at,
-            role
+            created_at
         `)
-        .eq('role', 'seller')
         .order('created_at', { ascending: false });
 
-    // For now, productCount will be 0 until we have a physical products table
+    // 도안 등록 개수를 조회하여 더미 데이터로 활용
+    const { data: patterns } = await supabase.from('patterns').select('designer_id');
+    
     const sellers = (profiles || []).map(p => {
+        const productCount = (patterns || []).filter(pat => pat.designer_id === p.id).length;
         return {
             ...p,
-            productCount: 0 
+            productCount
         };
-    });
+    }).filter(p => p.productCount > 0); // 상품이 1개라도 있는 사람만 표시
 
     return (
         <div className="p-6 md:p-10 font-sans text-stone-700 max-w-7xl mx-auto space-y-8">
