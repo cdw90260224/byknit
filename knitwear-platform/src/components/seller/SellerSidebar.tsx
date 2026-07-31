@@ -147,7 +147,7 @@ export function SellerSidebar({
                             return (
                                 <div key={item.id} className="space-y-1">
                                     <button
-                                        onClick={() => handleTabChange(item.id)}
+                                        onClick={() => handleTabChange(item.id as SellerTab)}
                                         className={`
                                             w-full flex items-center justify-between px-4 py-3 rounded-2xl text-base font-bold transition-all
                                             ${isActive && item.id !== 'products' && item.id !== 'settlement'
