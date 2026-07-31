@@ -14,7 +14,7 @@ export default function AdminLayout({
 }) {
     const { locale } = use(params);
     const pathname = usePathname();
-    const isProducts = pathname.includes('/admin/products');
+    const isSellers = pathname.includes('/admin/sellers');
     const isKyc = pathname.includes('/admin/kyc');
 
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -128,15 +128,15 @@ export default function AdminLayout({
                 </div>
                 <nav className="flex-1 p-4 space-y-1">
                     <Link 
-                        href={`/${locale}/admin/products`}
+                        href={`/${locale}/admin/sellers`}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                            isProducts 
+                            isSellers 
                                 ? 'bg-rose-50 text-rose-700' 
                                 : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
                         }`}
                     >
-                        <Package size={18} />
-                        <span>통합 상품 관리</span>
+                        <Store size={18} />
+                        <span>통합 판매자 관리</span>
                     </Link>
                     <Link 
                         href={`/${locale}/admin/kyc`}
@@ -146,7 +146,7 @@ export default function AdminLayout({
                                 : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
                         }`}
                     >
-                        <Store size={18} />
+                        <Shield size={18} />
                         <span>바이니트 입점 심사</span>
                     </Link>
                 </nav>
@@ -161,10 +161,10 @@ export default function AdminLayout({
             <div className="md:hidden flex flex-col w-full absolute top-0 left-0 bg-white border-b border-stone-200 z-10">
                 <div className="flex p-4 gap-2">
                     <Link 
-                        href={`/${locale}/admin/products`}
-                        className={`flex-1 py-2 text-center text-xs font-bold rounded-lg ${isProducts ? 'bg-rose-50 text-rose-600' : 'bg-stone-100 text-stone-500'}`}
+                        href={`/${locale}/admin/sellers`}
+                        className={`flex-1 py-2 text-center text-xs font-bold rounded-lg ${isSellers ? 'bg-rose-50 text-rose-600' : 'bg-stone-100 text-stone-500'}`}
                     >
-                        상품 관리
+                        판매자 관리
                     </Link>
                     <Link 
                         href={`/${locale}/admin/kyc`}

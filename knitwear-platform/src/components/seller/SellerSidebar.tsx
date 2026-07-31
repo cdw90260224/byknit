@@ -30,6 +30,8 @@ interface SellerSidebarProps {
     setActiveSettlementSubTab: (subTab: SettlementSubTab) => void;
     locale: string;
     userEmail: string;
+    isAdminView?: boolean;
+    adminReturnUrl?: string;
 }
 
 export function SellerSidebar({ 
@@ -40,7 +42,9 @@ export function SellerSidebar({
     activeSettlementSubTab,
     setActiveSettlementSubTab,
     locale, 
-    userEmail 
+    userEmail,
+    isAdminView = false,
+    adminReturnUrl
 }: SellerSidebarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isProductsExpanded, setIsProductsExpanded] = useState(true);
@@ -53,7 +57,8 @@ export function SellerSidebar({
         { id: 'claims', label: locale === 'ko' ? '클레임 & CS' : 'Claims & CS', icon: AlertCircle },
         { id: 'sales', label: locale === 'ko' ? '매출 관리' : 'Sales Analysis', icon: BarChart3 },
         { id: 'settlement', label: locale === 'ko' ? '정산 관리' : 'Settlements', icon: Receipt },
-        { id: 'settings', label: locale === 'ko' ? '판매자 정보' : 'Seller Info', icon: Settings },
+        // Only show settings if not admin view
+        ...(isAdminView ? [] : [{ id: 'settings', label: locale === 'ko' ? '판매자 정보' : 'Seller Info', icon: Settings }]),
     ] as const;
 
     const productSubMenus = [
@@ -225,11 +230,13 @@ export function SellerSidebar({
                     </div>
 
                     <Link 
-                        href={`/${locale}/marketplace/dashboard`}
+                        href={isAdminView && adminReturnUrl ? adminReturnUrl : `/${locale}/marketplace/dashboard`}
                         className="flex items-center gap-2.5 px-4 py-3 w-full text-stone-500 hover:text-stone-800 hover:bg-stone-50 rounded-2xl text-sm font-bold transition-all"
                     >
                         <ArrowLeft size={16} />
-                        <span>{locale === 'ko' ? '디자이너 콘솔로 이동' : 'Back to Designer Console'}</span>
+                        <span>{isAdminView 
+                            ? (locale === 'ko' ? '판매자 리스트로 돌아가기' : 'Back to Sellers List') 
+                            : (locale === 'ko' ? '디자이너 콘솔로 이동' : 'Back to Designer Console')}</span>
                     </Link>
                 </div>
             </aside>
