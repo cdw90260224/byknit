@@ -160,7 +160,7 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                     ]);
                     setIsLiked(likeRes.isLiked);
                     setIsFollowing(followRes.isFollowing);
-                    if (orderRes.data || dbPattern.is_free || data.designer_id === activeUser.id) {
+                    if (orderRes.data || dbPattern.is_free) {
                         setCanDownload(true);
                     }
                 }
