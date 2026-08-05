@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ShoppingBag, X, Trash2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useCartStore } from '@/stores/useCartStore';
 
@@ -28,18 +29,18 @@ export function CartDrawer({ locale }: CartDrawerProps) {
         return isKo ? (title.ko || title.en) : (title.en || title.ko);
     };
 
-    return (
-        <div className="fixed inset-0 z-50 overflow-hidden animate-in fade-in duration-200">
+    const drawerContent = (
+        <div className="fixed inset-0 z-[9999] overflow-hidden animate-in fade-in duration-200">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
                 onClick={() => setIsOpen(false)}
             />
 
-            <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-                <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col border-l border-stone-100">
+            <div className="fixed inset-y-0 right-0 max-w-full flex pl-10 h-full">
+                <div className="w-screen max-w-md h-full bg-white shadow-2xl flex flex-col border-l border-stone-100 relative z-10">
                     {/* Header */}
-                    <div className="p-6 bg-stone-50 border-b border-stone-100 flex items-center justify-between">
+                    <div className="p-6 bg-stone-50 border-b border-stone-100 flex items-center justify-between shrink-0">
                         <div className="flex items-center gap-2.5">
                             <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600">
                                 <ShoppingBag size={20} />
@@ -63,7 +64,7 @@ export function CartDrawer({ locale }: CartDrawerProps) {
                     </div>
 
                     {/* Cart Items List */}
-                    <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                    <div className="flex-1 overflow-y-auto p-6 space-y-4 min-h-0">
                         {items.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-center p-8">
                                 <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center text-stone-400 mb-4">
@@ -142,7 +143,7 @@ export function CartDrawer({ locale }: CartDrawerProps) {
 
                     {/* Footer / Summary */}
                     {items.length > 0 && (
-                        <div className="p-6 bg-white border-t border-stone-100 shadow-lg space-y-4">
+                        <div className="p-6 bg-white border-t border-stone-100 shadow-lg space-y-4 shrink-0">
                             <div className="flex items-center justify-between">
                                 <span className="text-sm font-medium text-stone-500">
                                     {isKo ? '총 결제 금액' : 'Total Amount'}
@@ -155,7 +156,6 @@ export function CartDrawer({ locale }: CartDrawerProps) {
                             <button
                                 onClick={() => {
                                     setIsOpen(false);
-                                    // Navigate to the first item for direct purchase, or checkout
                                     if (items[0]) {
                                         window.location.href = `/${locale}/marketplace/${items[0].id}`;
                                     }
@@ -179,4 +179,6 @@ export function CartDrawer({ locale }: CartDrawerProps) {
             </div>
         </div>
     );
+
+    return createPortal(drawerContent, document.body);
 }
