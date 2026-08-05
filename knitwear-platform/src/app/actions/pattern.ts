@@ -4,6 +4,41 @@ import { createClient, createAdminClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { addCredits } from "./credits";
 
+// 서버 측 다운로드 권한 검증 - 클라이언트 상태(canDownload 등)를 신뢰하지 않고
+// DB 기준으로 무료 도안/구매 완료/본인 소유 여부를 직접 확인한다.
+export async function canDownloadPattern(patternId: string): Promise<{ allowed: boolean; reason?: string }> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { allowed: false, reason: 'Authentication required' };
+
+    const { data: pattern, error: patternError } = await supabase
+        .from('patterns')
+        .select('designer_id, is_free, price_usd, price_krw')
+        .eq('id', patternId)
+        .single();
+
+    if (patternError || !pattern) return { allowed: false, reason: 'Pattern not found' };
+
+    // price_krw/price_usd is the authoritative price - don't let a stale is_free flag
+    // grant free access to a pattern that actually has a price set.
+    const priceKrw = pattern.price_krw || Math.round((pattern.price_usd || 0) * 1450);
+    if (priceKrw <= 0) return { allowed: true };
+    if (pattern.designer_id === user.id) return { allowed: true };
+
+    const { data: order } = await supabase
+        .from('orders')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('pattern_id', patternId)
+        .eq('status', 'paid')
+        .maybeSingle();
+
+    if (order) return { allowed: true };
+
+    return { allowed: false, reason: 'Purchase required' };
+}
+
 export async function createPdfPattern(data: {
     title: string;
     priceKrw: number;

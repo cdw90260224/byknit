@@ -212,7 +212,7 @@ export default function GridEditor({ initialGrid, initialSize, user, initialProj
     }>({
         title: '',
         price: 0,
-        isFree: true,
+        isFree: false,
         craftType: 'knitting',
         category: 'clothing',
         difficulty: 'intermediate',

@@ -114,7 +114,7 @@ export function PublishPatternModal({ isOpen, onClose, locale, initialFile, init
     const [publishMetadata, setPublishMetadata] = useState({
         title: initialData?.title || '',
         price: initialData?.price ? (typeof initialData.price === 'string' ? parseFloat(initialData.price) : initialData.price) : 0,
-        isFree: initialData?.price ? false : true,
+        isFree: initialData ? !initialData.price : false, // Default to paid for brand-new patterns; only pre-check free when editing a pattern that was already free
         difficulty: initialData?.difficulty || 'intermediate',
         category: initialData?.category || 'clothing',
         subcategory: '',

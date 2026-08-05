@@ -18,7 +18,7 @@ import {
     toggleLike, getLikeStatus, deleteReview
 } from '@/app/actions/social';
 import { createOrder } from '@/app/actions/order';
-import { incrementViewCount, incrementDownloadCount } from '@/app/actions/pattern';
+import { incrementViewCount, incrementDownloadCount, canDownloadPattern } from '@/app/actions/pattern';
 import { PatternPDFGenerator } from '@/utils/PatternPDFGenerator';
 
 // New Sub-Components
@@ -114,7 +114,7 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                     // (Assuming data shape matches or simple casting for this step)
                     preview_images: data.images || [],
                     title: typeof data.title === 'string' ? { en: data.title, ko: data.title } : data.title,
-                    is_free: (data.price_krw ?? data.price_usd) === 0 || data.is_free, // Force free if price is 0
+                    is_free: (data.price_krw || Math.round((data.price_usd || 0) * 1450)) === 0, // Price is authoritative; ignore a stale is_free flag when a real price is set
                 };
                 setPattern(dbPattern);
 
@@ -288,6 +288,16 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
 
     const handleActualDownload = async (lang: 'ko' | 'en') => {
         if (!pattern) return;
+
+        // Server-side re-verification: never trust client-only canDownload state for paid patterns
+        const permission = await canDownloadPattern(patternId);
+        if (!permission.allowed) {
+            alert(locale === 'ko' ? '구매가 필요한 도안입니다.' : 'This pattern requires purchase.');
+            setCanDownload(false);
+            setShowDownloadOptions(false);
+            return;
+        }
+
         setShowDownloadModal(false);
 
         // Optimistic update
