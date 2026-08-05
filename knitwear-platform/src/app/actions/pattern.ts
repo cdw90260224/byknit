@@ -24,17 +24,16 @@ export async function canDownloadPattern(patternId: string): Promise<{ allowed: 
     // grant free access to a pattern that actually has a price set.
     const priceKrw = pattern.price_krw || Math.round((pattern.price_usd || 0) * 1450);
     if (priceKrw <= 0) return { allowed: true };
-    if (pattern.designer_id === user.id) return { allowed: true };
 
     const { data: order } = await supabase
         .from('orders')
-        .select('id')
+        .select('id, amount')
         .eq('user_id', user.id)
         .eq('pattern_id', patternId)
         .eq('status', 'paid')
         .maybeSingle();
 
-    if (order) return { allowed: true };
+    if (order && (order.amount || 0) >= priceKrw) return { allowed: true };
 
     return { allowed: false, reason: 'Purchase required' };
 }

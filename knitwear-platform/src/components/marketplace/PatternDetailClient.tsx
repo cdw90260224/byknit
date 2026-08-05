@@ -160,8 +160,14 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                     ]);
                     setIsLiked(likeRes.isLiked);
                     setIsFollowing(followRes.isFollowing);
-                    if (orderRes.data || dbPattern.is_free) {
+                    const priceKrw = data.price_krw || Math.round((data.price_usd || 0) * 1450);
+                    const isPaidPattern = priceKrw > 0;
+                    const hasValidPaidOrder = orderRes.data && (!isPaidPattern || (orderRes.data.amount || 0) >= priceKrw);
+
+                    if (!isPaidPattern || hasValidPaidOrder) {
                         setCanDownload(true);
+                    } else {
+                        setCanDownload(false);
                     }
                 }
 
@@ -642,22 +648,20 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                         ) : (
                             <button
                                 onClick={() => {
-                                    if (pattern.is_free || canDownload) {
-                                        setShowDownloadOptions(true);
+                                    if (!pattern.is_free && !canDownload) {
+                                        handleBuy();
                                     } else {
-                                        handleBuy(); // Go to payment logic if not owned/free
+                                        setShowDownloadOptions(true);
                                     }
                                 }}
                                 className="w-full bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-100 transform active:scale-[0.98] transition-all text-lg relative z-10"
                             >
-                                {pattern.is_free ? (
+                                {!pattern.is_free && !canDownload ? (
+                                    locale === 'ko' ? `₩${priceKrw.toLocaleString()} 구매하기` : `Buy for ₩${priceKrw.toLocaleString()}`
+                                ) : pattern.is_free ? (
                                     locale === 'ko' ? '무료 다운로드' : 'Free Download'
                                 ) : (
-                                    canDownload ? (
-                                        locale === 'ko' ? '도안 다운로드' : 'Download Pattern'
-                                    ) : (
-                                        locale === 'ko' ? '구매하기' : 'Buy Now'
-                                    )
+                                    locale === 'ko' ? '도안 다운로드' : 'Download Pattern'
                                 )}
                             </button>
                         )}
