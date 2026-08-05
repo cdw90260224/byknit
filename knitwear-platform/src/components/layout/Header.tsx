@@ -10,6 +10,8 @@ import type { Locale } from '@/i18n/request';
 import { User } from '@supabase/supabase-js';
 import { UserNav } from './UserNav';
 import { NotificationBell } from './NotificationBell';
+import { CartIcon } from './CartIcon';
+import { CartDrawer } from './CartDrawer';
 
 interface HeaderProps {
     locale: Locale;
@@ -87,6 +89,7 @@ export function Header({ locale, user }: HeaderProps) {
 
                     {/* Actions */}
                     <div className="hidden md:flex items-center gap-3">
+                        <CartIcon />
                         <NotificationBell user={user} />
                         <LanguageSwitcher locale={locale} />
                         <UserNav user={user} />
@@ -101,6 +104,8 @@ export function Header({ locale, user }: HeaderProps) {
                     </button>
                 </div>
             </div>
+
+            <CartDrawer locale={locale} />
 
             {/* Mobile Menu */}
             {isMenuOpen && (

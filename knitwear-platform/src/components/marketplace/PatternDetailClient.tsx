@@ -27,6 +27,7 @@ import { ProductInfoTable } from './detail/ProductInfoTable';
 import { ProductRecommendationRow } from './detail/ProductRecommendationRow';
 import { DownloadOptionModal } from './detail/DownloadOptionModal';
 import { CheckoutModal } from './detail/CheckoutModal';
+import { useCartStore } from '@/stores/useCartStore';
 
 // Review Components (Keep existing or refactor later, for now import usually or inline)
 
@@ -562,7 +563,19 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                             {/* Cart Button - Only show if PAID and NOT owned and NOT physical */}
                             {!pattern.is_free && !canDownload && pattern.item_type !== 'physical' && (
                                 <button
-                                    onClick={() => alert('Add to cart')}
+                                    onClick={() => {
+                                        const addItem = useCartStore.getState().addItem;
+                                        const added = addItem({
+                                            id: pattern.id,
+                                            title: pattern.title,
+                                            priceKrw: priceKrw,
+                                            image: pattern.preview_images?.[0] || pattern.cover_image || '',
+                                            designerName: profile?.username || profile?.full_name,
+                                        });
+                                        if (!added) {
+                                            alert(locale === 'ko' ? '이미 장바구니에 담긴 상품입니다.' : 'Item is already in your cart.');
+                                        }
+                                    }}
                                     className="flex-1 py-3 rounded-xl bg-white border-2 border-stone-200 hover:bg-stone-50 hover:border-stone-300 text-stone-600 font-bold flex items-center justify-center gap-2 transition-all"
                                 >
                                     <ShoppingCart size={20} />
