@@ -102,6 +102,7 @@ export function CheckoutModal({
             IMP.init('imp55247668');
 
             IMP.request_pay({
+                pg: 'html5_inicis',
                 pay_method: 'card',
                 merchant_uid: orderId,
                 name: `${patternTitle} (byKnit)`,
@@ -110,7 +111,6 @@ export function CheckoutModal({
                 buyer_name: user.user_metadata?.full_name || '바이닛고객',
                 buyer_tel: user.user_metadata?.phone || '010-0000-0000',
                 m_redirect_url: `${window.location.origin}/${locale}/marketplace/${pattern.id}`,
-                channelKey: 'channel-key-ccac91e6-13a8-485b-8871-c1e819b6868c',
                 custom_data: {
                     user_id: user.id,
                     pattern_id: pattern.id
