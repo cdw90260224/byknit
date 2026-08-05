@@ -569,7 +569,7 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                                             id: pattern.id,
                                             title: pattern.title,
                                             priceKrw: priceKrw,
-                                            image: pattern.preview_images?.[0] || pattern.cover_image || '',
+                                            image: pattern.preview_images?.[0] || '',
                                             designerName: profile?.username || profile?.full_name,
                                         });
                                         if (!added) {
