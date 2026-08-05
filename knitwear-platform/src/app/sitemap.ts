@@ -1,12 +1,11 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
+
     const baseUrl = 'https://by-knit.com';
     const locales = ['ko', 'en'];
 
@@ -36,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // 2. Dynamic marketplace patterns paths
     try {
-        if (supabaseUrl && supabaseAnonKey) {
+        if (supabase) {
             const { data: patterns } = await supabase
                 .from('patterns')
                 .select('id, updated_at')
@@ -61,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // 3. Dynamic community posts paths
     try {
-        if (supabaseUrl && supabaseAnonKey) {
+        if (supabase) {
             const { data: posts } = await supabase
                 .from('posts')
                 .select('id, updated_at')
