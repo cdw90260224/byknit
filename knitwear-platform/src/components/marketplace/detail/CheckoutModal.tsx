@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Sparkles, ShieldCheck } from 'lucide-react';
+import { X, Sparkles, ShieldCheck, Info } from 'lucide-react';
 import { verifyAndRecordDirectPurchase } from '@/app/actions/payment';
 import { createOrder } from '@/app/actions/order';
 import { User } from '@supabase/supabase-js';
@@ -173,6 +173,26 @@ export function CheckoutModal({
                                 </p>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Refund Policy Notice Box */}
+                    <div className="bg-stone-50 rounded-2xl p-3.5 border border-stone-200/80 mb-5 text-[11px] text-stone-500 leading-relaxed">
+                        <div className="flex items-center gap-1.5 font-bold text-stone-700 mb-1">
+                            <Info size={14} className="text-orange-500 shrink-0" />
+                            <span>{isKo ? '취소 및 환불 안내' : 'Refund & Cancellation Policy'}</span>
+                        </div>
+                        <ul className="list-disc pl-4 space-y-0.5 text-stone-600 text-[10.5px]">
+                            <li>
+                                {isKo
+                                    ? '디지털 상품 특성상 다운로드(열람) 완료 시 교환 및 환불이 불가능합니다.'
+                                    : 'Refunds are not available once the file has been downloaded or viewed.'}
+                            </li>
+                            <li>
+                                {isKo
+                                    ? '결제 후 미다운로드 상태에서 7일 이내 요청 시 100% 환불 가능합니다.'
+                                    : 'A 100% refund is available within 7 days if not downloaded.'}
+                            </li>
+                        </ul>
                     </div>
 
                     {/* CTA Button */}
