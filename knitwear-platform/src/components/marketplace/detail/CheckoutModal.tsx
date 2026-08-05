@@ -41,8 +41,18 @@ export function CheckoutModal({
     useEffect(() => {
         if (!isOpen || isFree) return;
 
-        if (document.getElementById('iamport-sdk')) {
+        if (typeof window !== 'undefined' && (window as any).IMP) {
             setIsSdkLoaded(true);
+            return;
+        }
+
+        const existingScript = document.getElementById('iamport-sdk') as HTMLScriptElement;
+        if (existingScript) {
+            if ((window as any).IMP) {
+                setIsSdkLoaded(true);
+            } else {
+                existingScript.addEventListener('load', () => setIsSdkLoaded(true));
+            }
             return;
         }
 
@@ -76,8 +86,10 @@ export function CheckoutModal({
     };
 
     const handlePaidCheckout = () => {
-        if (!isSdkLoaded) {
-            alert(isKo ? '결제 모듈을 로딩 중입니다. 잠시만 기다려 주세요.' : 'Loading payment module. Please wait.');
+        // @ts-ignore
+        const IMP = typeof window !== 'undefined' ? window.IMP : null;
+        if (!IMP) {
+            alert(isKo ? '결제 모듈을 로딩 중입니다. 잠시 후 다시 시도해 주세요.' : 'Loading payment module. Please try again in a moment.');
             return;
         }
 
@@ -87,14 +99,9 @@ export function CheckoutModal({
         const patternTitle = pattern.title?.[locale] || pattern.title?.ko || pattern.title?.en || 'Pattern';
 
         try {
-            // @ts-ignore
-            const IMP = window.IMP;
-            if (!IMP) throw new Error('Iamport SDK not initialized');
-
             IMP.init('imp55247668');
 
             IMP.request_pay({
-                pg: 'html5_inicis',
                 pay_method: 'card',
                 merchant_uid: orderId,
                 name: `${patternTitle} (byKnit)`,
