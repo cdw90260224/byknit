@@ -142,7 +142,7 @@ export async function getGridProject(id: string) {
 }
 
 export async function publishPattern(projectId: string, metadata: {
-    price: number;
+    priceKrw: number;
     category: string;
     difficulty: string;
     briefDescription: string;      // Product page description
@@ -195,7 +195,7 @@ export async function publishPattern(projectId: string, metadata: {
             type: 'internal_pdf', // It's generated from grid
             title: translated.title,
             description: translated.description,
-            price_usd: metadata.price,
+            price_krw: metadata.priceKrw,
             category: metadata.category,
             difficulty: metadata.difficulty,
             thumbnail_url: metadata.imageUrl || project.original_image_url,

@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
                 // Fetch pattern details to get seller_id and pricing
                 const { data: pattern, error: patternErr } = await supabase
                     .from('patterns')
-                    .select('designer_id, title, price_usd')
+                    .select('designer_id, title, price_usd, price_krw')
                     .eq('id', patternId)
                     .single();
 
@@ -122,22 +122,40 @@ export async function POST(request: NextRequest) {
 
                 const sellerId = pattern.designer_id;
                 const priceUsd = pattern.price_usd || 0;
+                const expectedAmount = pattern.price_krw || Math.round(priceUsd * 1450);
+
+                if (amountVal !== expectedAmount) {
+                    console.error(`[Webhook] Direct purchase amount mismatch. Expected: ${expectedAmount}, Got: ${amountVal}`);
+                    return NextResponse.json({ error: 'Payment amount mismatch' }, { status: 400 });
+                }
 
                 // 주문(orders) 테이블에 이력 로깅
-                const { error: orderError } = await supabase.from('orders').insert({
+                const { data: insertedOrder, error: orderError } = await supabase.from('orders').insert({
                     user_id: userId,
                     pattern_id: patternId,
                     seller_id: sellerId,
                     amount: amountVal,
                     amount_usd: priceUsd,
+                    currency: 'KRW',
                     status: 'paid',
                     payment_provider: 'portone',
                     transaction_id: paymentId
-                });
+                }).select().single();
 
                 if (orderError) {
                     console.error('[Webhook] Direct purchase orders logging failed:', orderError.message);
                     return NextResponse.json({ error: 'Failed to log direct order' }, { status: 500 });
+                }
+
+                // Settle proceeds to the designer in KRW (skip self-purchase)
+                if (sellerId && sellerId !== userId) {
+                    try {
+                        const { creditSellerSettlement } = await import('@/app/actions/settlement');
+                        const patternTitle = (pattern.title as any)?.ko || (pattern.title as any)?.en || 'Pattern';
+                        await creditSellerSettlement(sellerId, amountVal, insertedOrder.id, `도안 판매 정산: ${patternTitle}`);
+                    } catch (settlementErr: any) {
+                        console.error('[Webhook] Failed to settle seller proceeds:', settlementErr.message);
+                    }
                 }
 
                 // Notify seller

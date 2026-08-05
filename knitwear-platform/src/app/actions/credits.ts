@@ -53,7 +53,7 @@ export async function getCreditHistory(userId: string) {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const { data, error } = await supabase
-        .from('credit_history')
+        .from('credit_transactions')
         .select('*')
         .eq('user_id', userId)
         .gt('created_at', thirtyDaysAgo.toISOString())

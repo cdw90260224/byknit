@@ -56,7 +56,7 @@ export function ProductRecommendationRow({ title, products, locale }: ProductRec
                             by {product.designer_id ? 'Designer' : 'Unknown'}
                         </p>
                         <p className="font-bold text-sm text-brown-900 mt-1">
-                            {product.is_free ? (locale === 'ko' ? '무료' : 'Free') : `${product.price_usd} ${locale === 'ko' ? '크레딧' : 'Credits'}`}
+                            {product.is_free ? (locale === 'ko' ? '무료' : 'Free') : `₩${Number(product.price_krw ?? Math.round((product.price_usd || 0) * 1450)).toLocaleString()}`}
                         </p>
                     </Link>
                 ))}

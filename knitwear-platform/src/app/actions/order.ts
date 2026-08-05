@@ -4,64 +4,48 @@ import { createClient } from '@/utils/supabase/server';
 import { createNotification } from './notification';
 import { revalidatePath } from 'next/cache';
 
+// 무료 도안(가격 0원) 전용 주문 기록 - 유료 도안은 CheckoutModal의 포트원 결제 플로우
+// (verifyAndRecordDirectPurchase, src/app/actions/payment.ts)를 거쳐야 한다.
 export async function createOrder(data: {
     patternId: string;
     amount: number;
-    paymentKey?: string; // PortOne payment ID
+    paymentKey?: string; // 무료 다운로드 식별자 (e.g. `free_${Date.now()}`)
 }) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) return { error: 'Authentication required' };
 
-    // 1. Fetch pattern first to get seller_id
+    // 1. Fetch pattern first to get seller_id and confirm it's actually free
     const { data: pattern, error: patternError } = await supabase
         .from('patterns')
-        .select('designer_id, title, price_usd')
+        .select('designer_id, title, price_usd, price_krw')
         .eq('id', data.patternId)
         .single();
 
     if (patternError || !pattern) return { error: 'Pattern not found' };
 
-    // 2. Process Credit Payment if paid pattern
-    const price = (pattern.price_usd || 0) * 1000;
-    if (price > 0) {
-        const { getUserCredits, deductCredits, addCredits } = await import('./credits');
-        const buyerCredits = await getUserCredits(user.id);
-        if (buyerCredits < price) {
-            return { error: `크레딧이 부족합니다. (필요: ${price.toLocaleString()} 크레딧, 보유: ${buyerCredits.toLocaleString()} 크레딧)` };
-        }
-
-        try {
-            const patternTitle = (pattern.title as any)?.ko || (pattern.title as any)?.en || 'Pattern';
-            // Deduct from buyer
-            await deductCredits(user.id, price, `도안 구매: ${patternTitle}`);
-            
-            // Add to seller (designer)
-            if (pattern.designer_id && pattern.designer_id !== user.id) {
-                await addCredits(pattern.designer_id, price, `도안 판매 수익: ${patternTitle}`);
-            }
-        } catch (creditError: any) {
-            console.error('Credit Transaction Error:', creditError);
-            return { error: '크레딧 결제 처리 중 오류가 발생했습니다: ' + creditError.message };
-        }
+    const priceKrw = pattern.price_krw || Math.round((pattern.price_usd || 0) * 1450);
+    if (priceKrw > 0) {
+        return { error: '유료 도안은 결제를 통해 구매해야 합니다.' };
     }
 
-    // 3. Insert Order
+    // 2. Insert Order
     const { data: order, error } = await supabase.from('orders').insert({
         user_id: user.id,
         pattern_id: data.patternId,
         seller_id: pattern.designer_id, // Important for analytics
-        amount: price,
-        amount_usd: pattern.price_usd || 0, // Ensure this column is populated if it exists/is used
-        status: 'paid', // Assuming success for this mock/sandbox flow
-        payment_provider: price > 0 ? 'credit' : 'free',
-        transaction_id: data.paymentKey || `${price > 0 ? 'credit' : 'free'}_${Date.now()}`
+        amount: 0,
+        amount_usd: 0,
+        currency: 'KRW',
+        status: 'paid',
+        payment_provider: 'free',
+        transaction_id: data.paymentKey || `free_${Date.now()}`
     }).select().single();
 
     if (error) return { error: error.message };
 
-    // 4. Notify Seller
+    // 3. Notify Seller
     if (pattern) {
         const patternTitle = (pattern.title as any)?.en || 'your pattern';
 
@@ -74,7 +58,7 @@ export async function createOrder(data: {
                 key: 'purchase',
                 params: {
                     title: patternTitle,
-                    price: price
+                    price: 0
                 }
             })
         });

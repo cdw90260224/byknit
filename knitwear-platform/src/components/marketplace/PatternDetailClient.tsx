@@ -84,7 +84,6 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
     const [tempAgreed, setTempAgreed] = useState(false); // New agreement state
     const [isAdCompleted, setIsAdCompleted] = useState(false); // New ad completion state
     const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-    const [userCredits, setUserCredits] = useState<number>(0);
 
     // Mock tags since DB might not have them yet, or use keywords
     const tags = ['Pattern', 'Knitting', 'DIY', ...(pattern?.category ? [pattern.category] : [])];
@@ -115,7 +114,7 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                     // (Assuming data shape matches or simple casting for this step)
                     preview_images: data.images || [],
                     title: typeof data.title === 'string' ? { en: data.title, ko: data.title } : data.title,
-                    is_free: data.price_usd === 0 || data.is_free, // Force free if price is 0
+                    is_free: (data.price_krw ?? data.price_usd) === 0 || data.is_free, // Force free if price is 0
                 };
                 setPattern(dbPattern);
 
@@ -163,16 +162,6 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                     setIsFollowing(followRes.isFollowing);
                     if (orderRes.data || dbPattern.is_free || data.designer_id === activeUser.id) {
                         setCanDownload(true);
-                    }
-                    
-                    const { data: profileRes } = await supabase
-                        .from('profiles')
-                        .select('credits')
-                        .eq('id', activeUser.id)
-                        .single();
-                        
-                    if (profileRes) {
-                        setUserCredits(profileRes.credits ?? 0);
                     }
                 }
 
@@ -367,8 +356,8 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
             .trim();
     };
     const descStr = cleanDescription(rawDescStr);
-    const creditPrice = (pattern.price_usd ? pattern.price_usd * 1000 : 0);
-    const priceStr = pattern.is_free || creditPrice === 0 ? (locale === 'ko' ? '무료' : 'Free') : (locale === 'ko' ? `${creditPrice.toLocaleString()} 크레딧` : `${creditPrice.toLocaleString()} Credits`);
+    const priceKrw = pattern.price_krw || Math.round((pattern.price_usd || 0) * 1450);
+    const priceStr = pattern.is_free || priceKrw === 0 ? (locale === 'ko' ? '무료' : 'Free') : `₩${priceKrw.toLocaleString()}`;
 
     return (
         <div className="bg-white min-h-screen relative pt-12">
@@ -386,14 +375,11 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                     isOpen={showCheckoutModal}
                     onClose={() => setShowCheckoutModal(false)}
                     pattern={pattern}
-                    currentCredits={userCredits}
                     locale={locale}
                     user={authUser}
                     onSuccess={() => {
                         setCanDownload(true);
                         setShowDownloadOptions(true);
-                        // Refresh credits dynamically after purchase
-                        setUserCredits(prev => Math.max(0, prev - creditPrice));
                     }}
                 />
             )}

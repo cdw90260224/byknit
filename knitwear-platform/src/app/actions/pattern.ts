@@ -6,7 +6,7 @@ import { addCredits } from "./credits";
 
 export async function createPdfPattern(data: {
     title: string;
-    price: number;
+    priceKrw: number;
     category: string;
     subcategory?: string;
     difficulty: string;
@@ -72,8 +72,7 @@ export async function createPdfPattern(data: {
         .insert({
             title: translatedMetadata.title,
             description: translatedMetadata.description,
-            price_usd: data.price,
-            price_krw: Math.round(data.price * 1450),
+            price_krw: data.priceKrw,
             images: [data.imageUrl, ...(data.additionalImages || [])].filter(Boolean),
             category: data.category,
             difficulty: data.difficulty,
@@ -128,7 +127,7 @@ export async function updatePattern(data: {
     id: string;
     title: string;
     description: string;
-    price: number;
+    priceKrw: number;
     locale: string;
     isOfficial?: boolean;
     itemType?: 'digital' | 'physical';
@@ -186,17 +185,16 @@ export async function updatePattern(data: {
     };
 
     // Track price changes for the sale badge
-    const priceChanged = existing.price_usd !== data.price;
+    const priceChanged = existing.price_krw !== data.priceKrw;
     const updatePayload: any = {
         title: updatedTitle,
         description: updatedDescription,
-        price_usd: data.price,
-        price_krw: Math.round(data.price * 1450), // Standardize KRW price
-        is_free: data.price === 0
+        price_krw: data.priceKrw,
+        is_free: data.priceKrw === 0
     };
 
     if (priceChanged) {
-        updatePayload.previous_price = existing.price_usd;
+        updatePayload.previous_price = existing.price_krw;
         updatePayload.price_updated_at = new Date().toISOString();
     }
 

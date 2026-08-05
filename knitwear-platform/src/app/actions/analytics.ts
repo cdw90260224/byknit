@@ -116,12 +116,12 @@ export async function getSellerAnalytics(sellerId: string) {
     // Get orders (all time)
     const { data: orders } = await supabase
         .from('orders')
-        .select('amount_usd, created_at')
+        .select('amount, created_at')
         .eq('seller_id', sellerId)
-        .eq('status', 'completed');
+        .eq('status', 'paid');
 
     const totalSales = orders?.length || 0;
-    const totalRevenue = orders?.reduce((sum, o) => sum + (o.amount_usd || 0), 0) || 0;
+    const totalRevenue = orders?.reduce((sum, o) => sum + (o.amount || 0), 0) || 0; // KRW
 
     const { count: followersCount } = await supabase
         .from('follows')
@@ -181,7 +181,7 @@ export async function getDailyStats(sellerId: string, monthOffset: number = 0, s
             .from('orders')
             .select('created_at')
             .eq('seller_id', sellerId)
-            .eq('status', 'completed')
+            .eq('status', 'paid')
             .gte('created_at', startOfMonth.toISOString())
             .lte('created_at', endOfMonth.toISOString());
         data = orders || [];
@@ -258,7 +258,7 @@ export async function getAnalyticsData(
             .from('orders')
             .select('created_at')
             .eq('seller_id', sellerId)
-            .eq('status', 'completed')
+            .eq('status', 'paid')
             .gte('created_at', start.toISOString())
             .lte('created_at', endQuery.toISOString());
         rawData = data || [];

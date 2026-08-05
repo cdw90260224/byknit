@@ -10,7 +10,7 @@ interface Product {
     thumbnail_url: string;
     title: { ko?: string; en?: string };
     description: { ko?: string; en?: string };
-    price_usd: number;
+    price_krw: number;
     previous_price?: number;
     price_updated_at?: string;
     is_on_sale?: boolean;
@@ -67,7 +67,7 @@ export function SellerProductGrid({ products, locale }: SellerProductGridProps) 
     // Check if product should show discount badge (price lowered within last month)
     const isDiscounted = (product: Product) => {
         if (!product.previous_price || !product.price_updated_at) return false;
-        if (product.price_usd >= product.previous_price) return false;
+        if (product.price_krw >= product.previous_price) return false;
 
         const updatedAt = new Date(product.price_updated_at);
         const oneMonthAgo = new Date();
@@ -78,8 +78,8 @@ export function SellerProductGrid({ products, locale }: SellerProductGridProps) 
 
     // Calculate discount percentage
     const getDiscountPercent = (product: Product) => {
-        if (!product.previous_price || product.price_usd >= product.previous_price) return 0;
-        return Math.round((1 - product.price_usd / product.previous_price) * 100);
+        if (!product.previous_price || product.price_krw >= product.previous_price) return 0;
+        return Math.round((1 - product.price_krw / product.previous_price) * 100);
     };
 
     return (
@@ -109,7 +109,7 @@ export function SellerProductGrid({ products, locale }: SellerProductGridProps) 
                             </button>
 
                             {/* Free Badge only on image */}
-                            {product.price_usd === 0 && (
+                            {product.price_krw === 0 && (
                                 <div className="absolute top-3 left-3 px-3 py-1 bg-sage-500 text-white text-xs font-bold rounded-lg shadow-sm">
                                     {locale === 'ko' ? '무료' : 'Free'}
                                 </div>
@@ -150,9 +150,9 @@ export function SellerProductGrid({ products, locale }: SellerProductGridProps) 
                             {/* Price Row with Discount Badge */}
                             <div className="flex items-center gap-2 mb-3">
                                 <span className="text-rose-500 font-bold text-sm">
-                                    {product.price_usd === 0
+                                    {product.price_krw === 0
                                         ? (locale === 'ko' ? '무료' : 'Free')
-                                        : `${product.price_usd} ${locale === 'ko' ? '크레딧' : 'Credits'}`
+                                        : `₩${product.price_krw.toLocaleString()}`
                                     }
                                 </span>
                                 {(isDiscounted(product) || (product.is_on_sale && product.discount_percentage)) && (
@@ -304,7 +304,7 @@ function PatternDetailModal({
                                 {product.title?.ko || product.title?.en}
                             </h3>
                             <p className="text-rose-500 font-bold text-sm mb-2">
-                                {product.price_usd === 0 ? (locale === 'ko' ? '무료' : 'Free') : `${product.price_usd} ${locale === 'ko' ? '크레딧' : 'Credits'}`}
+                                {product.price_krw === 0 ? (locale === 'ko' ? '무료' : 'Free') : `₩${product.price_krw.toLocaleString()}`}
                             </p>
                             <div className="flex items-center gap-2 text-xs text-gray-500">
                                 <span className={product.is_on_sale ? "text-rose-500 font-bold" : ""}>
@@ -454,7 +454,7 @@ function EditPatternModal({ product, locale, onClose, setShowSaveSuccess }: {
     const [saving, setSaving] = useState(false);
     const [title, setTitle] = useState(product.title?.ko || product.title?.en || '');
     const [description, setDescription] = useState(product.description?.ko || product.description?.en || '');
-    const [price, setPrice] = useState(product.price_usd);
+    const [price, setPrice] = useState(product.price_krw);
 
     const handleSave = async () => {
         setSaving(true);
@@ -463,7 +463,7 @@ function EditPatternModal({ product, locale, onClose, setShowSaveSuccess }: {
                 id: product.id,
                 title,
                 description,
-                price,
+                priceKrw: price,
                 locale
             });
             setShowSaveSuccess(true);
@@ -537,13 +537,15 @@ function EditPatternModal({ product, locale, onClose, setShowSaveSuccess }: {
                     {/* Price */}
                     <div>
                         <label className="text-sm font-bold text-brown-600 block mb-1">
-                            {locale === 'ko' ? '가격 (크레딧 - 베타 기간 변경 불가)' : 'Price (Credits - Locked in Beta)'}
+                            {locale === 'ko' ? '가격 (원)' : 'Price (KRW)'}
                         </label>
                         <input
                             type="number"
-                            disabled
+                            min={0}
+                            step={100}
                             value={price}
-                            className="w-full px-4 py-3 rounded-xl border border-tan-200 text-stone-400 bg-stone-50 cursor-not-allowed focus:outline-none"
+                            onChange={(e) => setPrice(Number(e.target.value))}
+                            className="w-full px-4 py-3 rounded-xl border border-tan-200 text-brown-700 focus:outline-none focus:ring-2 focus:ring-rose-300"
                         />
                     </div>
                 </div>

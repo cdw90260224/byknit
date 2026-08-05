@@ -264,10 +264,10 @@ export async function verifyAndRecordDirectPurchase(
     }
 
     try {
-        // 1. Fetch pattern first to get seller_id and pricing
+        // 1. Fetch pattern first to get seller_id and the server-trusted KRW price
         const { data: pattern, error: patternError } = await supabase
             .from('patterns')
-            .select('designer_id, title, price_usd')
+            .select('designer_id, title, price_usd, price_krw')
             .eq('id', patternId)
             .single();
 
@@ -275,26 +275,33 @@ export async function verifyAndRecordDirectPurchase(
             return { success: false, error: 'Pattern not found' };
         }
 
-        // 2. Validate amount (simple check - in production you'd query PortOne API)
-        const PORTONE_API_SECRET = process.env.PORTONE_API_SECRET;
-        if (PORTONE_API_SECRET && !paymentId.startsWith('mock-')) {
-            const response = await fetch(`https://api.portone.io/payments/${paymentId}`, {
-                headers: {
-                    'Authorization': `PortOne ${PORTONE_API_SECRET}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+        const expectedAmount = pattern.price_krw || Math.round((pattern.price_usd || 0) * 1450);
 
-            if (response.ok) {
-                const paymentData = await response.json();
-                if (paymentData.status !== 'PAID') {
-                    return { success: false, error: 'Payment is not completed' };
-                }
-                const actualAmount = paymentData.amount?.total || paymentData.amount?.paid || 0;
-                if (actualAmount !== amount) {
-                    return { success: false, error: 'Payment amount mismatch' };
-                }
+        // 2. Validate the payment against PortOne (fail-closed: this is real money now)
+        const PORTONE_API_SECRET = process.env.PORTONE_API_SECRET;
+        if (!PORTONE_API_SECRET) {
+            return { success: false, error: 'Payment verification is not configured' };
+        }
+
+        const response = await fetch(`https://api.portone.io/payments/${paymentId}`, {
+            headers: {
+                'Authorization': `PortOne ${PORTONE_API_SECRET}`,
+                'Content-Type': 'application/json'
             }
+        });
+
+        if (!response.ok) {
+            return { success: false, error: '포트원 결제 내역 조회 실패' };
+        }
+
+        const paymentData = await response.json();
+        if (paymentData.status !== 'PAID') {
+            return { success: false, error: 'Payment is not completed' };
+        }
+
+        const actualAmount = paymentData.amount?.total || paymentData.amount?.paid || 0;
+        if (actualAmount !== expectedAmount) {
+            return { success: false, error: '결제 금액이 도안 가격과 일치하지 않습니다.' };
         }
 
         // 3. Check if order already exists
@@ -314,8 +321,9 @@ export async function verifyAndRecordDirectPurchase(
             user_id: user.id,
             pattern_id: patternId,
             seller_id: pattern.designer_id,
-            amount: amount, // KRW
-            amount_usd: priceUsd, // USD
+            amount: expectedAmount, // KRW
+            amount_usd: priceUsd,
+            currency: 'KRW',
             status: 'paid',
             payment_provider: 'portone',
             transaction_id: paymentId
@@ -325,7 +333,18 @@ export async function verifyAndRecordDirectPurchase(
             return { success: false, error: 'Failed to create order: ' + orderError.message };
         }
 
-        // 5. Create notification for designer
+        // 5. Settle proceeds to the designer in KRW (skip self-purchase)
+        if (pattern.designer_id && pattern.designer_id !== user.id) {
+            try {
+                const { creditSellerSettlement } = await import('./settlement');
+                const patternTitle = (pattern.title as any)?.ko || (pattern.title as any)?.en || 'Pattern';
+                await creditSellerSettlement(pattern.designer_id, expectedAmount, order.id, `도안 판매 정산: ${patternTitle}`);
+            } catch (settlementErr) {
+                console.error('Failed to settle seller proceeds:', settlementErr);
+            }
+        }
+
+        // 6. Create notification for designer
         try {
             const { createNotification } = await import('./notification');
             const patternTitle = (pattern.title as any)?.en || 'your pattern';

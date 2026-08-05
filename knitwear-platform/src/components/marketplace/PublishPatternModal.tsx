@@ -387,7 +387,7 @@ export function PublishPatternModal({ isOpen, onClose, locale, initialFile, init
             const payload: any = {
                 ...publishMetadata,
                 pdfUrl,
-                price: publishMetadata.isFree ? 0 : Number(publishMetadata.price),
+                priceKrw: publishMetadata.isFree ? 0 : Number(publishMetadata.price),
                 gauge: String(publishMetadata.gaugeStitches),
                 yarnAmount: String(publishMetadata.yardage || ''),
                 gaugeStitches: parseInt(String(publishMetadata.gaugeStitches)) || 0,
@@ -674,20 +674,31 @@ export function PublishPatternModal({ isOpen, onClose, locale, initialFile, init
                             <label className="text-base font-bold text-stone-800">
                                 {tPublish('fields.price')} <span className="text-rose-500">*</span>
                                 <span className="text-xs font-normal text-stone-400 ml-1.5">
-                                    ({isKo ? '크레딧' : 'Credits'})
+                                    ({isKo ? '원' : 'KRW'})
                                 </span>
-                                <span className="text-xs font-bold text-rose-500 ml-3 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 animate-pulse-soft">
-                                    {isKo ? '베타 기간 동안 무료 등록만 가능합니다.' : 'Currently only free in beta service'}
-                                </span>
+                            </label>
+                            <label className="flex items-center gap-2 text-sm font-semibold text-stone-600 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={publishMetadata.isFree}
+                                    onChange={e => setPublishMetadata(p => ({ ...p, isFree: e.target.checked }))}
+                                    className="w-4 h-4 accent-rose-500"
+                                />
+                                {isKo ? '무료로 등록' : 'List for free'}
                             </label>
                         </div>
                         <div className="relative">
                             <input
-                                type="text"
-                                disabled
-                                className="w-full border border-tan-200 rounded-xl px-4 py-3.5 text-stone-400 bg-stone-50 font-bold text-lg outline-none transition-all font-mono cursor-not-allowed"
-                                value={isKo ? '0 크레딧 (무료)' : '0 Credits (Free)'}
+                                type="number"
+                                min={0}
+                                step={100}
+                                disabled={publishMetadata.isFree}
+                                className="w-full border border-tan-200 rounded-xl px-4 py-3.5 text-stone-800 disabled:text-stone-400 disabled:bg-stone-50 bg-white font-bold text-lg outline-none transition-all font-mono focus:ring-4 focus:ring-rose-100"
+                                value={publishMetadata.isFree ? 0 : publishMetadata.price}
+                                onChange={e => setPublishMetadata(p => ({ ...p, price: Number(e.target.value) }))}
+                                placeholder="0"
                             />
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 font-bold text-sm">{isKo ? '원' : 'KRW'}</span>
                         </div>
                     </div>
 

@@ -233,7 +233,7 @@ export function MarketplaceClient({ locale }: MarketplaceClientProps) {
                                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-soft transition-all active:scale-95 whitespace-nowrap cursor-pointer"
                             >
                                 <Coins className="w-4 h-4" />
-                                <span>{locale === 'ko' ? '크레딧 충전하기' : 'Charge Credits'}</span>
+                                <span>{locale === 'ko' ? '크레딧 적립 안내' : 'About Credits'}</span>
                             </Link>
                         </div>
                     </div>
@@ -667,13 +667,13 @@ function PatternCard({ pattern, locale }: { pattern: any; locale: string }) {
 
                 {/* Price Tag - Floating Bottom Right */}
                 <div className="absolute bottom-3 right-3 z-10">
-                    {pattern.is_free || Number(pattern.price_usd) === 0 ? (
+                    {pattern.is_free || Number(pattern.price_krw ?? pattern.price_usd) === 0 ? (
                         <span className="glass-premium px-3 py-1 rounded-full shadow-sm text-sage-600 font-bold text-xs backdrop-blur-md border border-white/50">
                             {t('free')}
                         </span>
                     ) : (
                         <span className="glass-premium px-3 py-1 rounded-full shadow-sm text-brown-800 font-bold text-xs backdrop-blur-md border border-white/50">
-                            {(Number(pattern.price_usd) * 1000).toLocaleString()} {locale === 'ko' ? '크레딧' : 'Credits'}
+                            ₩{Number(pattern.price_krw ?? Math.round(pattern.price_usd * 1450)).toLocaleString()}
                         </span>
                     )}
                 </div>

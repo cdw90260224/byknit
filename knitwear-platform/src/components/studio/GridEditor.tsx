@@ -3456,7 +3456,7 @@ export default function GridEditor({ initialGrid, initialSize, user, initialProj
         try {
             const res = await publishPattern(projectId, {
                 ...publishMetadata,
-                price: publishMetadata.isFree ? 0 : publishMetadata.price,
+                priceKrw: publishMetadata.isFree ? 0 : publishMetadata.price,
                 needles: compiledNeedles || '3.5mm', // Auto-compiled needles
                 title: publishMetadata.title || projectTitle // Ensure title is set
             });
@@ -5075,19 +5075,29 @@ export default function GridEditor({ initialGrid, initialSize, user, initialProj
                                                     <label className="text-base font-bold text-stone-800">
                                                         {tPublish('fields.price')} <span className="text-rose-500">*</span>
                                                         <span className="text-xs font-normal text-stone-400 ml-1.5">
-                                                            ({locale === 'ko' ? '크레딧' : 'Credits'})
+                                                            ({locale === 'ko' ? '원' : 'KRW'})
                                                         </span>
-                                                        <span className="text-xs font-bold text-rose-500 ml-3 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 animate-pulse-soft">
-                                                            {locale === 'ko' ? '베타 기간 동안 무료 등록만 가능합니다.' : 'Currently only free in beta service'}
-                                                        </span>
+                                                    </label>
+                                                    <label className="flex items-center gap-2 text-sm font-semibold text-stone-600 cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={publishMetadata.isFree}
+                                                            onChange={e => setPublishMetadata(p => ({ ...p, isFree: e.target.checked }))}
+                                                            className="w-4 h-4 accent-rose-500"
+                                                        />
+                                                        {locale === 'ko' ? '무료로 등록' : 'List for free'}
                                                     </label>
                                                 </div>
                                                 <div className="relative">
                                                     <input
-                                                        type="text"
-                                                        disabled
-                                                        className="w-full border border-tan-200 rounded-2xl px-6 py-5 text-stone-400 bg-stone-50 font-bold text-2xl outline-none transition-all font-mono cursor-not-allowed"
-                                                        value={locale === 'ko' ? '0 크레딧 (무료)' : '0 Credits (Free)'}
+                                                        type="number"
+                                                        min={0}
+                                                        step={100}
+                                                        disabled={publishMetadata.isFree}
+                                                        className="w-full border border-tan-200 rounded-2xl px-6 py-5 text-stone-800 disabled:text-stone-400 disabled:bg-stone-50 bg-white font-bold text-2xl outline-none transition-all font-mono focus:ring-2 focus:ring-rose-400"
+                                                        value={publishMetadata.isFree ? 0 : publishMetadata.price}
+                                                        onChange={e => setPublishMetadata(p => ({ ...p, price: Number(e.target.value) }))}
+                                                        placeholder="0"
                                                     />
                                                 </div>
                                             </div>

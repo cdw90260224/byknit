@@ -94,10 +94,6 @@ export function Footer() {
                         <p className="pt-4 border-t border-tan-200/50 max-w-4xl text-stone-400">
                             {tFooter('businessInfo.disclaimer')}
                         </p>
-
-                        <p className="pt-2 text-stone-500 font-medium max-w-4xl">
-                            {tFooter('businessInfo.servicePeriod')}
-                        </p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
