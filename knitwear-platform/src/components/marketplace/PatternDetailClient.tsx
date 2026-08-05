@@ -138,13 +138,13 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                 // 2. Fetch Client User session (handles client-side auth refresh/caching issues)
                 const { data: { user: clientUser } } = await supabase.auth.getUser();
                 let activeUser = clientUser || user;
-                if (clientUser) {
-                    setAuthUser(clientUser);
+                setAuthUser(activeUser);
+                if (activeUser) {
                     // Check if admin
                     const { data: profileData } = await supabase
                         .from('profiles')
                         .select('role')
-                        .eq('id', clientUser.id)
+                        .eq('id', activeUser.id)
                         .single();
                     if (profileData?.role === 'admin') {
                         setIsAdmin(true);

@@ -94,6 +94,7 @@ export function CheckoutModal({
             IMP.init('imp55247668');
 
             IMP.request_pay({
+                pg: 'html5_inicis',
                 pay_method: 'card',
                 merchant_uid: orderId,
                 name: `${patternTitle} (byKnit)`,
