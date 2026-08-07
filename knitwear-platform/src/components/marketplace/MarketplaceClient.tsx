@@ -228,13 +228,6 @@ export function MarketplaceClient({ locale }: MarketplaceClientProps) {
                                 <Package className="w-4 h-4" />
                                 <span>{locale === 'ko' ? '도안 판매 및 등록' : 'Sell & Publish'}</span>
                             </button>
-                            <Link
-                                href={`/${locale}/payments`}
-                                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-soft transition-all active:scale-95 whitespace-nowrap cursor-pointer"
-                            >
-                                <Coins className="w-4 h-4" />
-                                <span>{locale === 'ko' ? '크레딧 적립 안내' : 'About Credits'}</span>
-                            </Link>
                         </div>
                     </div>
 
