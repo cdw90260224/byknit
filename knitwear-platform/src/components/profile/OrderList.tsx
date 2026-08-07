@@ -57,6 +57,9 @@ export function OrderList({ initialOrders, locale, user }: OrderListProps) {
                                     month: 'long',
                                     day: 'numeric'
                                 })}
+                                <span className="ml-2 text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md font-medium border border-amber-200/60 inline-block mt-1 sm:mt-0">
+                                    {locale === 'ko' ? '다운로드 가능 기간: 결제일로부터 3개월' : 'Download valid for 3 months'}
+                                </span>
                             </p>
                         </div>
                         <div className="text-right">

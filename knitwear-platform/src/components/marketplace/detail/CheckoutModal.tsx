@@ -184,6 +184,11 @@ export function CheckoutModal({
                         <ul className="list-disc pl-4 space-y-0.5 text-stone-600 text-[10.5px]">
                             <li>
                                 {isKo
+                                    ? '구매한 상품은 결제일로부터 3개월 동안 다운로드 가능합니다.'
+                                    : 'Purchased files can be downloaded for up to 3 months from the payment date.'}
+                            </li>
+                            <li>
+                                {isKo
                                     ? '디지털 상품 특성상 다운로드(열람) 완료 시 교환 및 환불이 불가능합니다.'
                                     : 'Refunds are not available once the file has been downloaded or viewed.'}
                             </li>

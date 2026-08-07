@@ -739,9 +739,9 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                                 <h4 className="font-bold text-gray-700 mb-3">
                                     {locale === 'ko' ? '[디지털 상품 배송 및 환불 규정]' : '[Digital Product Delivery & Refund Policy]'}
                                 </h4>
-                                {locale === 'ko' ? (
+                                 {locale === 'ko' ? (
                                     <div className="space-y-3">
-                                        <p><strong>배송 안내:</strong> 본 상품은 결제 완료 즉시 마이페이지를 통해 다운로드 링크가 제공되는 무배송 디지털 상품입니다. (배송 소요 시간: 즉시)</p>
+                                        <p><strong>배송 및 다운로드 기간 안내:</strong> 본 상품은 결제 완료 즉시 마이페이지를 통해 다운로드 가능한 무배송 디지털 상품입니다. 다운로드는 결제일로부터 최대 3개월간 가능합니다.</p>
                                         <p><strong>교환 및 반품 불가 안내:</strong> 디지털 상품의 특성상 결제 후 다운로드(열람 포함)를 진행한 경우, 전자상거래 등에서의 소비자보호에 관한 법률 제17조 제2항 제5호에 따라 교환 및 반품(청약철회)이 불가능합니다.</p>
                                         <div>
                                             <p><strong>환불 프로세스:</strong></p>
@@ -753,7 +753,7 @@ export function PatternDetailClient({ patternId, locale, user, isModal }: Patter
                                     </div>
                                 ) : (
                                     <div className="space-y-3">
-                                        <p><strong>Delivery Info:</strong> This product is a digital download file that is provided immediately via My Page after payment completion (No shipping required, delivery time: Instant).</p>
+                                        <p><strong>Delivery & Download Period:</strong> This product is a digital download file provided immediately via My Page after payment. Download is available for up to 3 months from the payment date.</p>
                                         <p><strong>Exchanges & Returns Restriction:</strong> Due to the nature of digital goods, once a download (including viewing) has occurred, exchanges and returns (withdrawal of subscription) are not possible under Article 17, Paragraph 2, Item 5 of the Act on the Consumer Protection in Electronic Commerce, etc.</p>
                                         <div>
                                             <p><strong>Refund Process:</strong></p>
